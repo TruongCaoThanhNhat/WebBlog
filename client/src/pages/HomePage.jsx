@@ -1,15 +1,27 @@
+import FormSend from "../components/author/FormSend";
+import ListWritter from "../components/author/ListWritter";
+import OddPost from "../components/author/OddPost";
 import Footer from "../components/footer/Footer";
 import Header from "../components/header/Header";
-import PostofMonth from "../components/postOfMonth/PostofMonth";
-import Suggest from "../components/suggest/Suggest";
+import ListPostOMonth from "../components/postOfMonth/ListPostOMonth";
+import ListSuggest from "../components/suggest/ListSuggest";
 
 const HomePage = () => {
   return (
     <div>
       <Header />
       <section className="main">
-        <PostofMonth />
-        <Suggest />
+        <ListPostOMonth />
+        <div className="d-flex">
+          <div className="flex-grow-1">
+            <ListSuggest />
+          </div>
+          <div className="flex-grow-1">
+            <ListWritter />
+            <OddPost />
+            <FormSend />
+          </div>
+        </div>
       </section>
       <Footer />
     </div>
