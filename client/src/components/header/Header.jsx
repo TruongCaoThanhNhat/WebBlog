@@ -26,23 +26,23 @@ const Header = () => {
   return (
     <header className={`header ${visible ? "header" : "header-height"}`}>
       <div className={`header__container ${cls} `}>
-        <div className="header__top">
-          <div>
+        <div className="header__top row-md">
+          <div className="col-xxl-3 col-md-6">
             <img
               src="https://spiderum.com/assets/icons/wideLogo.png"
               alt=""
               width="180px"
             />
           </div>
-          <div>
+          <div className="col-xxl-9 col-md-6">
             <ul className="header__menu-top">
-              <div className="">
+              <div className="none">
                 <div className="header__icon-top-wrapper">
                   {/* <i className="header__icon header__icon-top  bx bx-search-alt-2"></i> */}
                   <BsSearch className="header__icon header__icon-top" />
                 </div>
               </div>
-              <div className="">
+              <div className="none">
                 <Link to="/">
                   <div className="header__icon-top-wrapper">
                     {/* <i className="header__icon bx bx-envelope"></i> */}
@@ -50,23 +50,33 @@ const Header = () => {
                   </div>
                 </Link>
               </div>
-              <div className="">
+              <div className="none">
                 <i className=" header__icon bx bx-bell"></i>
                 <BsBellFill className="header__icon" />
               </div>
-              <li>
+              {/* <li>
                 <img
                   alt=""
                   src="https://www.gravatar.com/avatar/262cfa0997548c39953a9607a56f27da?d=wavatar&f=y"
                 />
-              </li>
-              <div className="">
+              </li> */}
+              {/* <div className="">
                 <button className="header__button ">Viết bài</button>
+              </div> */}
+              <div className="">
+                <Link to="/register">
+                  <button className="btn-reg">Đăng ký</button>
+                </Link>
+              </div>
+              <div className="">
+                <Link to="/login">
+                  <button className="btn-login ">Đăng nhập</button>
+                </Link>
               </div>
             </ul>
           </div>
         </div>
-        <div className="header__menu">
+        <div className="header__menu row-md row-lg none">
           <div className="header__cate" onClick={handleShow}>
             <span className="header__title">ĐANG THEO DÕI</span>
             {/* <i className="header__icon bx bx-chevron-down"></i> */}
@@ -236,7 +246,7 @@ const Header = () => {
               </div>
             )}
           </div>
-          <div className="header__member">
+          <div className="header__member none">
             <Link to="/" className="header__title">
               THÀNH VIÊN NỔI BẬT{" "}
             </Link>

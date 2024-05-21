@@ -1,12 +1,13 @@
 import "./App.scss";
 import { Route, Routes } from "react-router-dom";
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/home/HomePage";
 import Login from "./pages/Login";
 import UserSettingPage from "./pages/user/UserSettingPage";
 import UserPage from "./pages/user/UserPage";
-import Register from './pages/Register';
-import CateDetails from './pages/CateDetails';
-import PostDetails from './pages/PostDetails';
+import Register from "./pages/Register";
+import CateDetails from "./pages/CateDetails";
+import PostDetails from "./pages/PostDetails";
+
 function App() {
   return (
     <>
