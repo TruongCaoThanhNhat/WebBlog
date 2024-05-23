@@ -1,0 +1,296 @@
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { BsSearch, BsMessenger, BsBellFill } from "react-icons/bs";
+import { MdKeyboardArrowDown } from "react-icons/md";
+import "./header.scss";
+const Header = () => {
+  const [visible, setVisible] = useState(true);
+  const [showCategory, setShowCategory] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      const moving = window.pageYOffset;
+      if (moving > 100) {
+        setVisible(false);
+      } else {
+        setVisible(true);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+  const cls = visible ? "visible" : "hide";
+
+  const handleShow = (e) => setShowCategory(!showCategory);
+  return (
+    <header className={`header ${visible ? "header" : "header-height"}`}>
+      <div className={`header__container ${cls} `}>
+        <div className="header__top row-md">
+          <div className="col-xxl-3 col-md-6">
+            <img
+              src="https://spiderum.com/assets/icons/wideLogo.png"
+              alt=""
+              width="180px"
+            />
+          </div>
+          <div className="col-xxl-9 col-md-6">
+            <ul className="header__menu-top">
+              <div className="none">
+                <div className="header__icon-top-wrapper">
+                  {/* <i className="header__icon header__icon-top  bx bx-search-alt-2"></i> */}
+                  <BsSearch className="header__icon header__icon-top" />
+                </div>
+              </div>
+              <div className="none">
+                <Link to="/">
+                  <div className="header__icon-top-wrapper">
+                    {/* <i className="header__icon bx bx-envelope"></i> */}
+                    <BsMessenger className="header__icon" />
+                  </div>
+                </Link>
+              </div>
+              <div className="none">
+                <i className=" header__icon bx bx-bell"></i>
+                <BsBellFill className="header__icon" />
+              </div>
+              {/* <li>
+                <img
+                  alt=""
+                  src="https://www.gravatar.com/avatar/262cfa0997548c39953a9607a56f27da?d=wavatar&f=y"
+                />
+              </li> */}
+              {/* <div className="">
+                <button className="header__button ">Viết bài</button>
+              </div> */}
+              <div className="">
+                <Link to="/register">
+                  <button className="btn-reg">Đăng ký</button>
+                </Link>
+              </div>
+              <div className="">
+                <Link to="/login">
+                  <button className="btn-login ">Đăng nhập</button>
+                </Link>
+              </div>
+            </ul>
+          </div>
+        </div>
+        <div className="header__menu row-md row-lg none">
+          <div className="header__cate" onClick={handleShow}>
+            <span className="header__title">ĐANG THEO DÕI</span>
+            {/* <i className="header__icon bx bx-chevron-down"></i> */}
+            <MdKeyboardArrowDown className="header__icon" />
+            {showCategory && (
+              <div className="header__cate-menu">
+                <div className="header__cate-list">
+                  <Link to="/">
+                    <div className="header__cate-link">
+                      <img
+                        className="header__cate-img"
+                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
+                        alt=""
+                      />
+                      <span className="header__cate-text">
+                        CHUYỆN TRÒ - TÂM SỰ
+                      </span>
+                      <i className="header__cate-icon bx bx-x"></i>
+                    </div>
+                  </Link>
+                </div>
+                <div className="header__cate-list">
+                  <Link to="/">
+                    <div className="header__cate-link">
+                      <img
+                        className="header__cate-img"
+                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
+                        alt=""
+                      />
+                      <span className="header__cate-text">
+                        DU LỊCH - ẨM THỰC
+                      </span>
+                      <i className="header__cate-icon bx bx-x"></i>
+                    </div>
+                  </Link>
+                </div>
+                <div className="header__cate-list">
+                  <Link to="/">
+                    <div className="header__cate-link">
+                      <img
+                        className="header__cate-img"
+                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
+                        alt=""
+                      />
+                      <span className="header__cate-text">KỸ NĂNG</span>
+                      <i className="header__cate-icon bx bx-x"></i>
+                    </div>
+                  </Link>
+                </div>
+                <div className="header__cate-list">
+                  <Link to="/">
+                    <div className="header__cate-link">
+                      <img
+                        className="header__cate-img"
+                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
+                        alt=""
+                      />
+                      <span className="header__cate-text">SÁCH</span>
+                      <i className="header__cate-icon bx bx-x"></i>
+                    </div>
+                  </Link>
+                </div>
+                <div className="header__cate-list">
+                  <Link to="/">
+                    <div className="header__cate-link">
+                      <img
+                        className="header__cate-img"
+                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
+                        alt=""
+                      />
+                      <span className="header__cate-text">PHIM</span>
+                      <i className="header__cate-icon bx bx-x"></i>
+                    </div>
+                  </Link>
+                </div>
+                <div className="header__cate-list">
+                  <Link to="/">
+                    <div className="header__cate-link">
+                      <img
+                        className="header__cate-img"
+                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
+                        alt=""
+                      />
+                      <span className="header__cate-text">KỸ NĂNG</span>
+                      <i className="header__cate-icon bx bx-x"></i>
+                    </div>
+                  </Link>
+                </div>
+                <div className="header__cate-list">
+                  <Link to="/">
+                    <div className="header__cate-link">
+                      <img
+                        className="header__cate-img"
+                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
+                        alt=""
+                      />
+                      <span className="header__cate-text">SÁNG TÁC</span>
+                      <i className="header__cate-icon bx bx-x"></i>
+                    </div>
+                  </Link>
+                </div>
+                <div className="header__cate-list">
+                  <Link to="/">
+                    <div className="header__cate-link">
+                      <img
+                        className="header__cate-img"
+                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
+                        alt=""
+                      />
+                      <span className="header__cate-text">THỂ THAO</span>
+                      <i className="header__cate-icon bx bx-x"></i>
+                    </div>
+                  </Link>
+                </div>
+                <div className="header__cate-list">
+                  <Link to="/">
+                    <div className="header__cate-link">
+                      <img
+                        className="header__cate-img"
+                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
+                        alt=""
+                      />
+                      <span className="header__cate-text">GAME</span>
+                      <i className="header__cate-icon bx bx-x"></i>
+                    </div>
+                  </Link>
+                </div>
+                <div className="header__cate-list">
+                  <Link to="/">
+                    <div className="header__cate-link">
+                      <img
+                        className="header__cate-img"
+                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
+                        alt=""
+                      />
+                      <span className="header__cate-text">ENGLISH ZONE</span>
+                      <i className="header__cate-icon bx bx-x"></i>
+                    </div>
+                  </Link>
+                </div>
+                <div className="header__cate-list">
+                  <Link to="/">
+                    <div className="header__cate-link">
+                      <img
+                        className="header__cate-img"
+                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
+                        alt=""
+                      />
+                      <span className="header__cate-text">KỸ NĂNG</span>
+                      <i className="header__cate-icon bx bx-x"></i>
+                    </div>
+                  </Link>
+                </div>
+                <div className="header__cate-list">
+                  <Link to="/">
+                    <div className="header__cate-link">
+                      <img
+                        className="header__cate-img"
+                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
+                        alt=""
+                      />
+                      <span className="header__cate-text">TRUYỀN CẢM HỨNG</span>
+                      <i className="header__cate-icon bx bx-x"></i>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+            )}
+          </div>
+          <div className="header__member none">
+            <Link to="/" className="header__title">
+              THÀNH VIÊN NỔI BẬT{" "}
+            </Link>
+          </div>
+          <div className="header__menu-category">
+            <ul className="header__menu-list">
+              <i className=" header__icon bx bx-chevron-left"></i>
+              <li className="header__menu-item">
+                <Link to="/" className="header__menu-link">
+                  TẤT CẢ
+                </Link>
+              </li>
+              <li className="header__menu-item">
+                <Link to="/" className="header__menu-link">
+                  QUAN ĐIỂM TRANH LUẬN
+                </Link>
+              </li>
+              <li className="header__menu-item">
+                <Link to="/" className="header__menu-link">
+                  TRUYỀN CẢM HỨNG
+                </Link>
+              </li>
+              <li className="header__menu-item">
+                <Link to="/" className="header__menu-link">
+                  KHOA HỌC - CÔNG NGHỆ
+                </Link>
+              </li>
+              <li className="header__menu-item">
+                <Link to="/" className="header__menu-link">
+                  THỂ THAO
+                </Link>
+              </li>
+              <li className="header__menu-item">
+                <Link to="/" className="header__menu-link">
+                  TẤT CẢ
+                </Link>
+              </li>
+              <i className="header__icon bx bx-chevron-right"></i>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+  );
+};
+
+export default Header;
