@@ -2,7 +2,7 @@ import "./suggest.scss";
 import Suggest from "./Suggest";
 const ListSuggest = () => {
   return (
-    <section className="suggest container">
+    <section className="suggest container-xxl">
       <div className="suggest__wrapper">
         <div className="d-inline-flex justify-content-between">
           <h3 className="title">ĐỪNG BỎ LỠ</h3>
@@ -11,23 +11,17 @@ const ListSuggest = () => {
         </div>
       </div>
       <div className="suggest__main">
-        <div className="grid">
-          <div className="row">
-            <div className="col">
-              <div className="gird">
-                <div className="rowc">
-                  <div className="colc">
-                    <Suggest></Suggest>
-                    <Suggest></Suggest>
-                    <Suggest></Suggest>
-                    <Suggest></Suggest>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
+        <div className="row-cols-1">
+          <div className="col">
+            <Suggest></Suggest>
           </div>
-        </div>
+          <div className="col">
+            <Suggest></Suggest>
+          </div>
+          <div className="col">
+            <Suggest></Suggest>
+          </div>
+          </div>
       </div>
     </section>
   );

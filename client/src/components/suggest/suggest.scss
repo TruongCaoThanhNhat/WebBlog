@@ -1,14 +1,14 @@
 @use "../../scss/" as *;
 .suggest {
   overflow: hidden;
-  width: 754px;
+  max-width: 754px;
   
   &__main {
     margin-top: 20px;
     width: 100%;
   }
   &__wrapper {
-    padding-top: 60px;
+    padding-top: 10px;
     width: 100%;
     div{
       display: flex;
