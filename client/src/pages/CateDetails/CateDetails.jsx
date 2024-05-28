@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import "./catedetails.scss";
-import Suggest from "../components/suggest/Suggest";
+import Suggest from "../../components/suggest/Suggest";
 const CateDetails = (props) => {
   return (
     <div className="container">
