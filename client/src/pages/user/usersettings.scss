@@ -1,9 +1,22 @@
 @use "../../scss/" as *;
+.settings {
+  max-width: 92rem;
+  display: flex;
+  margin: 0 auto;
+}
+.settings__wrapper {
+  width: 100%;
+  display: flex;
+}
 .settings__right {
-  width: 68rem;
+  max-width: 72rem;
 }
 .settings__left {
   width: 18rem;
+}
+.settings__content {
+  // width: 718px;
+  max-width: 718px;
 }
 .settings__gender-item {
   display: flex;
@@ -14,7 +27,6 @@
     width: 16px;
     height: 16px;
   }
- 
 }
 .settings__password {
   width: 100%;
@@ -24,46 +36,47 @@
   background-color: #edf2f7;
   border-radius: 16px;
 }
-.settings__cover-bg{
-    width: 718px;
-    height: 160px;
-    border-radius: 8px !important;
-    position: relative;
-    .settings__bg-icon {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0, 0, 0, 0.5);
-      border-radius: 8px;
-      cursor: pointer;
+.settings__cover-bg {
+  // max-width: 718px;
+  width: 718px;
+  height: 160px;
+  border-radius: 8px !important;
+  position: relative;
+  .settings__bg-icon {
+    position: absolute;
+    top: 0%;
+    left: 0%;
+    right: 0%;
+    bottom: 0%;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+    cursor: pointer;
 
-      &-upload {
-        display: block;
-        height: 40px;
-        width: 40px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        margin-left: -20px;
-        margin-top: -20px;
-        opacity: 0.65;
-        transition: 0.3s ease;
-        animation: un-img-animation linear 0.5s;
-        & svg {
-          :hover {
-            animation: img-animation linear 0.5s;
-          }
+    &-upload {
+      display: block;
+      height: 40px;
+      width: 40px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      margin-left: -20px;
+      margin-top: -20px;
+      opacity: 0.65;
+      transition: 0.3s ease;
+      animation: un-img-animation linear 0.5s;
+      & svg {
+        :hover {
+          animation: img-animation linear 0.5s;
         }
       }
     }
+  }
 }
 .settings {
   margin: 0 215px 30px 60px;
   &__cover {
     height: 160px;
-    width: 718px;
+    max-width:  72rem;
     margin-bottom: 60px;
     &-container {
       position: relative;
@@ -72,6 +85,7 @@
     }
     form {
       height: 100%;
+      width: 100%;
     }
   }
   &__navbar {
@@ -154,7 +168,7 @@
   }
   &__actions {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     gap: 0 10px;
     .save,
     .cancle {
@@ -208,21 +222,21 @@
       background: rgba(0, 0, 0, 0.5);
       border-radius: 50%;
       cursor: pointer;
-      
-    //   &.cover {
-    //     border-radius: 0;
-    //     &::after {
-    //       transition: all 0.3s ease;
-    //       content: "Thay đổi ảnh bìa";
-    //       position: absolute;
-    //       top: 50%;
-    //       width: 100%;
-    //       text-align: center;
-    //       color: #fff;
-    //       margin-top: 25px;
-    //       opacity: 0.6;
-    //     }
-    //   }
+
+      //   &.cover {
+      //     border-radius: 0;
+      //     &::after {
+      //       transition: all 0.3s ease;
+      //       content: "Thay đổi ảnh bìa";
+      //       position: absolute;
+      //       top: 50%;
+      //       width: 100%;
+      //       text-align: center;
+      //       color: #fff;
+      //       margin-top: 25px;
+      //       opacity: 0.6;
+      //     }
+      //   }
       &-upload {
         display: block;
         height: 40px;
@@ -318,4 +332,19 @@
 }
 .p-30 {
   padding: 0 30px;
+}
+
+@media (max-width: 768px) {
+  .settings {
+    &__flex {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+    }
+  }
+  .settings__cover-bg {
+    max-width: 100%;
+    // height: 100%;
+    // width: auto;
+  }
 }
