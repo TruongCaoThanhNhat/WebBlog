@@ -17,9 +17,9 @@ const UserPage = () => {
           />
         </div>
         <div className="user__profile">
-          <div className="user__profile-content">
-            <div className="user__profile-sidebar">
-              <div className="user__profile-dynamic">
+          <div className="user__profile-content row row-cols-md-1">
+            <div className="user__profile-sidebar row">
+              <div className="user__profile-dynamic row row-md">
                 <div className="user__profile-widget">
                   <div className="user__profile-widget-body">
                     <div className="user__profile-widget-content">
@@ -152,11 +152,19 @@ const UserPage = () => {
                   </div>
                 </div>
                 <div className="profile__posts-list">
-                  <div className="profile__posts-list-layout">
-                    <PostofMonth></PostofMonth>
-                    <PostofMonth></PostofMonth>
-                    <PostofMonth></PostofMonth>
-                    <PostofMonth></PostofMonth>
+                  <div className="profile__posts-list-layout row">
+                    <div className="">
+                      <PostofMonth></PostofMonth>
+                    </div>
+                    <div className="">
+                      <PostofMonth></PostofMonth>
+                    </div>
+                    <div className="">
+                      <PostofMonth></PostofMonth>
+                    </div>
+                    <div className="">
+                      <PostofMonth></PostofMonth>
+                    </div>
                   </div>
                 </div>
                 <div className=""></div>
