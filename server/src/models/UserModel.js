@@ -1,78 +1,78 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 const schema = new mongoose.Schema(
   {
     userName: {
-      type: 'string',
+      type: "string",
       unique: true,
       trim: true,
       required: [
         true,
-        'Tên tài khoản là bắt buộc và phải chứa từ 6 đến 30 ký tự',
+        "Tên tài khoản là bắt buộc và phải chứa từ 6 đến 30 ký tự",
       ],
       minlength: [
         3,
-        'Tên tài khoản là bắt buộc và phải chứa từ 6 đến 30 ký tự',
+        "Tên tài khoản là bắt buộc và phải chứa từ 6 đến 30 ký tự",
       ],
     },
     socialIdFacebook: {
-      type: 'string',
+      type: "string",
     },
     password: {
-      type: 'string',
+      type: "string",
       trim: true,
-      required: [true, 'Mật khẩu nên chứa từ 6 đến 100 ký tự'],
-      minlength: [8, 'Mật khẩu nên chứa từ 6 đến 100 ký tự'],
+      required: [true, "Mật khẩu nên chứa từ 6 đến 100 ký tự"],
+      minlength: [8, "Mật khẩu nên chứa từ 6 đến 100 ký tự"],
     },
     email: {
-      type: 'string',
+      type: "string",
     },
     displayName: {
-      type: 'string',
+      type: "string",
     },
     gender: {
-      type: 'string',
-      default: '',
+      type: "string",
+      default: "",
     },
     intro: {
-      type: 'string',
-      default: '',
+      type: "string",
+      default: "",
     },
     avatar: {
-      type: 'string',
+      type: "string",
       default:
-        'https://t4.ftcdn.net/jpg/05/49/98/39/240_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg',
+        "https://t4.ftcdn.net/jpg/05/49/98/39/240_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg",
     },
     cover: {
-      type: 'string',
+      type: "string",
     },
     mobile: {
-      type: 'string',
+      type: "string",
     },
     identification: {
-      type: 'string',
+      type: "string",
     },
     address: {
-      type: 'string',
+      type: "string",
     },
 
     followers: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: "User",
         default: [],
       },
     ],
     following: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: "User",
         default: [],
       },
     ],
     postSaved: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Post',
+        ref: "Post",
         default: [],
       },
     ],
@@ -85,32 +85,33 @@ const schema = new mongoose.Schema(
       default: false,
     },
     dateOfBirth: {
-      type: 'string',
+      type: "string",
     },
     monthOfBirth: {
-      type: 'string',
+      type: "string",
     },
     yearOfBirth: {
-      type: 'string',
+      type: "string",
     },
     category: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
+        ref: "Category",
         default: [],
       },
     ],
     role: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Role',
-      required: false,
+      type: "string",
+      // type: mongoose.Schema.Types.ObjectId,
+      // ref: 'Role',
+      // required: false,
     },
   },
   {
     timestamps: true,
   }
-)
-schema.index({ displayName: 'text', userName: 'text' })
+);
+schema.index({ displayName: "text", userName: "text" });
 // schema.pre('save', function (next) {
 //   const user = this
 //   bcrypt.hash(user.password, 10, (err, hash) => {
@@ -122,4 +123,4 @@ schema.index({ displayName: 'text', userName: 'text' })
 //     }
 //   })
 // })
-export const UserModel = mongoose.model('User', schema)
+export const UserModel = mongoose.model("User", schema);
