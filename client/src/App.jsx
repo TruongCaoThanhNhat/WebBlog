@@ -8,6 +8,7 @@ import CateDetails from './pages/CateDetails/CateDetails';
 import PostDetails from './pages/PostDetails/PostDetails';
 import Login from "./pages/Login/Login";
 import CreatePost from "./pages/CreatePost/CreatePost";
+
 function App() {
   return (
     <>

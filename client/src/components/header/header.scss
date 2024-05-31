@@ -1,5 +1,18 @@
-@use "../../scss/"as *;
+@use "../../scss/" as *;
 
+.btn-reg {
+  font-size: 1.6rem;
+  color: #161616;
+  background-color: #fff;
+  margin-right: 1.6rem;
+}
+.btn-login {
+  font-size: 1.6rem;
+  color: #fff;
+  background-color: #2e89bf;
+  padding: 0.8rem 1.6rem;
+  border-radius: 24px;
+}
 .header {
   position: fixed;
   top: 0;
@@ -41,7 +54,7 @@
     gap: 0 20px;
     &-top {
       display: flex;
-      justify-content: space-between;
+      justify-content: end;
       align-items: center;
       gap: 0 7px;
     }
