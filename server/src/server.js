@@ -14,26 +14,26 @@ const app = express()
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 configCors(app)
-// cloudinaryConfig()
+    // cloudinaryConfig()
 
 const PORT = process.env.PORT || 3000
 
 app.listen(PORT, (err) => {
-  if (err) {
-    console.log(err)
-  } else {
-    console.log(`Server is running on port ${PORT}`)
-  }
+    if (err) {
+        console.log(err)
+    } else {
+        console.log(`Server is running on port ${PORT}`)
+    }
 })
 
 connectDB()
 webRoutes(app)
-// app.all('*', (req, res, next) => {
-//   const err = new Error('404 NOT FOUND')
-//   err.statusCode = 404
-//   next(err)
-// })
+    // app.all('*', (req, res, next) => {
+    //     const err = new Error('404 NOT FOUND')
+    //     err.statusCode = 404
+    //     next(err)
+    // })
 app.use(errorHandler)
 app.get('/', (req, res) => {
-  res.send('Hello World')
+    res.send('Hello World')
 })
