@@ -5,7 +5,7 @@ import Comment from '../../components/comment/Comment';
 
 const PostDetails = () => {
   return (
-    <div className="post__details-container container pt-5">
+    <div className="post__details-container container">
       <div className="post__details-auth mx-auto">
         <div className="post__details-category d-flex mb-2">
           <Link to="/">

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { BsFeather } from "react-icons/bs";
 import { GoStack } from "react-icons/go";
 import { MdKeyboardArrowDown } from "react-icons/md";
-import { BsViewStacked, BsGrid } from "react-icons/bs";
+import { BsGrid } from "react-icons/bs";
 import PostofMonth from "../../components/postOfMonth/PostofMonth";
 
 const UserPage = () => {

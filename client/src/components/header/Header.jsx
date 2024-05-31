@@ -75,7 +75,9 @@ const Header = () => {
                 </div>
 
                 <div className="">
-                  <button className="header__button ">Viết bài</button>
+                  <button className="header__button ">
+                    <Link to="/create-post">Viết bài</Link>
+                  </button>
                 </div>
                 <Avatar
                   src="https://www.gravatar.com/avatar/262cfa0997548c39953a9607a56f27da?d=wavatar&f=y"
