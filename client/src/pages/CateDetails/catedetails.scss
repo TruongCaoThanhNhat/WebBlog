@@ -5,7 +5,7 @@
         height: 25rem;
         align-items: center;
         display: flex;
-        &-background{
+        &-background {
             background-image: url("https://spiderum.com/assets/images/categories/business-min.jpg");
             top: 0;
             left: 0;
@@ -21,43 +21,43 @@
             width: 100%;
             height: 100%;
         }
-        &-container{
+        &-container {
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,.3);
+            background: rgba(0, 0, 0, .3);
         }
-        &-info{
+        &-info {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100%;
         }
-        &-title{
+        &-title {
             font-size: 3rem;
             font-weight: 700;
             color: #ffffff;
         }
-        &-follow{
+        &-follow {
             width: 170px;
         }
     }
-    &__main{
+    &__main {
         max-width: 1192px;
         margin: 0 auto;
         padding-bottom: 50px;
     }
-    &__content{
-        &-post{
-            &-author{
+    &__content {
+        &-post {
+            &-author {
                 margin-top: 50px;
             }
-            &-details{
-                &-heading{
+            &-details {
+                &-heading {
                     margin-bottom: 10px;
                 }
             }
-            &-img{
+            &-img {
                 height: 100%;
                 & img {
                     width: 100%;
@@ -66,40 +66,40 @@
                 }
             }
         }
-        &-trending{
+        &-trending {
             margin-top: 50px;
             padding: 30px;
-            &-img{
+            &-img {
                 height: 160px;
                 margin-bottom: 10px;
-                & img { 
+                & img {
                     height: 100%;
                     object-fit: cover;
                     border-radius: 5px;
                 }
             }
-          
         }
     }
 }
-.sidebar{
-    &__policy{
-        &-menu{
-            list-style-position: inside ;
+
+.sidebar {
+    &__policy {
+        &-menu {
+            list-style-position: inside;
             list-style-type: circle;
             margin-bottom: 20px;
         }
     }
-    &__suggest{
-        &-title{
+    &__suggest {
+        &-title {
             font-size: 13px;
             font-weight: 700;
             padding: 12px;
             color: #666;
         }
-        &-content{
+        &-content {
             padding: 15px 50px 30px 15px;
-            &-container{
+            &-container {
                 display: flex;
                 gap: 0 10px;
                 align-items: flex-start;
@@ -107,4 +107,9 @@
             }
         }
     }
+}
+
+.news {
+    width: 800px;
+    margin-top: 20px;
 }

@@ -1,0 +1,46 @@
+.post__details-container {
+    padding-top: 90px;
+}
+
+.post__details-auth {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.post__details-category {
+    margin-bottom: 10px;
+    .post__details-category-name {
+        color: rgb(113, 128, 150);
+        font-size: 15px;
+    }
+}
+
+.post__details-title {
+    h1 {
+        font-family: 'Monospace', monospace;
+        font-size: 40px;
+        line-height: 58px;
+        color: rgba(45, 55, 72, 1);
+    }
+}
+
+.post__details-desc {
+    font-size: 16px;
+    color: rgba(160, 174, 192, 1);
+    font-style: italic;
+}
+
+.post__details-content {
+    margin: 10px 0;
+    width: 100%;
+    .post__details-content-container {
+        font-family: 'Helvetica', sans-serif;
+        font-weight: 400;
+        color: rgba(0, 0, 0, 0.8);
+        margin-right: auto;
+        margin-left: auto;
+        line-height: 2rem;
+        padding: 15px 0;
+        width: 700px;
+    }
+}
