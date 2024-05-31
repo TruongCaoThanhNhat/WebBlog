@@ -1,8 +1,6 @@
 import FormSend from "../../components/author/FormSend";
 import ListWritter from "../../components/author/ListWritter";
 import OddPost from "../../components/author/OddPost";
-import Footer from "../../components/footer/Footer";
-import Header from "../../components/header/Header";
 import ListPostOMonth from "../../components/postOfMonth/ListPostOMonth";
 import ListSuggest from "../../components/suggest/ListSuggest";
 import "./home.scss";
@@ -10,7 +8,7 @@ import "./home.scss";
 const HomePage = () => {
   return (
     <div className="container-fluid">
-      <Header />
+
       <section className="main">
         <ListPostOMonth />
         <div className="content row container-xl">
@@ -36,7 +34,6 @@ const HomePage = () => {
           </div>
         </div>
       </section>
-      <Footer />
     </div>
   );
 };
