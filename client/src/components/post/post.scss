@@ -1,14 +1,14 @@
 @use "../../scss/" as *;
-.suggest {
+.post {
   overflow: hidden;
-  max-width: 754px;
+  width: 754px;
   
   &__main {
     margin-top: 20px;
     width: 100%;
   }
   &__wrapper {
-    padding-top: 10px;
+    padding-top: 60px;
     width: 100%;
     div{
       display: flex;
@@ -30,11 +30,13 @@
     }
     &-img {
       width: 232px;
+      // width: 367px;
       & img {
         border-radius: 5px;
         object-fit: cover;
         width: 100%;
         height: 174px;
+        // height: 229px;
       }
     }
     &-img-left {
@@ -68,7 +70,7 @@
           -webkit-line-clamp: 1;
           -webkit-box-orient: vertical;
           font-weight: normal;
-          font-size: 1.2rem;
+          font-size: 1.6rem;
         }
       }
       &-post {
@@ -102,10 +104,40 @@
     }
   }
 }
-
+.writter-name{
+  font-size: 1.4rem;
+  color: #161616;
+  margin-bottom: unset;
+}
+.time-date{
+  font-size: 1.2rem;
+  color: #b5b5b5;
+}
 .icon-dot {
   cursor: pointer;
   color: gray;
   font-size: 1.5rem;
   margin-left: 10px;
+}
+.icon-bookmark{
+        font-size: 2.4rem;
+        color: #969696;
+        margin-left: 1rem;
+        cursor: pointer;
+    }
+.icon-eye{
+  font-size: 1.8rem;
+  color: #969696;
+
+}
+.icon-chat{
+  font-size: 1.6rem;
+  color: #969696;
+}
+.upvote{
+  margin-right: .8rem;
+  &-value{
+    font-size: 1.4rem;
+    color: #969696;
+  }
 }

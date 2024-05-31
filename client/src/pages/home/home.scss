@@ -1,5 +1,11 @@
 @use "../../scss/" as *;
 
+.content {
+  width: 100%;
+  &-left {
+    max-width: 754px;
+  }
+}
 /* Điều chỉnh giao diện cho kích thước màn hình nhỏ (dưới 576px) */
 @media (max-width: 575px) {
   .container {
@@ -7,6 +13,9 @@
   }
   .none {
     display: none !important;
+  }
+  .row-cols-2 > div {
+    width: 100% !important; // làm cho các cột con chiếm toàn bộ chiều rộng của hàng khi màn hình nhỏ hơn hoặc bằng 575px.
   }
 }
 /* Điều chỉnh giao diện cho kích thước màn hình trung bình (từ 576px đến 767px) */
@@ -16,6 +25,9 @@
   }
   .none {
     display: none !important;
+  }
+  .row-cols-2 > div {
+    width: 100% !important; // làm cho các cột con chiếm toàn bộ chiều rộng của hàng khi màn hình nhỏ hơn hoặc bằng 575px.
   }
 }
 
@@ -28,7 +40,8 @@
     font-size: 1.4rem;
     margin-right: 1rem;
   }
-  .header__member.none,.header__cate {
+  .header__member.none,
+  .header__cate {
     display: none !important;
   }
 }
