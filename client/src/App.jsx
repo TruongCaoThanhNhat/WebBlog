@@ -6,8 +6,8 @@ import UserPage from "./pages/user/UserPage";
 import Register from './pages/Register';
 import CateDetails from './pages/CateDetails/CateDetails';
 import PostDetails from './pages/PostDetails/PostDetails';
-// import Post from "./pages/Post/Post";
 import Login from "./pages/Login/Login";
+import CreatePost from "./pages/CreatePost/CreatePost";
 function App() {
   return (
     <>
@@ -19,7 +19,7 @@ function App() {
         <Route path="register" element={<Register />} />
         <Route path="catedetails" element={<CateDetails/>} />
         <Route path="postdetails" element={<PostDetails/>} />
-        {/* <Route path="post" element={<Post/>} /> */}
+        <Route path="create_post" element={<CreatePost/>} />
       </Routes>
     </>
   );
