@@ -12,23 +12,23 @@ const ListPostOMonth = () => {
     variableWidth: true,
   };
   return (
-    <section className="postofmonth container">
+    <section className="postofmonth container-xl">
       <div className="pom__wrapper">
         <h3 className="title">BÀI VIẾT CỦA THÁNG</h3>
         <div className="pom__content border">
           <div className="pom__content-list row">
-              <div className="col"  >
-                <PostofMonth />
-              </div>
-              <div className="col" >
-                <PostofMonth />
-              </div>
-              <div className="col" >
-                <PostofMonth />
-              </div>
-              <div className="col" >
-                <PostofMonth />
-              </div>
+            <div className="col-xl-3 col-md-4 col-12">
+              <PostofMonth />
+            </div>
+            <div className="col-xl-3 col-md-4 col-12">
+              <PostofMonth />
+            </div>
+            <div className="col-xl-3 col-md-4 col-12">
+              <PostofMonth />
+            </div>
+            <div className="col-xl-3 col-md-4 col-12">
+              <PostofMonth />
+            </div>
           </div>
         </div>
       </div>

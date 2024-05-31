@@ -6,8 +6,8 @@ const Suggest = () => {
     <div className="colc l-12">
       <div className="suggest__content">
         <div className="grid">
-          <div className="rowc row">
-            <div className="col l-4 c-12 ">
+          <div className="rowc row row-cols-2">
+            <div className="col-xxl-4 col-lg-5 col-md-4">
               <div className="suggest__content-img">
                 <Link to="/">
                   <img
@@ -17,7 +17,7 @@ const Suggest = () => {
                 </Link>
               </div>
             </div>
-            <div className="col l-8 c-12">
+            <div className="col-xxl-8 col-lg-7 col-md-8">
               <div className="suggest__content-details">
                 <div className="suggest__content-details-heading">
                   <div className="">
