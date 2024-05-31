@@ -17,6 +17,11 @@ export const getPostsByCategory = async (cateID) => {
 };
 
 // post
+export const apiGetAllPosts = async (data) => {
+  const url = "/posts/";
+  const response = await axiosInstance.get(url, data);
+  return response.data;
+};
 export const getPostsBySlug = async (slug) => {
   const url = `/posts/${slug}`;
   const response = await axiosInstance.get(url);

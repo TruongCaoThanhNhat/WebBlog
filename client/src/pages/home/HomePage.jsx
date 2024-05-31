@@ -10,7 +10,7 @@ const HomePage = () => {
     <div className="container-fluid">
 
       <section className="main">
-        <ListPostOMonth />
+        {/* <ListPostOMonth /> */}
         <div className="content row container-xl">
           <div className="col-lg-8 content-left flex-grow-1">
             <ListSuggest />

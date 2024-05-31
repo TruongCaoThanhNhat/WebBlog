@@ -1,6 +1,23 @@
 import "./suggest.scss";
-import Suggest from "./Suggest";
+import { useEffect, useState } from "react";
+import { apiGetAllPosts } from "@/api/api";
+import Post from "../post/Post";
 const ListSuggest = () => {
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    const fetchAllPosts = async () => {
+      try {
+        const data = await apiGetAllPosts();
+        // console.log(data.data.posts);
+        setPosts(data.data.posts);
+      } catch (error) {
+        console.error("Error fetching category details:", error);
+      }
+    };
+    fetchAllPosts();
+  }, []);
+
+  // console.log(posts);
   return (
     <section className="suggest container-xxl">
       <div className="suggest__wrapper">
@@ -12,7 +29,13 @@ const ListSuggest = () => {
       </div>
       <div className="suggest__main">
         <div className="row-cols-1">
-          <div className="col">
+          {posts &&
+            posts.map((post) => (
+              <div className="col" key={post._id}>
+                <Post post={post}></Post>
+              </div>
+            ))}
+          {/* <div className="col">
             <Suggest></Suggest>
           </div>
           <div className="col">
@@ -20,8 +43,8 @@ const ListSuggest = () => {
           </div>
           <div className="col">
             <Suggest></Suggest>
-          </div>
-          </div>
+          </div> */}
+        </div>
       </div>
     </section>
   );

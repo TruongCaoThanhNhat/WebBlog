@@ -1,0 +1,143 @@
+@use "../../scss/" as *;
+.post {
+  overflow: hidden;
+  width: 754px;
+  
+  &__main {
+    margin-top: 20px;
+    width: 100%;
+  }
+  &__wrapper {
+    padding-top: 60px;
+    width: 100%;
+    div{
+      display: flex;
+      h3{
+      position: relative;
+    font-size: 18px;
+    color: $black ;
+    font-weight: 600;
+    padding-left: 10px;
+      }
+    }
+  }
+  &__content {
+    margin-bottom: 30px;
+    width: 100%;
+    &-right {
+      display: flex;
+      margin-top: 20px;
+    }
+    &-img {
+      width: 232px;
+      // width: 367px;
+      & img {
+        border-radius: 5px;
+        object-fit: cover;
+        width: 100%;
+        height: 174px;
+        // height: 229px;
+      }
+    }
+    &-img-left {
+      & img {
+        border-radius: 5px;
+        object-fit: cover;
+        width: 100%;
+        height: 280px;
+        margin-bottom: 10px;
+      }
+    }
+    &-details {
+      padding: 0 10px;
+      &-heading {
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      &-save {
+        cursor: pointer;
+      }
+      &-desc {
+        &-text {
+          color: $text-color-desc;
+          margin: 10px 0;
+          overflow: hidden;
+          max-height: 3rem;
+          display: -webkit-box;
+          -webkit-line-clamp: 1;
+          -webkit-box-orient: vertical;
+          font-weight: normal;
+          font-size: 1.6rem;
+        }
+      }
+      &-post {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        &-avt {
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          background-color: $background-color;
+          & img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+        &-user {
+          display: flex;
+          align-items: center;
+          gap: 0 10px;
+        }
+        &-icon {
+          display: flex;
+          gap: 0 20px;
+          & div {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+.writter-name{
+  font-size: 1.4rem;
+  color: #161616;
+  margin-bottom: unset;
+}
+.time-date{
+  font-size: 1.2rem;
+  color: #b5b5b5;
+}
+.icon-dot {
+  cursor: pointer;
+  color: gray;
+  font-size: 1.5rem;
+  margin-left: 10px;
+}
+.icon-bookmark{
+        font-size: 2.4rem;
+        color: #969696;
+        margin-left: 1rem;
+        cursor: pointer;
+    }
+.icon-eye{
+  font-size: 1.8rem;
+  color: #969696;
+
+}
+.icon-chat{
+  font-size: 1.6rem;
+  color: #969696;
+}
+.upvote{
+  margin-right: .8rem;
+  &-value{
+    font-size: 1.4rem;
+    color: #969696;
+  }
+}
