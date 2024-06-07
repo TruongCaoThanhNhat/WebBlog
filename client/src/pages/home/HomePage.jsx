@@ -1,7 +1,6 @@
 import FormSend from "../../components/author/FormSend";
 import ListWritter from "../../components/author/ListWritter";
 import OddPost from "../../components/author/OddPost";
-import ListPostOMonth from "../../components/postOfMonth/ListPostOMonth";
 import ListSuggest from "../../components/suggest/ListSuggest";
 import "./home.scss";
 
