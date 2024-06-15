@@ -27,3 +27,8 @@ export const getPostsBySlug = async (slug) => {
   const response = await axiosInstance.get(url);
   return response.data;
 };
+export const apiCreatePost = async (data) => {
+  const url = "/posts/create";
+  const response = await axiosInstance.post(url, data);
+  return response;
+};
