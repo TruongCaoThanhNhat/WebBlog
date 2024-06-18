@@ -17,9 +17,9 @@ export const getPostsByCategory = async (cateID) => {
 };
 
 // post
-export const apiGetAllPosts = async (data) => {
-  const url = "/posts/";
-  const response = await axiosInstance.get(url, data);
+export const apiGetAllPost = async (sort, page) => {
+  const url = `/posts/?sort=${sort}&page=${page}`;
+  const response = await axiosInstance.get(url);
   return response.data;
 };
 export const getPostsBySlug = async (slug) => {
