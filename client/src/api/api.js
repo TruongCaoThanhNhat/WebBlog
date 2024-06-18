@@ -7,6 +7,13 @@ export const apiGetHotAuthor = async (data) => {
   return response.data;
 };
 
+export const apiGetAuthor = async (username) => {
+  const url = `/user/${username}`;
+  const response = await axiosInstance.get(url);
+  return response.data;
+};
+
+// category
 export const apiGetAllCategory = async (data) => {
     const url = "/categorys/"; 
     const response = await axiosInstance.get(url, data);
@@ -41,6 +48,11 @@ export const apiCreatePost = async (data) => {
 };
 export const apiTopPostOfMonth = async () => {
   const url = "/posts/top-month";
+  const response = await axiosInstance.get(url);
+  return response.data;
+};
+export const apiGetPostsByUserName = async (username) => {
+  const url = `/posts/user/${username}`;
   const response = await axiosInstance.get(url);
   return response.data;
 };
