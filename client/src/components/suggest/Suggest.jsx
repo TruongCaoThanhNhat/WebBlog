@@ -1,7 +1,37 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { BsDot } from "react-icons/bs";
 import { BsChatDots } from "react-icons/bs";
+import { useEffect, useState } from "react";
+import { apiGetCategoryBySlug } from "@/api/api";
 const Suggest = () => {
+  const { slug } = useParams(); // Lấy slug từ URL
+  console.log(slug)
+  const [cate, setCate] = useState({})
+  const [category, setCategory] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [author, setAuthor] = useState({});
+
+  useEffect(() => {
+    const fetchCategory = async () => {
+      try {
+        setLoading(true);
+        const data = await apiGetCategoryBySlug(slug);
+        setCate(data.data)
+        setCategory(data.data);
+        setLoading(false);
+        setAuthor(data.data);
+        console.log(data.data)
+      } catch (error) {
+        console.error("Failed to fetch category:", error);
+      }
+    };
+
+    fetchCategory();
+  }, [slug]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="colc l-12">
       <div className="suggest__content">
@@ -23,7 +53,7 @@ const Suggest = () => {
                   <div className="">
                     <Link to="/">
                       <span className="title-category">
-                        CHUYỆN TRÒ - TÂM SỰ
+                      {category && category.name ? category.name : 'Tên danh mục'}
                       </span>
                     </Link>
                     <BsDot className="icon-dot" />
@@ -52,13 +82,12 @@ const Suggest = () => {
                   <Link to="/">
                     <h3 className="title-post">
                       Atomic Habits: Bạn đã hiểu đúng về tạo lập thói quen?
+                      {/* {category.title} */}
                     </h3>
                   </Link>
                   <div className="suggest__content-details-desc">
                     <p className="suggest__content-details-desc-text">
-                      Cách đây hai tháng, mình vẫn nghĩ xây dựng thói quen đơn
-                      giản chỉ là lặp đi lặp lại một việc nhiều lần đến khi có
-                      thể tự động làm mà
+                    {category.description ? category.description : ""}
                     </p>
                   </div>
                 </div>
@@ -76,6 +105,7 @@ const Suggest = () => {
                       <Link to="/">
                         <p className="suggest__content-details-post-name">
                           một quả bơ
+                          {/* {author && author.userName ? author.userName : "Người lạ ơi"} */}
                         </p>
                       </Link>
                     </div>
@@ -102,7 +132,7 @@ const Suggest = () => {
                       <span className="post-icon"> 554</span>
                     </Link>
                     <Link to="/">
-                      <BsChatDots />
+                      <BsChatDots className="iconmes"/>
                       <span className="post-icon"> 2</span>
                     </Link>
                   </div>

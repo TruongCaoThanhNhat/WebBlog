@@ -7,40 +7,68 @@ import { useDispatch, useSelector } from "react-redux";
 import { apiGetAllCategory } from "@/api/api";
 import { getAll } from "@/redux/slices/categorySlice";
 import Avatar from "../avatar/Avatar";
+
 const Header = () => {
-   const user = useSelector((state) => state.user);
-   const dispatch = useDispatch();
-   const [visible, setVisible] = useState(true);
-   const [showCategory, setShowCategory] = useState(false);
-   const [category, setCategory] = useState([]);
-   useEffect(() => {
-     const handleScroll = () => {
-       const moving = window.pageYOffset;
-       if (moving > 100) {
-         setVisible(false);
-       } else {
-         setVisible(true);
-       }
-     };
-     window.addEventListener("scroll", handleScroll);
-     return () => {
-       window.removeEventListener("scroll", handleScroll);
-     };
-   }, []);
-   const cls = visible ? "visible" : "hide";
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const [visible, setVisible] = useState(true);
+  const [showCategory, setShowCategory] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [mainCategories, setMainCategories] = useState([]);
+  const [extraCategories, setExtraCategories] = useState([]);
+  const [showDropDown, setShowDropDown] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [showSearchBar, setShowSearchBar] = useState(false);
 
-   const handleShow = (e) => setShowCategory(!showCategory);
+  useEffect(() => {
+    const handleScroll = () => {
+      const moving = window.pageYOffset;
+      if (moving > 100) {
+        setVisible(false);
+      } else {
+        setVisible(true);
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
-   useEffect(
-     () => async () => {
-       const res = await apiGetAllCategory();
-       // console.log(res.data);
-       setCategory(res.data.categories);
-       dispatch(getAll(res.data.categories));
-     },
-     [category, dispatch]
-   );
-  //  console.log(category);
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const res = await apiGetAllCategory();
+      const allCategories = res.data.categories;
+      setCategories(allCategories);
+      dispatch(getAll(allCategories));
+      // Chia danh mục
+      setMainCategories(allCategories.slice(0, 8));
+      setExtraCategories(allCategories.slice(8));
+    };
+    fetchCategories();
+  }, [dispatch]);
+
+  const handleShow = () => setShowCategory(!showCategory);
+  const handleShowDropDown = () => setShowDropDown(!showDropDown);
+  const cls = visible ? "visible" : "hide";
+
+  const handleSearchChange = async (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    if (query.length > 2) {
+      const res = await axios.get(`/api/search?query=${query}`);
+      setSearchResults(res.data.results);
+    } else {
+      setSearchResults([]);
+    }
+  };
+
+  const toggleSearchBar = () => {
+    setShowSearchBar(!showSearchBar);
+  };
+
+
   return (
     <header className={`header ${visible ? "header" : "header-height"}`}>
       <div className={`header__container ${cls} `}>
@@ -58,9 +86,28 @@ const Header = () => {
             {user.isLoggedIn ? (
               <ul className="header__menu-top">
                 <div className="none">
-                  <div className="header__icon-top-wrapper">
+                  <div className="header__icon-top-wrapper" onClick={toggleSearchBar}>
                     <BsSearch className="header__icon header__icon-top" />
                   </div>
+                  {showSearchBar && (
+              <div className="header__search">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  placeholder="Tìm kiếm theo tiêu đề..."
+                />
+                {searchResults.length > 0 && (
+                  <div className="search-results">
+                    {searchResults.map((result) => (
+                      <Link key={result.id} to={`/post/${result.slug}`} className="search-result-item">
+                        {result.title}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
                 </div>
                 <div className="none">
                   <Link to="/">
@@ -70,7 +117,6 @@ const Header = () => {
                   </Link>
                 </div>
                 <div className="none">
-                  <i className=" header__icon bx bx-bell"></i>
                   <BsBellFill className="header__icon" />
                 </div>
 
@@ -79,9 +125,75 @@ const Header = () => {
                     <Link to="/create-post">Viết bài</Link>
                   </button>
                 </div>
-                <Avatar
-                  src="https://www.gravatar.com/avatar/262cfa0997548c39953a9607a56f27da?d=wavatar&f=y"
-                />
+                <div className="header__avt" onClick={handleShowDropDown}>
+                  <img
+                    src="https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-xs-avatar/aec845906a1911ec8130097cb62284e8.png"
+                    alt=""
+                    className="post-avt"
+                  />
+                </div>
+                {showDropDown && (
+                  <div className="header__dropdown">
+                    <header className="p-10 border-bottom">
+                      <Link to="/" className="header__dropdown-header p-10  ">
+                        <div className="header__dropdown-img">
+                          <img
+                            src="https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-xs-avatar/8918f260d01b11eb8ffbcba3c0ad0183.jpg"
+                            alt=""
+                          />
+                        </div>
+                        <div className="header__dropdown-info">
+                          <p className="header__dropdown-name">HuuPhuoc</p>
+                          <span className="header__dropdown-phone">
+                            @0362821110
+                          </span>
+                        </div>
+                      </Link>
+                    </header>
+                    <div className="header__dropdown-content">
+                      <div className="p-7 border-bottom">
+                        <ul className="header__dropdown-list ">
+                          <li className="header__dropdown-item p-13">
+                            <Link to="/user" className="header__dropdown-link">
+                              <i className="header__dropdown-icon bx bx-user"></i>
+                              <p className="header__dropdown-text">Xem trang cá nhân</p>
+                            </Link>
+                          </li>
+                          <li className="header__dropdown-item p-13">
+                            <Link to="/user" className="header__dropdown-link">
+                              <i className="header__dropdown-icon bx bx-pencil"></i>
+                              <p className="header__dropdown-text">Bài viết của tôi</p>
+                            </Link>
+                          </li>
+                          <li className="header__dropdown-item p-13">
+                            <Link to="/user" className="header__dropdown-link">
+                              <i className="header__dropdown-icon bx bx-file-blank"></i>
+                              <p className="header__dropdown-text">Nháp của tôi</p>
+                            </Link>
+                          </li>
+                          <li className="header__dropdown-item p-13">
+                            <Link to="/user" className="header__dropdown-link">
+                              <i className="header__dropdown-icon bx bx-bookmark"></i>
+                              <p className="header__dropdown-text">Đã lưu</p>
+                            </Link>
+                          </li>
+                          <li className="header__dropdown-item p-13">
+                            <Link to="/user/settings" className="header__dropdown-link">
+                              <i className="header__dropdown-icon bx bx-cog"></i>
+                              <p className="header__dropdown-text">Tùy chỉnh tài khoản</p>
+                            </Link>
+                          </li>
+                          <li className="header__dropdown-item p-13">
+                            <Link to="/login" className="header__dropdown-link">
+                              <i className="header__dropdown-icon bx bx-log-out"></i>
+                              <p className="header__dropdown-text">Đăng xuất</p>
+                            </Link>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </ul>
             ) : (
               <ul className="header__menu-top">
@@ -102,24 +214,13 @@ const Header = () => {
         <div className="header__menu row none">
           <div className="header__menu-category col-xl-10 col-lg-10 justify-content-start">
             <ul className="header__menu-list">
-              {category && category.length > 0 ? (
-                category.map((item) => (
-                  <li key={item._id} className="header__menu-item">
-                    <Link
-                      to={`/category/${item.slug}`}
-                      className="header__menu-link"
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                ))
-              ) : (
-                <li className="header__menu-item">
-                  <Link to="/" className="header__menu-link">
-                    CHUYỆN TRÒ - TÂM SỰ
+              {mainCategories.map((item) => (
+                <li key={item._id} className="header__menu-item">
+                  <Link to={`/category/${item.slug}`} className="header__menu-link">
+                    {item.name}
                   </Link>
                 </li>
-              )}
+              ))}
             </ul>
           </div>
           <div
@@ -128,128 +229,22 @@ const Header = () => {
           >
             <FaBars className="header__icon cursor-pointer" />
             {showCategory && (
-              <div className="header__cate-menu">
-                <div className="header__cate-list">
-                  <Link to="/">
-                    <div className="header__cate-link">
-                      <img
-                        className="header__cate-img"
-                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
-                        alt=""
-                      />
-                      <span className="header__cate-text">
-                        CHUYỆN TRÒ - TÂM SỰ
-                      </span>
-                      <i className="header__cate-icon bx bx-x"></i>
-                    </div>
-                  </Link>
-                </div>
-                <div className="header__cate-list">
-                  <Link to="/">
-                    <div className="header__cate-link">
-                      <img
-                        className="header__cate-img"
-                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
-                        alt=""
-                      />
-                      <span className="header__cate-text">
-                        DU LỊCH - ẨM THỰC
-                      </span>
-                      <i className="header__cate-icon bx bx-x"></i>
-                    </div>
-                  </Link>
-                </div>
-                <div className="header__cate-list">
-                  <Link to="/">
-                    <div className="header__cate-link">
-                      <img
-                        className="header__cate-img"
-                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
-                        alt=""
-                      />
-                      <span className="header__cate-text">KỸ NĂNG</span>
-                      <i className="header__cate-icon bx bx-x"></i>
-                    </div>
-                  </Link>
-                </div>
-                <div className="header__cate-list">
-                  <Link to="/">
-                    <div className="header__cate-link">
-                      <img
-                        className="header__cate-img"
-                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
-                        alt=""
-                      />
-                      <span className="header__cate-text">SÁCH</span>
-                      <i className="header__cate-icon bx bx-x"></i>
-                    </div>
-                  </Link>
-                </div>
-                <div className="header__cate-list">
-                  <Link to="/">
-                    <div className="header__cate-link">
-                      <img
-                        className="header__cate-img"
-                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
-                        alt=""
-                      />
-                      <span className="header__cate-text">PHIM</span>
-                      <i className="header__cate-icon bx bx-x"></i>
-                    </div>
-                  </Link>
-                </div>
-                <div className="header__cate-list">
-                  <Link to="/">
-                    <div className="header__cate-link">
-                      <img
-                        className="header__cate-img"
-                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
-                        alt=""
-                      />
-                      <span className="header__cate-text">KỸ NĂNG</span>
-                      <i className="header__cate-icon bx bx-x"></i>
-                    </div>
-                  </Link>
-                </div>
-                <div className="header__cate-list">
-                  <Link to="/">
-                    <div className="header__cate-link">
-                      <img
-                        className="header__cate-img"
-                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
-                        alt=""
-                      />
-                      <span className="header__cate-text">SÁNG TÁC</span>
-                      <i className="header__cate-icon bx bx-x"></i>
-                    </div>
-                  </Link>
-                </div>
-                <div className="header__cate-list">
-                  <Link to="/">
-                    <div className="header__cate-link">
-                      <img
-                        className="header__cate-img"
-                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
-                        alt=""
-                      />
-                      <span className="header__cate-text">THỂ THAO</span>
-                      <i className="header__cate-icon bx bx-x"></i>
-                    </div>
-                  </Link>
-                </div>
-                <div className="header__cate-list">
-                  <Link to="/">
-                    <div className="header__cate-link">
-                      <img
-                        className="header__cate-img"
-                        src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
-                        alt=""
-                      />
-                      <span className="header__cate-text">GAME</span>
-                      <i className="header__cate-icon bx bx-x"></i>
-                    </div>
-                  </Link>
-                </div>
+              <div className="header__cate-menu cursor-pointer">
+                {extraCategories.map((item) => (
+                  <div key={item._id} className="header__cate-list">
+                    <Link to={`/category/${item.slug}`}>
+                      <div className="header__cate-link">
+                        <img
+                          className="header__cate-img"
+                          src="https://spiderum.com/assets/images/categories/conversation-min.jpg"
+                          alt=""
+                        />
+                        <span className="header__cate-text">{item.name}</span>
+                        <i className="header__cate-icon bx bx-x"></i>
+                      </div>
+                    </Link>
+                  </div>
+                ))}
               </div>
             )}
           </div>
