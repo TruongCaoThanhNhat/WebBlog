@@ -7,6 +7,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { apiLogin } from "../../api";
 import "./login.scss";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const [userName, setUserName] = useState("");
@@ -24,9 +25,12 @@ const Login = () => {
 
     try {
       const res = await apiLogin(userName, password);
+      const token = res.data.token;
       if (res) {
-        dispatch(loginSuccess());
+        dispatch(loginSuccess(res.data));
+        Cookies.set("accessToken", token);
         navigate("/");
+        console.log("Login successfully!"+token);
       } else {
         dispatch(loginFailure({ error: "Invalid userName or password!" }));
       }

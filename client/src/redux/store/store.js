@@ -6,6 +6,7 @@ const store = configureStore({
   reducer: {
     category: categoryReducer,
     user: authenticationReducer,
+    // post: postSlice,
   },
 });
 

@@ -1,7 +1,8 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { BsDot } from "react-icons/bs";
 import { BsChatDots } from "react-icons/bs";
-const Suggest = () => {
+const Suggest = ({suggest}) => {
+  const { _id, title, image,description, author, category, createdAt, slug="" } = suggest 
   return (
     <div className="colc l-12">
       <div className="suggest__content">
@@ -11,7 +12,7 @@ const Suggest = () => {
               <div className="suggest__content-img">
                 <Link to="/">
                   <img
-                    src="https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-thumbnails/defaultthumbnail.png"
+                    src={image && image ? image : "https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-thumbnails/defaultthumbnail.png"}
                     alt=""
                   />
                 </Link>
@@ -21,9 +22,9 @@ const Suggest = () => {
               <div className="suggest__content-details">
                 <div className="suggest__content-details-heading">
                   <div className="">
-                    <Link to="/">
+                    <Link to={`/category/${category && category.slug ? category.slug :""}`}>
                       <span className="title-category">
-                        CHUYỆN TRÒ - TÂM SỰ
+                      {category && category.name ? category.name : 'Tên danh mục'}
                       </span>
                     </Link>
                     <BsDot className="icon-dot" />
@@ -49,16 +50,18 @@ const Suggest = () => {
                   </div>
                 </div>
                 <div className="suggest__content-details-main">
-                  <Link to="/">
+                  <Link to={`/post/${slug}`}>
                     <h3 className="title-post">
-                      Atomic Habits: Bạn đã hiểu đúng về tạo lập thói quen?
+                    {title
+                        ? title
+                        : "Atomic Habits: Bạn đã hiểu đúng về tạo lập thói quen?"}
                     </h3>
                   </Link>
                   <div className="suggest__content-details-desc">
                     <p className="suggest__content-details-desc-text">
-                      Cách đây hai tháng, mình vẫn nghĩ xây dựng thói quen đơn
-                      giản chỉ là lặp đi lặp lại một việc nhiều lần đến khi có
-                      thể tự động làm mà
+                    {description
+                        ? description
+                        : "Cách đây hai tháng, mình vẫn nghĩ xây dựng thói quen đơn giản chỉ là lặp đi lặp lại một việc nhiều lần đến khi có"}
                     </p>
                   </div>
                 </div>
@@ -75,7 +78,9 @@ const Suggest = () => {
                     <div>
                       <Link to="/">
                         <p className="suggest__content-details-post-name">
-                          một quả bơ
+                        {author && author.userName
+                              ? author.userName
+                              : "Nguyễn Thanh Tùng"}
                         </p>
                       </Link>
                     </div>
@@ -102,7 +107,7 @@ const Suggest = () => {
                       <span className="post-icon"> 554</span>
                     </Link>
                     <Link to="/">
-                      <BsChatDots />
+                      <BsChatDots className="iconmes"/>
                       <span className="post-icon"> 2</span>
                     </Link>
                   </div>
