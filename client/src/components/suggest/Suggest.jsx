@@ -1,37 +1,8 @@
 import { Link, useParams } from "react-router-dom";
 import { BsDot } from "react-icons/bs";
 import { BsChatDots } from "react-icons/bs";
-import { useEffect, useState } from "react";
-import { apiGetCategoryBySlug } from "@/api/api";
-const Suggest = () => {
-  const { slug } = useParams(); // Lấy slug từ URL
-  console.log(slug)
-  const [cate, setCate] = useState({})
-  const [category, setCategory] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [author, setAuthor] = useState({});
-
-  useEffect(() => {
-    const fetchCategory = async () => {
-      try {
-        setLoading(true);
-        const data = await apiGetCategoryBySlug(slug);
-        setCate(data.data)
-        setCategory(data.data);
-        setLoading(false);
-        setAuthor(data.data);
-        console.log(data.data)
-      } catch (error) {
-        console.error("Failed to fetch category:", error);
-      }
-    };
-
-    fetchCategory();
-  }, [slug]);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+const Suggest = ({suggest}) => {
+  const { _id, title, image,description, author, category, createdAt, slug="" } = suggest 
   return (
     <div className="colc l-12">
       <div className="suggest__content">
@@ -41,7 +12,7 @@ const Suggest = () => {
               <div className="suggest__content-img">
                 <Link to="/">
                   <img
-                    src="https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-thumbnails/defaultthumbnail.png"
+                    src={image && image ? image : "https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-thumbnails/defaultthumbnail.png"}
                     alt=""
                   />
                 </Link>
@@ -51,7 +22,7 @@ const Suggest = () => {
               <div className="suggest__content-details">
                 <div className="suggest__content-details-heading">
                   <div className="">
-                    <Link to="/">
+                    <Link to={`/category/${category && category.slug ? category.slug :""}`}>
                       <span className="title-category">
                       {category && category.name ? category.name : 'Tên danh mục'}
                       </span>
@@ -79,15 +50,18 @@ const Suggest = () => {
                   </div>
                 </div>
                 <div className="suggest__content-details-main">
-                  <Link to="/">
+                  <Link to={`/post/${slug}`}>
                     <h3 className="title-post">
-                      Atomic Habits: Bạn đã hiểu đúng về tạo lập thói quen?
-                      {/* {category.title} */}
+                    {title
+                        ? title
+                        : "Atomic Habits: Bạn đã hiểu đúng về tạo lập thói quen?"}
                     </h3>
                   </Link>
                   <div className="suggest__content-details-desc">
                     <p className="suggest__content-details-desc-text">
-                    {category.description ? category.description : ""}
+                    {description
+                        ? description
+                        : "Cách đây hai tháng, mình vẫn nghĩ xây dựng thói quen đơn giản chỉ là lặp đi lặp lại một việc nhiều lần đến khi có"}
                     </p>
                   </div>
                 </div>
@@ -104,8 +78,9 @@ const Suggest = () => {
                     <div>
                       <Link to="/">
                         <p className="suggest__content-details-post-name">
-                          một quả bơ
-                          {/* {author && author.userName ? author.userName : "Người lạ ơi"} */}
+                        {author && author.userName
+                              ? author.userName
+                              : "Nguyễn Thanh Tùng"}
                         </p>
                       </Link>
                     </div>
