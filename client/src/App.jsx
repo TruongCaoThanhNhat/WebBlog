@@ -9,6 +9,7 @@ import CreatePost from "./pages/CreatePost/CreatePost";
 import Register from "./pages/Register/Register";
 import CateDetails from "./pages/CateDetails/CateDetails";
 import HomePage from "./pages/home/HomePage";
+import 'boxicons/css/boxicons.min.css';
 
 function App() {
   return (
