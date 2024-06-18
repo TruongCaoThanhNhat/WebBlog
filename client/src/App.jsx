@@ -6,7 +6,7 @@ import MainLayout from "./layouts/MainLayout";
 import PostDetails from "./pages/PostDetails/PostDetails";
 import Login from "./pages/Login/Login";
 import CreatePost from "./pages/CreatePost/CreatePost";
-import Register from "./pages/Register";
+import Register from "./pages/Register/Register";
 import CateDetails from "./pages/CateDetails/CateDetails";
 import HomePage from "./pages/home/HomePage";
 
