@@ -11,6 +11,7 @@ const CreatePost = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const post = useSelector((state) => state.post);
+  const user = useSelector((state) => state.post);
   const category = useSelector((state) => state.category.cateData);
   // console.log("category", category);
   const instanceRef = useRef(null);
@@ -88,7 +89,7 @@ const CreatePost = () => {
       if (res.status === 201) {
         console.log("Tạo bài viết thành công");
         toast.success("Tạo bài viết thành công");
-        navigate("/user");
+        navigate(`/user/${user.userInfo.userName}}`);
       }
     } catch (error) {
       console.error("Failed to create post:", error);

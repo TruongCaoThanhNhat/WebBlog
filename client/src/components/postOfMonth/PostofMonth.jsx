@@ -1,6 +1,10 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
-const PostofMonth = () => {
+const PostofMonth = ({ post }) => {
+  const { title, timeRead, createdAt,slug } = post;
+
+  const author = post.author;
+
   return (
     <div className="pom__content-item">
       <div className="pom__content-item-img">
@@ -16,7 +20,6 @@ const PostofMonth = () => {
           </div>
           <div className="suggest__content-details-save">
             <svg
-              _ngcontent-serverApp-c41=""
               id="Layer_1"
               data-name="Layer 1"
               fill="#969696"
@@ -26,17 +29,16 @@ const PostofMonth = () => {
               width="25"
             >
               <path
-                _ngcontent-serverApp-c41=""
                 d="M171.88,52.08a68,68,0,0,0-67.71,67.71v312.5A15.63,15.63,0,0,0,128.93,445L250,357.79,371.07,445a15.62,15.62,0,0,0,24.76-12.68V119.79a68,68,0,0,0-67.7-67.71Zm0,31.25H328.13a36.23,36.23,0,0,1,36.45,36.46v282L259.13,325.87a15.61,15.61,0,0,0-18.26,0L135.42,401.79v-282A36.23,36.23,0,0,1,171.88,83.33Z"
-                class="cls-1"
+                className="cls-1"
               ></path>
             </svg>
           </div>
         </div>
         <div className="pom__content-item-details-desc">
-          <Link to="/">
+          <Link to={`/post/${slug}`}>
             <h3 className="title-post">
-              Atomic Habits: Bạn đã hiểu đúng về tạo lập thói quen?
+              {title ? title : "Atomic Habits - Thói Quen Tạo Nên Sự Khác Biệt"}
             </h3>
           </Link>
         </div>
@@ -52,11 +54,13 @@ const PostofMonth = () => {
             </div>
             <div>
               <Link to="/">
-                <p className="post-username">một quả bơ</p>
+                <p className="post-username">
+                  {author ? author.userName : "Nguyễn Thanh Tùng"}
+                </p>
               </Link>
             </div>
             <div>
-              <span className="time-read">Hôm qua</span>
+              <span className="time-read">{post && post.createdAt}</span>
             </div>
           </div>
         </div>

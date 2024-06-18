@@ -39,3 +39,8 @@ export const apiCreatePost = async (data) => {
   const response = await axiosInstance.post(url, data);
   return response;
 };
+export const apiTopPostOfMonth = async () => {
+  const url = "/posts/top-month";
+  const response = await axiosInstance.get(url);
+  return response.data;
+};
