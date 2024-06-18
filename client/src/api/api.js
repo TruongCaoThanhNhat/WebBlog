@@ -1,5 +1,12 @@
 import axiosInstance from "@/config/axios";
 
+// user
+export const apiGetHotAuthor = async (data) => {
+  const url = "/user/hot-author";
+  const response = await axiosInstance.get(url, data);
+  return response.data;
+};
+
 export const apiGetAllCategory = async (data) => {
     const url = "/categorys/"; 
     const response = await axiosInstance.get(url, data);

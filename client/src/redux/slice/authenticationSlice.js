@@ -6,12 +6,14 @@ const authenticationSlice = createSlice({
     isLoggedIn: false,
     token: null,
     error: null,
+    userInfo: null,
   },
   reducers: {
     loginSuccess: (state, action) => {
       state.isLoggedIn = true;
       state.token = action.payload.token;
       state.error = null;
+      state.userInfo = action.payload;
     },
     loginFailure: (state, action) => {
       state.isLoggedIn = false;

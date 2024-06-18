@@ -27,7 +27,7 @@ const Login = () => {
       const res = await apiLogin(userName, password);
       const token = res.data.token;
       if (res) {
-        dispatch(loginSuccess(token));
+        dispatch(loginSuccess(res.data));
         Cookies.set("accessToken", token);
         navigate("/");
         console.log("Login successfully!"+token);
