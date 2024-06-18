@@ -138,3 +138,69 @@ export const getHotAuthors = async (req, res) => {
     })
   }
 }
+// update user 
+export const updateUser = async (req, res, next) => {
+  try {
+    const { userId } = req.user;
+    const user = await updateUserById(userId, req.body);
+    res.status(200).json({
+      status: "success",
+      data: user,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+export const updatePassword = async (req, res, next) => {
+  try {
+    const { userId } = req.user;
+    // const { oldPassword,password } = req.body
+    const getUser = await getUserById(userId);
+    const result = bcrypt.compareSync(req.body.oldPassword, getUser.password);
+    if (result) {
+      const newPassword = await bcrypt.hash(req.body.newPassword, 10);
+      console.log(newPassword);
+      const user = await updateUserById(userId, { password: newPassword });
+      res.status(200).json({
+        status: "success",
+        data: "Cập nhật mật khẩu thành công",
+      });
+    } else {
+      const err = new Error("Mật khẩu cũ không chính xác");
+      err.statusCode = 400;
+      return next(err);
+    }
+  } catch (err) {
+    res.status(500).json({
+      error: err,
+    });
+  }
+};
+export const updateUserEmail = async (req, res, next) => {
+  try {
+    const { userId } = req.user;
+    const { email, password } = req.body;
+    const getUser = await getUserById(userId);
+
+    const result = bcrypt.compareSync(password, getUser.password);
+
+    const dataUpdate = {
+      email: email,
+    };
+    if (result) {
+      await updateUserById(userId, dataUpdate);
+      res.status(200).json({
+        status: "OK",
+        data: "Cập nhật email thành công",
+      });
+    } else {
+      const err = new Error("Mật khẩu không chính xác");
+      err.statusCode = 400;
+      return next(err);
+    }
+  } catch (err) {
+    res.status(500).json({
+      error: err.message,
+    });
+  }
+};

@@ -37,8 +37,8 @@ router.get('/:username', getUser)
 // router.delete('/:userId/history/:postId', verifyToken, removePostUserHistory)
 // router.delete('/:userId/history/', verifyToken, clearPostUserHistory)
 // update user
-// router.put('/update/', verifyToken, updateUser)
-// router.put('/update/email', verifyToken, updateUserEmail)
-// router.put('/change-password', verifyToken, updatePassword)
+router.put('/update/', verifyToken, updateUser)
+router.put('/update/email', verifyToken, updateUserEmail)
+router.put('/change-password', verifyToken, updatePassword)
 
 export default router
