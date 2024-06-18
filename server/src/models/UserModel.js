@@ -76,6 +76,13 @@ const schema = new mongoose.Schema(
         default: [],
       },
     ],
+    history: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Post",
+        default: [],
+      },
+    ],
     isVerified: {
       type: Boolean,
       default: false,
@@ -100,12 +107,13 @@ const schema = new mongoose.Schema(
         default: [],
       },
     ],
-    role: {
-      type: "string",
-      // type: mongoose.Schema.Types.ObjectId,
-      // ref: 'Role',
-      // required: false,
-    },
+    role: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Role",
+        required: false,
+      },
+    ],
   },
   {
     timestamps: true,
