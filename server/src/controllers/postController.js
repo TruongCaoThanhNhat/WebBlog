@@ -291,3 +291,41 @@ export const getAllPostsCategoryUser = async (req, res, next) => {
     res.json(error);
   }
 };
+
+export const getTop10PostOfMonth = async (req, res, next) => {
+  try {
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+    const posts = await PostModel.find({
+      createdAt: { $gte: startOfMonth, $lte: endOfMonth },
+    })
+      .sort({ views: -1 }) // Sắp xếp theo lượt xem giảm dần
+      .limit(10) // Giới hạn lấy 10 bài viết
+      .populate("author", "userName avatar displayName postSaved")
+      .populate("category", "name slug")
+      .select("title description createdAt slug category attachment views"); // Lựa chọn các trường cần thiết
+
+    if (!posts || posts.length === 0) {
+      return res.status(404).json({
+        status: "No posts found",
+        data: [],
+      });
+    }
+
+    res.status(200).json({
+      status: "OK",
+      data: {
+        posts,
+      },
+    });
+  } catch (err) {
+    console.error("Error fetching top 10 posts:", err);
+    res.status(500).json({
+      status: "ERROR",
+      message: "Failed to fetch top 10 posts",
+      error: err.message,
+    });
+  }
+};
