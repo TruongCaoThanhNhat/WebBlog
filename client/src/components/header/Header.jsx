@@ -154,7 +154,7 @@ const Header = () => {
                       <div className="p-7 border-bottom">
                         <ul className="header__dropdown-list ">
                           <li className="header__dropdown-item p-13">
-                            <Link to="/user" className="header__dropdown-link">
+                            <Link to={`/user/${user.userInfo.userName}`} className="header__dropdown-link">
                               <i className="header__dropdown-icon bx bx-user"></i>
                               <p className="header__dropdown-text">Xem trang cá nhân</p>
                             </Link>
@@ -178,7 +178,7 @@ const Header = () => {
                             </Link>
                           </li>
                           <li className="header__dropdown-item p-13">
-                            <Link to="/user/settings" className="header__dropdown-link">
+                            <Link to="/user/setting" className="header__dropdown-link">
                               <i className="header__dropdown-icon bx bx-cog"></i>
                               <p className="header__dropdown-text">Tùy chỉnh tài khoản</p>
                             </Link>

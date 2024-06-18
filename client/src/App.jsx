@@ -16,7 +16,7 @@ function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/user" element={<UserPage />} />
+          <Route path="/user/:username" element={<UserPage />} />
           <Route path="/user/setting" element={<UserSettingPage />} />
           <Route path="/category/:slug" element={<CateDetails />} />
           <Route path="/post/:slug" element={<PostDetails />} />

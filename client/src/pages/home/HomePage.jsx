@@ -1,3 +1,4 @@
+import ListPostOMonth from "@/components/postOfMonth/ListPostOMonth";
 import FormSend from "../../components/author/FormSend";
 import ListWritter from "../../components/author/ListWritter";
 import OddPost from "../../components/author/OddPost";
@@ -9,7 +10,7 @@ const HomePage = () => {
     <div className="container-fluid">
 
       <section className="main">
-        {/* <ListPostOMonth /> */}
+        <ListPostOMonth />
         <div className="content row container-xl">
           <div className="col-lg-8 content-left flex-grow-1">
             <ListSuggest />

@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
-const PostofMonth = ({ post }) => {
-  const { title, timeRead, createdAt,slug } = post;
+const PostV2 = ({post}) => {
+  const {title, timeRead, createdAt,slug} = post;
 
   const author = post.author;
 
@@ -54,9 +54,10 @@ const PostofMonth = ({ post }) => {
             </div>
             <div>
               <Link to="/">
-                <p className="post-username">
-                  {author ? author.userName : "Nguyễn Thanh Tùng"}
-                </p>
+                <p className="post-username">{
+                  author ? author.userName : "Nguyễn Thanh Tùng"
+                
+                }</p>
               </Link>
             </div>
             <div>
@@ -69,4 +70,4 @@ const PostofMonth = ({ post }) => {
   );
 };
 
-export default PostofMonth;
+export default PostV2;

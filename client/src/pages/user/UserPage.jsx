@@ -1,12 +1,69 @@
 import "./user.scss";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { BsFeather } from "react-icons/bs";
 import { GoStack } from "react-icons/go";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { BsGrid } from "react-icons/bs";
-import PostofMonth from "../../components/postOfMonth/PostofMonth";
-
+import PostV2 from "@/components/postOfMonth/PostV2";
+import { useEffect, useState } from "react";
+import ProfileSidebar from "./ProfileSidebar";
+import {
+  apiGetPostsByUserName,
+} from "@/api/api";
+import { useSelector } from "react-redux";
+import { FaHistory } from "react-icons/fa";
 const UserPage = () => {
+  const user = useSelector((state) => state.user);
+  const { username } = useParams();
+  const [activeTab, setActiveTab] = useState("myPost");
+  const [posts, setPosts] = useState({});
+  const [savedPosts, setSavedPosts] = useState({});
+  const [historyPosts, setHistoryPosts] = useState({});
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+  };
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      const res = await apiGetPostsByUserName(username);
+      setPosts(res.data.posts);
+      //  console.log(res.data.posts);
+    };
+
+    fetchPost();
+  }, [username]);
+
+  // useEffect(() => {
+  //   const fetchPost = async () => {
+  //     const res = await apiGetPostUserSaved(user.userInfo.id);
+  //     setSavedPosts(res.savedPost);
+  //     // console.log("saved", res.savedPost);
+  //   };
+
+  //   fetchPost();
+  // }, [user.userInfo.id]);
+
+  // useEffect(() => {
+  //   const fetchHitory = async () => {
+  //     const res = await apiGetPostUserHistory(user.userInfo.id);
+  //     setHistoryPosts(res.history);
+  //     // console.log("saved", res.savedPost);
+  //   };
+
+  //   fetchHitory();
+  // }, [user.userInfo.id]);
+
+  // const handleRemoveHistory = async (postId) => {
+  //   const res = await apiRemoveUserHistory(user.userInfo.id, postId);
+  //   // console.log(res);
+  //   if (res.status === "success") {
+  //     // Xóa thành công, cập nhật lại trạng thái
+  //     setHistoryPosts((prevHistory) =>
+  //       prevHistory.filter((item) => item.postId !== postId)
+  //     );
+  //   }
+  // };
+
   return (
     <div className="main">
       <div className="user">
@@ -18,67 +75,51 @@ const UserPage = () => {
         </div>
         <div className="user__profile">
           <div className="user__profile-content row row-cols-md-1">
-            <div className="user__profile-sidebar row">
-              <div className="user__profile-dynamic row row-md">
-                <div className="user__profile-widget">
-                  <div className="user__profile-widget-body">
-                    <div className="user__profile-widget-content">
-                      <div className="user__profile-widget-avt">
-                        <Link to="/" className="user__profile-widget-avt-link">
-                          <img
-                            src="https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-avatar/888b36f07f5711ec834d91a0b30645b4.png"
-                            alt=""
-                          />
-                        </Link>
-                      </div>
-                      <h1 className="user__profile-widget-disname">
-                        <Link to="/">Trà Kha</Link>
-                      </h1>
-                      <p className="user__profile-widget-username">
-                        <Link to="/">@inrajakha</Link>
-                      </p>
-                      <div className="user__profile-widget-bio">
-                        ♩ ♪ ♫ ♬ ♭ ♪ ♩ ♪♫
-                      </div>
-                      <div className="user__profile-widget-button">
-                        <button className="user__profile-widget-button-item">
-                          <span>Theo dõi</span>
-                        </button>
-                        <button className="user__profile-widget-button-item">
-                          <span>Nhắn tin</span>
-                        </button>
-                      </div>
-                      <div className="user__profile-widget-stats">
-                        <div>
-                          <p className="label">Followers</p>
-                          <p className="value">5373</p>
-                        </div>
-                        <div>
-                          <p className="label">Following</p>
-                          <p className="value">5</p>
-                        </div>
-                        <div>
-                          <p className="label">Spider</p>
-                          <p className="value">5</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <ProfileSidebar />
             <div className="user__profile-post">
               <div className="profile__tabs">
-                <div className="profile__tabs-item active">
+                <div
+                  className={`profile__tabs-item ${
+                    activeTab === "myPost" ? "active" : ""
+                  }`}
+                  onClick={() => handleTabClick("myPost")}
+                >
                   <Link>
                     <BsFeather />
-                    <span>Bài viết (87)</span>
+                    <span>Bài viết ({posts?.length})</span>
                   </Link>
                 </div>
-                <div className="profile__tabs-item">
+                <div
+                  className={`profile__tabs-item ${
+                    activeTab === "series" ? "active" : ""
+                  }`}
+                  onClick={() => handleTabClick("series")}
+                >
                   <Link>
                     <GoStack />
                     <span>Series</span>
+                  </Link>
+                </div>
+                <div
+                  className={`profile__tabs-item ${
+                    activeTab === "saved" ? "active" : ""
+                  }`}
+                  onClick={() => handleTabClick("saved")}
+                >
+                  <Link>
+                    <GoStack />
+                    <span>Saved</span>
+                  </Link>
+                </div>
+                <div
+                  className={`profile__tabs-item ${
+                    activeTab === "history" ? "active" : ""
+                  }`}
+                  onClick={() => handleTabClick("history")}
+                >
+                  <Link>
+                    <FaHistory />
+                    <span>History</span>
                   </Link>
                 </div>
               </div>
@@ -152,20 +193,61 @@ const UserPage = () => {
                   </div>
                 </div>
                 <div className="profile__posts-list">
-                  <div className="profile__posts-list-layout row">
-                    <div className="">
-                      <PostofMonth></PostofMonth>
+                  {activeTab === "myPost" && (
+                    <div className="profile__posts-list-layout row">
+                      {posts &&
+                        posts.length &&
+                        posts.map((post, index) => (
+                          <div className="" key={index}>
+                            <PostV2 post={post}></PostV2>
+                          </div>
+                        ))}
                     </div>
-                    <div className="">
-                      <PostofMonth></PostofMonth>
+                  )}
+                  {activeTab === "series" && (
+                    <div className="profile__posts-list-layout row">
+                      <div className="">
+                        <PostV2 post={""}></PostV2>
+                      </div>
+                      <div className="">
+                        <PostV2 post={""}></PostV2>
+                      </div>
+                      <div className="">
+                        <PostV2 post={""}></PostV2>
+                      </div>
+                      <div className="">
+                        <PostV2 post={""}></PostV2>
+                      </div>
                     </div>
-                    <div className="">
-                      <PostofMonth></PostofMonth>
+                  )}
+                  {activeTab === "history" && (
+                    <div className="profile__posts-list-layout row">
+                      {historyPosts &&
+                        historyPosts.length &&
+                        historyPosts.map((post, index) => (
+                          <div className="" key={index}>
+                            <button
+                              className="btn btn-danger fs-4"
+                              onClick={() => handleRemoveHistory(post._id)}
+                            >
+                              Xóa
+                            </button>
+                            <PostV2 post={post}></PostV2>
+                          </div>
+                        ))}
                     </div>
-                    <div className="">
-                      <PostofMonth></PostofMonth>
+                  )}
+                  {activeTab === "saved" && (
+                    <div className="profile__posts-list-layout row">
+                      {savedPosts &&
+                        savedPosts.length &&
+                        savedPosts.map((post, index) => (
+                          <div className="" key={index}>
+                            <PostV2 post={post}></PostV2>
+                          </div>
+                        ))}
                     </div>
-                  </div>
+                  )}
                 </div>
                 <div className=""></div>
               </div>
