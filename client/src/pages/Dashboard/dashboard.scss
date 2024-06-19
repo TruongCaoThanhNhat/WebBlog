@@ -1,0 +1,19 @@
+.dashboard-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    .main-content {
+        display: flex;
+        flex: 1;
+        margin-top: 60px;
+        /* Adjust for the height of the fixed header */
+    }
+    .content {
+        margin-left: 250px;
+        /* Adjust for the width of the sidebar */
+        flex: 1;
+        padding: 20px;
+        background-color: #fdfdfd;
+        overflow-y: auto;
+    }
+}

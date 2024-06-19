@@ -1,0 +1,36 @@
+.user-management-table {
+    // float: right;
+    // width: 70%;
+    padding: 20px;
+    h2 {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .table {
+        width: 100%;
+        border-collapse: collapse;
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        img {
+            max-width: 50px;
+            border-radius: 50%;
+        }
+        .btn {
+            padding: 0;
+            color: #232324;
+            &:hover {
+                color: #2a2b2c;
+            }
+            i {
+                font-size: 1.2rem;
+            }
+        }
+    }
+}
