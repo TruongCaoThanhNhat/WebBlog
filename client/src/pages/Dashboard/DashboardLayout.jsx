@@ -1,23 +1,47 @@
 import React, { useState } from 'react';
 import SideBar from './components/sideBar/SideBar';
-import Header from './components/header/Header';
 import UserManager from './components/Manager/UserManager';
-import './dashboard.scss';
+import './dashboardLayout.scss';
+import Main from './components/dashboard/Main';
+import ArticleManager from './components/Manager/ArticleManager';
+import PostManager from './components/Manager/PostManager';
+import HeaderDashboard from './components/header/HeaderDashboard';
 
 function DashboardLayout() {
-    const [isUserManagementVisible, setIsUserManagementVisible] = useState(false);
+    const [activeComponent, setActiveComponent] = useState('dashboard');
+
+    const handleDashboardClick = (e) => {
+        e.preventDefault(); // Prevent default anchor behavior
+        setActiveComponent('dashboard');
+    };
 
     const handleUserManagementClick = () => {
-        setIsUserManagementVisible(!isUserManagementVisible);
+        setActiveComponent('userManager');
+    };
+
+    const handleArticleManagementClick = () => {
+        setActiveComponent('articleManager');
+    };
+
+    const handlePostManagementClick = () => {
+        setActiveComponent('postManager');
     };
 
     return (
         <div className="dashboard-layout">
-            <Header />
+            <HeaderDashboard/>
             <div className="main-content">
-                <SideBar onUserManagementClick={handleUserManagementClick} />
+                <SideBar 
+                    onDashboardClick={handleDashboardClick}
+                    onUserManagementClick={handleUserManagementClick} 
+                    onArticleManagementClick={handleArticleManagementClick}
+                    onPostManagementClick={handlePostManagementClick}
+                />
                 <div className="content">
-                    {isUserManagementVisible && <UserManager />}
+                    {activeComponent === 'dashboard' && <Main/>}
+                    {activeComponent === 'userManager' && <UserManager />}
+                    {activeComponent === 'articleManager' && <ArticleManager/>}
+                    {activeComponent === 'postManager' && <PostManager/>}
                 </div>
             </div>
         </div>

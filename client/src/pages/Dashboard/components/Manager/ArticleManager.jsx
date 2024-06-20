@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import './userManager.scss';
-
-function UserManager() {
+import React, { useState } from 'react'
+import './articleManager.scss'
+function ArticleManager() {
     const [users, setUsers] = useState([
         {
             id: 1,
@@ -72,10 +71,10 @@ function UserManager() {
 
     return (
         <div className="user-management-table">
-            <h2>Quản lý người dùng</h2>
+            <h2>Quản lý bài viết</h2>
             {isEditing ? (
                 <div className="edit-form">
-                    <h3>Edit User</h3>
+                    <h3>Chỉnh sửa bài viết</h3>
                     <form onSubmit={handleSave}>
                         <label>
                             Name:
@@ -165,4 +164,4 @@ function UserManager() {
     );
 }
 
-export default UserManager;
+export default ArticleManager

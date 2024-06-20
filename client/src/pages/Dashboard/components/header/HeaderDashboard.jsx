@@ -1,14 +1,14 @@
 import React from 'react'
-import './header.scss'
+import './headerDashboard.scss'
 import Logo from '../Logo/Logo'
 import SearchBar from '../searchBar/SearchBar'
 import Nav from '../nav/Nav'
 
 
 
-function Header() {
+function HeaderDashboard() {
   return (
-    <header id="header" className="header fixed-top d-flex align-items-center">
+    <header id="headers" className="headers fixed-top d-flex align-items-center">
         <Logo/>
        
          <SearchBar/>
@@ -18,4 +18,4 @@ function Header() {
   )
 }
 
-export default Header
+export default HeaderDashboard

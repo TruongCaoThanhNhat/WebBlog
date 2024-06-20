@@ -1,0 +1,177 @@
+{
+    "cards": [{
+            "_id": 1,
+            "name": "Sales",
+            "icon": "bi bi-cart",
+            "amount": 145,
+            "percentage": 0.12,
+            "active": true
+        },
+        {
+
+            "_id": 2,
+            "name": "Revenue",
+            "icon": "bi bi-currency-dollar",
+            "amount": 3246,
+            "percentage": 0.08,
+            "active": false
+        }, {
+            "_id": 3,
+            "name": "Customers",
+            "icon": "bi bi-people",
+            "amount": 1244,
+            "percentage": -0.11,
+            "active": false
+        }
+    ],
+    "news": [{
+            "_id": 1,
+            "img": "../assets/items/news-1.jpg",
+            "title": "Nihil blanditiis at in nihil autem",
+            "subtitle": "Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut har",
+            "category": "abc"
+        },
+        {
+            "_id": 2,
+            "img": "../assets/items/news-1.jpg",
+            "title": "Nihil blanditiis at in nihil autem",
+            "subtitle": "Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut har",
+            "category": "abc"
+        },
+        {
+            "_id": 3,
+            "img": "../assets/items/news-1.jpg",
+            "title": "Nihil blanditiis at in nihil autem",
+            "subtitle": "Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut har",
+            "category": "abc"
+        },
+        {
+            "_id": 4,
+            "img": "../assets/items/news-1.jpg",
+            "title": "Nihil blanditiis at in nihil autem",
+            "subtitle": "Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut har",
+            "category": "abc"
+        },
+        {
+            "_id": 5,
+            "img": "../assets/items/news-1.jpg",
+            "title": "Nihil blanditiis at in nihil autem",
+            "subtitle": "Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut har",
+            "category": "abc"
+        }
+    ],
+    "topselling": [{
+            "_id": 1,
+            "preview": "../assets/items/product-1.jpg",
+            "name": "Ut inventore ipsa voluptas nulla",
+            "price": 64,
+            "sold": 124
+        },
+        {
+            "_id": 2,
+            "preview": "../assets/items/product-2.jpg",
+            "name": "Exercitationem similique doloremque",
+            "price": 46,
+            "sold": 98
+        },
+        {
+            "_id": 3,
+            "preview": "../assets/items/product-3.jpg",
+            "name": "Doloribus nisi exercitationem",
+            "price": 59,
+            "sold": 74
+        },
+        {
+            "_id": 4,
+            "preview": "../assets/items/product-3.jpg",
+            "name": "Doloribus nisi exercitationem",
+            "price": 59,
+            "sold": 74
+        },
+        {
+            "_id": 5,
+            "preview": "../assets/items/product-3.jpg",
+            "name": "Doloribus nisi exercitationem",
+            "price": 59,
+            "sold": 74
+        }
+    ],
+    "recentsales": [{
+            "_id": 1,
+            "number": "#2457",
+            "customer": "Brandon Jacob",
+            "product": "At praesentium minu",
+            "price": 64,
+            "status": "Approved"
+        },
+        {
+            "_id": 2,
+            "number": "#2457",
+            "customer": "Brandon Jacob",
+            "product": "At praesentium minu",
+            "price": 64,
+            "status": "Approved"
+        },
+        {
+            "_id": 3,
+            "number": "#2457",
+            "customer": "Brandon Jacob",
+            "product": "At praesentium minu",
+            "price": 64,
+            "status": "Approved"
+        },
+        {
+            "_id": 4,
+            "number": "#2457",
+            "customer": "Brandon Jacob",
+            "product": "At praesentium minu",
+            "price": 64,
+            "status": "Approved"
+        },
+        {
+            "_id": 5,
+            "number": "#2457",
+            "customer": "Brandon Jacob",
+            "product": "At praesentium minu",
+            "price": 64,
+            "status": "Approved"
+        }
+    ],
+    "recentactiviy": [{
+            "_id": 1,
+            "time": "32 min",
+            "color": "text-success",
+            "content": "Quia quae rerum explicabo officiis beatae",
+            "highlight": "explicabo officiis"
+        },
+        {
+            "_id": 2,
+            "time": "32 min",
+            "color": "text-success",
+            "content": "Quia quae rerum explicabo officiis beatae",
+            "highlight": "explicabo officiis"
+        },
+        {
+            "_id": 3,
+            "time": "32 min",
+            "color": "text-success",
+            "content": "Quia quae rerum explicabo officiis beatae",
+            "highlight": "explicabo officiis"
+        },
+        {
+            "_id": 4,
+            "time": "32 min",
+            "color": "text-success",
+            "content": "Quia quae rerum explicabo officiis beatae",
+            "highlight": "explicabo officiis"
+        },
+        {
+            "_id": 5,
+            "time": "32 min",
+            "color": "text-success",
+            "content": "Quia quae rerum explicabo officiis beatae",
+            "highlight": "explicabo officiis"
+        }
+    ]
+
+}
