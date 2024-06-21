@@ -10,10 +10,12 @@ import Register from "./pages/Register/Register";
 import CateDetails from "./pages/CateDetails/CateDetails";
 import HomePage from "./pages/home/HomePage";
 import 'boxicons/css/boxicons.min.css';
+import { ToastContainer } from "react-toastify";
 
 function App() {
   return (
     <>
+      <ToastContainer />
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />

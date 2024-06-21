@@ -3,8 +3,27 @@ import { BsChatLeft, BsDot } from "react-icons/bs";
 import { FaRegEye } from "react-icons/fa";
 import { FiBookmark } from "react-icons/fi";
 import "./post.scss";
+import { useEffect, useState } from "react";
+import usePostActions from "@/hooks/usePostActions";
 const Post = ({ post }) => {
-  const { _id, title, image,description, author, category, createdAt, slug="" } = post;
+  const [newPost, setNewPost] = useState([]);
+  const { updatePost, handleView, isBookmarked , handleBookmark} = usePostActions(newPost);
+  useEffect(() => {
+    setNewPost(post);
+  }, [post]);
+  const {
+    _id,
+    title,
+    description,
+    author,
+    views,
+    comment_count,
+    point,
+    image,
+    category,
+    createdAt,
+    slug = "",
+  } = newPost;
   // console.log(_id, title,image, description, author, category, createdAt, slug);
   return (
     <div className="colc l-12">
@@ -13,9 +32,13 @@ const Post = ({ post }) => {
           <div className="row row-cols-2">
             <div className="col-xxl-4 col-lg-5 col-md-4">
               <div className="post__content-img">
-                <Link to="/">
+                <Link to="/" onClick={handleView}>
                   <img
-                  src={image && image ? image : "https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-thumbnails/defaultthumbnail.png"}
+                    src={
+                      image && image
+                        ? image
+                        : "https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-thumbnails/defaultthumbnail.png"
+                    }
                     // src="https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-thumbnails/defaultthumbnail.png"
                     alt=""
                   />
@@ -26,7 +49,11 @@ const Post = ({ post }) => {
               <div className="post__content-details">
                 <div className="post__content-details-heading">
                   <div className="">
-                    <Link to={`/category/${category && category.slug ? category.slug :""}`}>
+                    <Link
+                      to={`/category/${
+                        category && category.slug ? category.slug : ""
+                      }`}
+                    >
                       <span className="title-category">
                         {category && category.name
                           ? category.name
@@ -36,14 +63,19 @@ const Post = ({ post }) => {
                     <BsDot className="icon-dot" />
                     <span className="time-read"> 4 phút đọc</span>
                   </div>
-                  <div className="post__content-details-save">
+                  <div
+                    className={`post__content-details-save ${
+                      isBookmarked ? "bookmarked" : ""
+                    }`}
+                    onClick={handleBookmark}
+                  >
                     <span className="icon-bookmark">
                       <FiBookmark />
                     </span>
                   </div>
                 </div>
                 <div className="post__content-details-main">
-                  <Link to={`/post/${slug}`}>
+                  <Link to={`/post/${slug}`} onClick={handleView}>
                     <h3 className="title-post">
                       {title
                         ? title
@@ -97,19 +129,19 @@ const Post = ({ post }) => {
                           </svg>
                         </i>
                       </div>
-                      <span className="upvote-value"> 554</span>
+                      <span className="upvote-value"> {updatePost.point}</span>
                     </div>
                     <div>
                       <span className="icon-eye">
                         <FaRegEye />
                       </span>
-                      <span className="post-icon"> 2</span>
+                      <span className="post-icon"> {views}</span>
                     </div>
                     <div>
                       <span className="icon-chat">
                         <BsChatLeft />
                       </span>
-                      <span className="post-icon"> 2</span>
+                      <span className="post-icon"> {comment_count}</span>
                     </div>
                   </div>
                 </div>
