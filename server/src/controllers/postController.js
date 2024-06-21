@@ -355,3 +355,177 @@ export const updateView = async (req, res, next) => {
     next(err);
   }
 };
+export const votePost = async (req, res, next) => {
+  const { userId } = req.user;
+  const action = req.body.action;
+  const postId = req.params.postId;
+  const findPost = await PostModel.findOne({ _id: postId });
+  // 1 vote
+  if (action === "1" || "vote") {
+    try {
+      const find = await PostModel.find({
+        _id: { $in: postId },
+        vote: { $in: userId },
+      });
+      if (find.length === 0) {
+        const data = await PostModel.findOneAndUpdate(
+          { _id: postId },
+          {
+            $push: {
+              vote: userId,
+            },
+            $pull: {
+              unVote: userId,
+            },
+            $inc: { point: 1 },
+          },
+          {
+            new: true,
+          }
+        );
+        res.status(200).json({
+          status: "success",
+          points: data.vote.length - data.unVote.length,
+          type: "vote",
+        });
+      } else if (find.length !== 0) {
+        const data = await PostModel.findOneAndUpdate(
+          {
+            _id: postId,
+          },
+          {
+            $pull: {
+              vote: userId,
+            },
+            $inc: { point: -1 },
+          },
+          {
+            new: true,
+          }
+        );
+        res.status(200).json({
+          status: "OK",
+          points: data.vote.length - data.unVote.length,
+          type: "unvote",
+        });
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
+  // 2 unvote
+  else if (action === "2" || "unvote") {
+    try {
+      const find = await PostModel.find({
+        _id: { $in: postId },
+        vote: { $in: userId },
+      });
+      if (find.length === 0) {
+        try {
+          const findUnVote = await PostModel.find({
+            _id: { $in: postId },
+            unVote: { $in: userId },
+          });
+          if (findUnVote.length === 0) {
+            const data = await PostModel.findOneAndUpdate(
+              { _id: postId },
+              {
+                $push: {
+                  unVote: userId,
+                  $inc: { point: -1 },
+                },
+              },
+              {
+                new: true,
+              }
+            );
+            res.status(200).json({
+              status: "success",
+              points: data.vote.length - data.unVote.length,
+            });
+          } else if (findUnVote.length !== 0) {
+            const data = await PostModel.findOneAndUpdate(
+              {
+                _id: postId,
+              },
+              {
+                $pull: {
+                  unVote: userId,
+                  $inc: { point: 1 },
+                },
+              },
+              {
+                new: true,
+              }
+            );
+            res.status(200).json({
+              status: "OK",
+              points: data.vote.length - data.unVote.length,
+            });
+          }
+        } catch (err) {
+          next(err);
+        }
+      } else if (find.length !== 0) {
+        await PostModel.findOneAndUpdate(
+          { _id: postId },
+          {
+            $pull: {
+              vote: userId,
+              $inc: { point: -1 },
+            },
+          },
+          {
+            new: true,
+          }
+        );
+        try {
+          const findUnVote = await PostModel.find({
+            _id: { $in: postId },
+            unVote: { $in: userId },
+          });
+          if (findUnVote.length === 0) {
+            const data = await PostModel.findOneAndUpdate(
+              { _id: postId },
+              {
+                $push: {
+                  unVote: userId,
+                  $inc: { point: 1 },
+                },
+              },
+              {
+                new: true,
+              }
+            );
+            res.status(200).json({
+              status: "success",
+              points: data.vote.length - data.unVote.length,
+            });
+          } else if (findUnVote.length !== 0) {
+            const data = await PostModel.findOneAndUpdate(
+              {
+                _id: postId,
+              },
+              {
+                $pull: {
+                  vote: userId,
+                },
+              },
+              {
+                new: true,
+              }
+            );
+            res.status(200).json({
+              status: "OK",
+              points: data.vote.length - data.unVote.length,
+            });
+          }
+        } catch (err) {
+          next(err);
+        }
+      }
+    } catch (err) {
+      next(err);
+    }
+  }
+};
