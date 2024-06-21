@@ -7,13 +7,21 @@ import {
   getPost,
   getPostsByCategory,
   getPostsByUserName,
+  getTop10PostOfMonth,
   updatePost,
+  updateView,
   uploadImage,
+  votePost,
 } from '../controllers/postController.js'
 import { verifyToken } from '../middleware/verifyToken.js';
 // import { upload } from '@/middlewares/multers'
 
 const router = express.Router()
+router.get("/top-month", getTop10PostOfMonth);
+// view post
+router.put("/:postId/update-view", updateView);
+router.post("/:postId/vote", verifyToken, votePost);
+
 router.put("/:postId", verifyToken, updatePost);
 router.delete("/:postId", verifyToken, deletePost);
 router.get("/", getAllPosts);
