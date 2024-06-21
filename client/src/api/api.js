@@ -13,6 +13,23 @@ export const apiGetAuthor = async (username) => {
   return response.data;
 };
 
+// add user saved
+export const apiGetPostUserSaved = async (userId) => {
+  const url = `/user/${userId}/saved`;
+  const response = await axiosInstance.get(url);
+  return response.data;
+};
+export const apiAddUserSaved = async (userId, postId) => {
+  const url = `/user/${userId}/saved`;
+  const response = await axiosInstance.post(url, postId);
+  return response.data;
+};
+export const apiRemoveUserSaved = async (userId, postId) => {
+  const url = `/user/${userId}/saved/${postId}`;
+  const response = await axiosInstance.delete(url);
+  return response.data;
+};
+
 // category
 export const apiGetAllCategory = async (data) => {
     const url = "/categorys/"; 
@@ -54,5 +71,32 @@ export const apiTopPostOfMonth = async () => {
 export const apiGetPostsByUserName = async (username) => {
   const url = `/posts/user/${username}`;
   const response = await axiosInstance.get(url);
+  return response.data;
+};
+export const apiUpdateViewPost = async (id) => {
+  const url = `/posts/${id}/update-view`;
+  const response = await axiosInstance.put(url);
+  return response.data;
+};
+export const apiUpdateVote = async (id, action) => {
+  const url = `/posts/${id}/vote`;
+  const response = await axiosInstance.post(url, action);
+  return response.data;
+};
+
+// history
+export const apiGetPostUserHistory= async (userId) => {
+  const url = `/user/${userId}/history`;
+  const response = await axiosInstance.get(url);
+  return response.data;
+};
+export const apiAddUserHistory = async (userId, postId) => {
+  const url = `/user/${userId}/history`;
+  const response = await axiosInstance.post(url, postId);
+  return response.data;
+};
+export const apiRemoveUserHistory = async (userId, postId) => {
+  const url = `/user/${userId}/history/${postId}`;
+  const response = await axiosInstance.delete(url);
   return response.data;
 };
