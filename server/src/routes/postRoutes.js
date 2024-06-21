@@ -9,6 +9,7 @@ import {
   getPostsByUserName,
   getTop10PostOfMonth,
   updatePost,
+  updateView,
   uploadImage,
 } from '../controllers/postController.js'
 import { verifyToken } from '../middleware/verifyToken.js';
@@ -16,7 +17,8 @@ import { verifyToken } from '../middleware/verifyToken.js';
 
 const router = express.Router()
 router.get("/top-month", getTop10PostOfMonth);
-
+// view post
+router.put("/:postId/update-view", updateView);
 
 router.put("/:postId", verifyToken, updatePost);
 router.delete("/:postId", verifyToken, deletePost);

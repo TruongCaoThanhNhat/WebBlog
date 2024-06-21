@@ -329,3 +329,29 @@ export const getTop10PostOfMonth = async (req, res, next) => {
     });
   }
 };
+
+
+//
+export const updateView = async (req, res, next) => {
+  // const postId = req.body.postId
+  const postId = req.params.postId;
+  const prevViews = await PostModel.findById({ _id: postId });
+  try {
+    const post = await PostModel.findByIdAndUpdate(
+      postId,
+      {
+        views: prevViews.views + 1,
+      },
+      {
+        new: true,
+        runValidator: true,
+      }
+    );
+    res.status(200).json({
+      status: "OK",
+      data: post,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
