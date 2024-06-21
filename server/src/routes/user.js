@@ -28,9 +28,9 @@ router.get('/hot-author', getHotAuthors)
 router.get('/profile', verifyToken, getProfile)
 router.get('/:username', getUser)
 // saved post
-// router.get('/:userId/saved', verifyToken, getPostUserSaved)
-// router.post('/:userId/saved', verifyToken, addPostUserSaved)
-// router.delete('/:userId/saved/:postId', verifyToken, removePostUserSaved)
+router.get('/:userId/saved', verifyToken, getPostUserSaved)
+router.post('/:userId/saved', verifyToken, addPostUserSaved)
+router.delete('/:userId/saved/:postId', verifyToken, removePostUserSaved)
 // history
 router.get('/:userId/history', verifyToken, getPostUserHistory)
 router.post('/:userId/history', verifyToken, addPostUserHistory)

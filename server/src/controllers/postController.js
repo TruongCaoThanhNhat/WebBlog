@@ -529,3 +529,64 @@ export const votePost = async (req, res, next) => {
     }
   }
 };
+
+// saved post
+export const getPostUserSaved = async (req, res, next) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await UserModel.findById(userId).populate("postSaved");
+
+    res.status(200).json({
+      status: "success",
+      savedPost: user.postSaved,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const addPostUserSaved = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const { postId } = req.body;
+
+    const user = await getUserById(userId);
+    const post = await PostModel.findById(postId);
+    if (!post) {
+      return res.status(404).json({ error: "Post not found" });
+    }
+
+    if (!user.postSaved.includes(postId)) {
+      user.postSaved.push(postId);
+      await user.save();
+      return res.status(200).json({ message: "Post saved successfully" });
+    } else {
+      return res.status(200).json({ message: "Post already saved" });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const removePostUserSaved = async (req, res, next) => {
+  const { userId, postId } = req.params;
+  try {
+    const user = await getUserById(userId);
+    // Đảm bảo rằng savedPosts là một mảng
+    if (!Array.isArray(user.savedPosts)) {
+      user.savedPosts = [];
+    }
+
+    const postIndex = user.postSaved.indexOf(postId);
+    if (postIndex !== -1) {
+      user.postSaved.splice(postIndex, 1);
+      await user.save();
+      return res.status(200).json({ message: "Post removed successfully" });
+    } else {
+      return res.status(404).json({ error: "Post not found in saved list" });
+    }
+  } catch (error) {
+    next(error);
+  }
+};
