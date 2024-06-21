@@ -12,6 +12,21 @@ export const apiGetAuthor = async (username) => {
   const response = await axiosInstance.get(url);
   return response.data;
 };
+export const apiGetCurentUser = async () => {
+  const url = `/user/profile`;
+  const response = await axiosInstance.get(url);
+  return response.data;
+};
+export const apiUpdateUserInfo = async (data) => {
+  const url = `/user/update`;
+  const response = await axiosInstance.put(url, data);
+  return response.data;
+};
+export const apiChangePass = async (data) => {
+  const url = `/user/change-password`;
+  const response = await axiosInstance.put(url, data);
+  return response.data;
+};
 
 // add user saved
 export const apiGetPostUserSaved = async (userId) => {
