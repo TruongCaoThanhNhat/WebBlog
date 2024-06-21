@@ -30,14 +30,14 @@ function DashboardLayout() {
     return (
         <div className="dashboard-layout">
             <HeaderDashboard/>
-            <div className="main-content">
+            <div className="main-contents">
                 <SideBar 
                     onDashboardClick={handleDashboardClick}
                     onUserManagementClick={handleUserManagementClick} 
                     onArticleManagementClick={handleArticleManagementClick}
                     onPostManagementClick={handlePostManagementClick}
                 />
-                <div className="content">
+                <div className="contents">
                     {activeComponent === 'dashboard' && <Main/>}
                     {activeComponent === 'userManager' && <UserManager />}
                     {activeComponent === 'articleManager' && <ArticleManager/>}

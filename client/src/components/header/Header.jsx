@@ -125,6 +125,11 @@ const Header = () => {
                     <Link to="/create-post">Viết bài</Link>
                   </button>
                 </div>
+                <div className="">
+                  <button className="header__button ">
+                    <Link to="/dashboard">Admin</Link>
+                  </button>
+                </div>
                 <div className="header__avt" onClick={handleShowDropDown}>
                   <img
                     src="https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-xs-avatar/aec845906a1911ec8130097cb62284e8.png"

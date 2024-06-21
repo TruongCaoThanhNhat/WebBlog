@@ -1,62 +1,71 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './userManager.scss';
+import { apiGetAllUserAdmin, apiUpdateUser, apiDeleteUser } from '@/api/api';
 
 function UserManager() {
-    const [users, setUsers] = useState([
-        {
-            id: 1,
-            avatar: 'https://via.placeholder.com/50',
-            name: 'John Doe',
-            date: '2023-06-01',
-            postTitle: 'First Post'
-        },
-        {
-            id: 2,
-            avatar: 'https://via.placeholder.com/50',
-            name: 'Jane Smith',
-            date: '2023-06-05',
-            postTitle: 'Second Post'
-        },
-        {
-            id: 3,
-            avatar: 'https://via.placeholder.com/50',
-            name: 'Sam Wilson',
-            date: '2023-06-10',
-            postTitle: 'Third Post'
-        }
-    ]);
-
+    const [users, setUsers] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
     const [currentUser, setCurrentUser] = useState(null);
     const [avatarFile, setAvatarFile] = useState(null);
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const userManager = await apiGetAllUserAdmin();
+                setUsers(userManager.data.users);
+            } catch (error) {
+                console.error("Failed to fetch users:", error);
+            }
+        };
+
+        fetchUsers();
+    }, []);
 
     const handleEdit = (user) => {
         setIsEditing(true);
         setCurrentUser(user);
     };
 
-    const handleDelete = (userId) => {
-        setUsers(users.filter(user => user.id !== userId));
-    };
-
-    const handleSave = (e) => {
-        e.preventDefault();
-        if (avatarFile) {
-            // Upload avatar file logic (e.g., using FormData or uploading to server)
-            // For demonstration, let's assume we're updating the avatar URL directly
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                setCurrentUser({ ...currentUser, avatar: event.target.result });
-                setUsers(users.map(user => (user.id === currentUser.id ? { ...user, avatar: event.target.result } : user)));
-                setIsEditing(false);
-                setAvatarFile(null);
-            };
-            reader.readAsDataURL(avatarFile);
-        } else {
-            setUsers(users.map(user => (user.id === currentUser.id ? currentUser : user)));
-            setIsEditing(false);
+    const handleDelete = async (userId) => {
+        try {
+            await apiDeleteUser(userId);
+            setUsers(users.filter(user => user._id !== userId));
+        } catch (error) {
+            console.error("Failed to delete user:", error);
         }
     };
+
+    const handleSave = async (e) => {
+        e.preventDefault();
+        try {
+            let updatedUser = { ...currentUser };
+    
+            if (avatarFile) {
+                const reader = new FileReader();
+                reader.onload = async (event) => {
+                    updatedUser.avatar = event.target.result;
+                    await saveUser(updatedUser);
+                };
+                reader.readAsDataURL(avatarFile);
+            } else {
+                await saveUser(updatedUser);
+            }
+        } catch (error) {
+            console.error("Failed to update user:", error);
+        }
+    };
+    
+const saveUser = async (user) => {
+    try {
+        console.log(user,)
+        const response = await apiUpdateUser(user._id, user);
+        setUsers(users.map(user => (user._id === user._id? response.data.data : user)));
+        setIsEditing(false);
+        setAvatarFile(null);
+    } catch (error) {
+        console.error("Failed to save user:", error);
+    }
+};
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -81,46 +90,48 @@ function UserManager() {
                             Name:
                             <input
                                 type="text"
-                                name="name"
-                                value={currentUser.name}
+                                name="userName"
+                                value={currentUser.userName}
                                 onChange={handleChange}
                                 required
                             />
                         </label>
                         <label>
-                            Date:
-                            <input
-                                type="date"
-                                name="date"
-                                value={currentUser.date}
-                                onChange={handleChange}
-                                required
-                            />
-                        </label>
-                        <label>
-                            Post Title:
+                            Email:
                             <input
                                 type="text"
-                                name="postTitle"
-                                value={currentUser.postTitle}
+                                name="email"
+                                value={currentUser.email}
                                 onChange={handleChange}
                                 required
                             />
                         </label>
                         <label>
-                            Current Avatar:
-                            <img src={currentUser.avatar} alt={currentUser.name} />
+                            Mobile:
+                            <input
+                                type="text"
+                                name="mobile"
+                                value={currentUser.mobile}
+                                onChange={handleChange}
+                                required
+                            />
                         </label>
                         <label>
-                            New Avatar:
-                            <div className="file-input">
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleFileChange}
-                                />
-                                <label>Choose File</label>
-                            </div>
+                            Address:
+                            <input
+                                type="text"
+                                name="address"
+                                value={currentUser.address}
+                                onChange={handleChange}
+                                required
+                            />
+                        </label>
+                        <label>
+                            Avatar:
+                            <input
+                                type="file"
+                                onChange={handleFileChange}
+                            />
                         </label>
                         <button type="submit" className="save-button">
                             Save
@@ -136,23 +147,25 @@ function UserManager() {
                         <tr>
                             <th>Avatar</th>
                             <th>Name</th>
-                            <th>Date</th>
-                            <th>Post Title</th>
-                            <th>Actions</th>
+                            <th>Email</th>
+                            <th>Mobile</th>
+                            <th>Address</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map(user => (
-                            <tr key={user.id}>
-                                <td><img src={user.avatar} alt={user.name} /></td>
-                                <td>{user.name}</td>
-                                <td>{user.date}</td>
-                                <td>{user.postTitle}</td>
+                        {users && users.map((user) => (
+                            <tr key={user._id}>
+                                <td><img src={user && user.avatar ? user.avatar:''} alt={user && user.userName ? user.userName:''} /></td>
+                                <td>{user && user.userName ? user.userName:''}</td>
+                                <td>{user && user.email ? user.email:''}</td>
+                                <td>{user && user.mobile ? user.mobile:''}</td>
+                                <td>{user && user.address ? user.address:''}</td>
                                 <td>
                                     <button onClick={() => handleEdit(user)} className="btn btn-link">
                                         <i className="bi bi-pencil-square"></i>
                                     </button>
-                                    <button onClick={() => handleDelete(user.id)} className="btn btn-link">
+                                    <button onClick={() => handleDelete(user)} className="btn btn-link">
                                         <i className="bi bi-trash"></i>
                                     </button>
                                 </td>

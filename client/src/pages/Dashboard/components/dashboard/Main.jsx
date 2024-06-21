@@ -5,7 +5,7 @@ import Dashboard from './Dashboard';
 
 function Main() {
   return (
-    <main id="main" className="main">
+    <main id="mains" className="mains">
       <PageTitle page="Dashboard"/>
       <Dashboard />
     </main>
