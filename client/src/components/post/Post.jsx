@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import usePostActions from "@/hooks/usePostActions";
 const Post = ({ post }) => {
   const [newPost, setNewPost] = useState([]);
-  const { updatePost, handleView } = usePostActions(newPost);
+  const { updatePost, handleView, isBookmarked , handleBookmark} = usePostActions(newPost);
   useEffect(() => {
     setNewPost(post);
   }, [post]);
@@ -63,7 +63,12 @@ const Post = ({ post }) => {
                     <BsDot className="icon-dot" />
                     <span className="time-read"> 4 phút đọc</span>
                   </div>
-                  <div className="post__content-details-save">
+                  <div
+                    className={`post__content-details-save ${
+                      isBookmarked ? "bookmarked" : ""
+                    }`}
+                    onClick={handleBookmark}
+                  >
                     <span className="icon-bookmark">
                       <FiBookmark />
                     </span>

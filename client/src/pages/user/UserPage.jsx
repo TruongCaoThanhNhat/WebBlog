@@ -1,5 +1,5 @@
 import "./user.scss";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { BsFeather } from "react-icons/bs";
 import { GoStack } from "react-icons/go";
 import { MdKeyboardArrowDown } from "react-icons/md";
@@ -8,13 +8,18 @@ import PostV2 from "@/components/postOfMonth/PostV2";
 import { useEffect, useState } from "react";
 import ProfileSidebar from "./ProfileSidebar";
 import {
+  apiGetPostUserHistory,
+  apiGetPostUserSaved,
   apiGetPostsByUserName,
+  apiRemoveUserHistory,
 } from "@/api/api";
 import { useSelector } from "react-redux";
 import { FaHistory } from "react-icons/fa";
 const UserPage = () => {
   const user = useSelector((state) => state.user);
   const { username } = useParams();
+  const [searchParams] = useSearchParams();
+  const tab = searchParams.get("tab") || "myPost";
   const [activeTab, setActiveTab] = useState("myPost");
   const [posts, setPosts] = useState({});
   const [savedPosts, setSavedPosts] = useState({});
@@ -22,6 +27,16 @@ const UserPage = () => {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
+  useEffect(() => {
+    if (activeTab === "myPost") {
+      setPosts(posts || []);
+    } else if (activeTab === "savedPost") {
+      setSavedPosts(savedPosts || []);
+    } else if (activeTab === "historyPost") {
+      setHistoryPosts(history || []);
+    }
+  }, [activeTab, posts, savedPosts]);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -33,36 +48,36 @@ const UserPage = () => {
     fetchPost();
   }, [username]);
 
-  // useEffect(() => {
-  //   const fetchPost = async () => {
-  //     const res = await apiGetPostUserSaved(user.userInfo.id);
-  //     setSavedPosts(res.savedPost);
-  //     // console.log("saved", res.savedPost);
-  //   };
+  useEffect(() => {
+    const fetchPost = async () => {
+      const res = await apiGetPostUserSaved(user.userInfo.id);
+      setSavedPosts(res.savedPost);
+      // console.log("saved", res.savedPost);
+    };
 
-  //   fetchPost();
-  // }, [user.userInfo.id]);
+    fetchPost();
+  }, [user.userInfo.id]);
 
-  // useEffect(() => {
-  //   const fetchHitory = async () => {
-  //     const res = await apiGetPostUserHistory(user.userInfo.id);
-  //     setHistoryPosts(res.history);
-  //     // console.log("saved", res.savedPost);
-  //   };
+  useEffect(() => {
+    const fetchHitory = async () => {
+      const res = await apiGetPostUserHistory(user.userInfo.id);
+      setHistoryPosts(res.history);
+      // console.log("saved", res.savedPost);
+    };
 
-  //   fetchHitory();
-  // }, [user.userInfo.id]);
+    fetchHitory();
+  }, [user.userInfo.id]);
 
-  // const handleRemoveHistory = async (postId) => {
-  //   const res = await apiRemoveUserHistory(user.userInfo.id, postId);
-  //   // console.log(res);
-  //   if (res.status === "success") {
-  //     // Xóa thành công, cập nhật lại trạng thái
-  //     setHistoryPosts((prevHistory) =>
-  //       prevHistory.filter((item) => item.postId !== postId)
-  //     );
-  //   }
-  // };
+  const handleRemoveHistory = async (postId) => {
+    const res = await apiRemoveUserHistory(user.userInfo.id, postId);
+    // console.log(res);
+    if (res.status === "success") {
+      // Xóa thành công, cập nhật lại trạng thái
+      setHistoryPosts((prevHistory) =>
+        prevHistory.filter((item) => item.postId !== postId)
+      );
+    }
+  };
 
   return (
     <div className="main">
@@ -84,7 +99,7 @@ const UserPage = () => {
                   }`}
                   onClick={() => handleTabClick("myPost")}
                 >
-                  <Link>
+                  <Link to={`/user/${user.userInfo.userName}?tab=myPost`}>
                     <BsFeather />
                     <span>Bài viết ({posts?.length})</span>
                   </Link>
@@ -95,7 +110,7 @@ const UserPage = () => {
                   }`}
                   onClick={() => handleTabClick("series")}
                 >
-                  <Link>
+                  <Link to={`/user/${user.userInfo.userName}?tab=series`}>
                     <GoStack />
                     <span>Series</span>
                   </Link>
@@ -106,7 +121,7 @@ const UserPage = () => {
                   }`}
                   onClick={() => handleTabClick("saved")}
                 >
-                  <Link>
+                  <Link to={`/user/${user.userInfo.userName}?tab=saved`}>
                     <GoStack />
                     <span>Saved</span>
                   </Link>
@@ -117,7 +132,7 @@ const UserPage = () => {
                   }`}
                   onClick={() => handleTabClick("history")}
                 >
-                  <Link>
+                  <Link to={`/user/${user.userInfo.userName}?tab=history`}>
                     <FaHistory />
                     <span>History</span>
                   </Link>
