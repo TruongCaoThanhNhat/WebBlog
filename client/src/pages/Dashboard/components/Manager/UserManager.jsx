@@ -39,7 +39,7 @@ function UserManager() {
         e.preventDefault();
         try {
             let updatedUser = { ...currentUser };
-    
+
             if (avatarFile) {
                 const reader = new FileReader();
                 reader.onload = async (event) => {
@@ -54,18 +54,18 @@ function UserManager() {
             console.error("Failed to update user:", error);
         }
     };
-    
-const saveUser = async (user) => {
-    try {
-        console.log(user,)
-        const response = await apiUpdateUser(user._id, user);
-        setUsers(users.map(user => (user._id === user._id? response.data.data : user)));
-        setIsEditing(false);
-        setAvatarFile(null);
-    } catch (error) {
-        console.error("Failed to save user:", error);
-    }
-};
+
+    const saveUser = async (user) => {
+        try {
+            const response = await apiUpdateUser(user._id, user);
+            setUsers(users.map(u => (u._id === user._id ? response.data : u)));
+            setIsEditing(false);
+            setAvatarFile(null);
+            setCurrentUser(null);
+        } catch (error) {
+            console.error("Failed to save user:", error);
+        }
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -156,16 +156,16 @@ const saveUser = async (user) => {
                     <tbody>
                         {users && users.map((user) => (
                             <tr key={user._id}>
-                                <td><img src={user && user.avatar ? user.avatar:''} alt={user && user.userName ? user.userName:''} /></td>
-                                <td>{user && user.userName ? user.userName:''}</td>
-                                <td>{user && user.email ? user.email:''}</td>
-                                <td>{user && user.mobile ? user.mobile:''}</td>
-                                <td>{user && user.address ? user.address:''}</td>
+                                <td><img src={user.avatar || ''} alt={user.userName || ''} /></td>
+                                <td>{user.userName || ''}</td>
+                                <td>{user.email || ''}</td>
+                                <td>{user.mobile || ''}</td>
+                                <td>{user.address || ''}</td>
                                 <td>
                                     <button onClick={() => handleEdit(user)} className="btn btn-link">
                                         <i className="bi bi-pencil-square"></i>
                                     </button>
-                                    <button onClick={() => handleDelete(user)} className="btn btn-link">
+                                    <button onClick={() => handleDelete(user._id)} className="btn btn-link">
                                         <i className="bi bi-trash"></i>
                                     </button>
                                 </td>

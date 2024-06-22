@@ -22,11 +22,12 @@ export const apiGetAllUserAdmin = async() => {
     }
 };
 
-export const apiUpdateUser = async(userId, userData) => {
+export const apiUpdateUser = async(userId, user) => {
     try {
-        const response = await axiosInstance.put(`/user/${userId}`, userData);
+        const response = await axiosInstance.put(`/user/${userId}`, user);
         return response.data;
     } catch (error) {
+        console.error("Failed to update user:", error);
         throw error;
     }
 };
@@ -57,6 +58,30 @@ export const getPostsByCategory = async(cateID) => {
     const response = await axiosInstance.get(url);
     return response.data;
 };
+// Hàm cập nhật category
+export const apiUpdateCategory = async(categoryId, category) => {
+    try {
+        const response = await axios.put(`/categorys/${categoryId}`, category);
+        return response.data;
+    } catch (error) {
+        console.error("Failed to update category:", error);
+        throw error;
+    }
+};
+
+// Hàm xóa category
+export const apiDeleteCategory = async(categoryId) => {
+    try {
+        const response = await axios.delete(`/categorys/${categoryId}`);
+        return response.data;
+    } catch (error) {
+        console.error("Failed to delete category:", error);
+        throw error;
+    }
+};
+
+
+
 
 // post
 export const apiGetAllPost = async(sort, page) => {

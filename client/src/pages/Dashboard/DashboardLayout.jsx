@@ -3,9 +3,9 @@ import SideBar from './components/sideBar/SideBar';
 import UserManager from './components/Manager/UserManager';
 import './dashboardLayout.scss';
 import Main from './components/dashboard/Main';
-import ArticleManager from './components/Manager/ArticleManager';
 import PostManager from './components/Manager/PostManager';
 import HeaderDashboard from './components/header/HeaderDashboard';
+import CategoryManager from './components/Manager/CategoryManager';
 
 function DashboardLayout() {
     const [activeComponent, setActiveComponent] = useState('dashboard');
@@ -40,7 +40,7 @@ function DashboardLayout() {
                 <div className="contents">
                     {activeComponent === 'dashboard' && <Main/>}
                     {activeComponent === 'userManager' && <UserManager />}
-                    {activeComponent === 'articleManager' && <ArticleManager/>}
+                    {activeComponent === 'articleManager' && <CategoryManager />}
                     {activeComponent === 'postManager' && <PostManager/>}
                 </div>
             </div>
