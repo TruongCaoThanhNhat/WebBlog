@@ -61,7 +61,7 @@ export const getPostsByCategory = async(cateID) => {
 // Hàm cập nhật category
 export const apiUpdateCategory = async(categoryId, category) => {
     try {
-        const response = await axios.put(`/categorys/${categoryId}`, category);
+        const response = await axiosInstance.put(`/categorys/${categoryId}`, category);
         return response.data;
     } catch (error) {
         console.error("Failed to update category:", error);
@@ -72,10 +72,20 @@ export const apiUpdateCategory = async(categoryId, category) => {
 // Hàm xóa category
 export const apiDeleteCategory = async(categoryId) => {
     try {
-        const response = await axios.delete(`/categorys/${categoryId}`);
+        const response = await axiosInstance.delete(`/categorys/${categoryId}`);
         return response.data;
     } catch (error) {
         console.error("Failed to delete category:", error);
+        throw error;
+    }
+};
+// Hàm tạo category
+export const apiCreateCategory = async(newCategory) => {
+    try {
+        const response = await axiosInstance.post(`/categorys/create`, newCategory);
+        return response.data; // Trả về dữ liệu của category đã được tạo
+    } catch (error) {
+        console.error("Failed to create category:", error);
         throw error;
     }
 };

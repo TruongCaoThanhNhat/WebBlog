@@ -90,23 +90,23 @@ const Header = () => {
                     <BsSearch className="header__icon header__icon-top" />
                   </div>
                   {showSearchBar && (
-              <div className="header__search">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={handleSearchChange}
-                  placeholder="Tìm kiếm theo tiêu đề..."
-                />
-                {searchResults.length > 0 && (
-                  <div className="search-results">
-                    {searchResults.map((result) => (
-                      <Link key={result.id} to={`/post/${result.slug}`} className="search-result-item">
-                        {result.title}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
+               <div className="search__bar">
+               <form
+               className="search_form d-flex align-items-center"
+               method="POST"
+               action="#"
+               >
+               <input
+                   type="text"
+                   name="query"
+                   placeholder="Search"
+                   title="Enter search keyword"
+               />
+               <button type="submit" title="Search">
+                   <i className="icon-search bi bi-search"></i>
+               </button>
+           </form>
+   </div >
             )}
                 </div>
                 <div className="none">

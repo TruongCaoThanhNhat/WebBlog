@@ -134,10 +134,10 @@ function UserManager() {
                             />
                         </label>
                         <button type="submit" className="save-button">
-                            Save
+                            Lưu
                         </button>
                         <button type="button" className="cancel-button" onClick={() => setIsEditing(false)}>
-                            Cancel
+                            Hủy
                         </button>
                     </form>
                 </div>
