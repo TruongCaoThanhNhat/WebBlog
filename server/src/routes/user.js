@@ -13,6 +13,7 @@ import {
   getPostUserHistory,
   getProfile,
   getUser,
+  getUserInfoById,
   removePostUserHistory,
   updatePassword,
   updateUser,
@@ -23,6 +24,9 @@ import { verifyToken } from '@/middleware/verifyToken'
 
 import express from 'express'
 const router = express.Router()
+
+router.get('/all', getAllUsers)
+router.get('/info/:userId', getUserInfoById)
 
 router.get('/hot-author', getHotAuthors)
 router.get('/profile', verifyToken, getProfile)

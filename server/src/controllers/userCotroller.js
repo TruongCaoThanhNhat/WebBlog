@@ -3,6 +3,7 @@ import { UserModel } from '@/models/UserModel'
 import {
   getUserById,
   getUserByName,
+  updateUserById,
 } from '@/services/userService'
 import { PostModel } from '@/models/PostModel'
 
@@ -23,6 +24,23 @@ export const getUser = async (req, res, next) => {
     })
   }
 }
+export const getUserInfoById = async (req, res, next) => {
+  const { userId } = req.params;
+  console.log(userId);
+  const data = { user: null };
+  try {
+    const user = await getUserById(userId);
+    data.user = user;
+    res.status(200).json({
+      status: "success",
+      data: data,
+    });
+  } catch (err) {
+    res.status(500).json({
+      error: err.message,
+    });
+  }
+};
 export const getProfile = async (req, res, next) => {
   const { userId } = req.user
   const data = { user: null }
@@ -208,6 +226,7 @@ export const updateUserEmail = async (req, res, next) => {
 // history
 export const getPostUserHistory = async (req, res, next) => {
   const { userId } = req.params
+  console.log(userId)
 
   try {
     const user = await UserModel.findById(userId).populate('history')
@@ -283,3 +302,4 @@ export const removePostUserHistory = async (req, res, next) => {
     next(error)
   }
 }
+
