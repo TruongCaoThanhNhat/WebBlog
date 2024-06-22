@@ -1,0 +1,20 @@
+@use "../../scss/" as *;
+.message__container {
+    display: flex;
+    height: 100%; /* Default height */
+  
+    @media (min-width: 640px) { /* sm */
+        height: 450px;
+    }
+
+    @media (min-width: 768px) { /* md */
+        height: 600px;
+    }
+
+    border-radius: 0.5rem; /* rounded-lg tương đương với 0.5rem */
+    overflow: hidden;
+    background-color: rgba(156, 163, 175, 0); /* bg-gray-400 with bg-opacity-0 */
+    -webkit-backdrop-filter: blur(1.5rem); /* backdrop-blur-lg */
+    backdrop-filter: blur(1.5rem);
+    background-clip: padding-box; /* bg-clip-padding */
+}

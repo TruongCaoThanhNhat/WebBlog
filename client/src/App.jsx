@@ -11,6 +11,8 @@ import CateDetails from "./pages/CateDetails/CateDetails";
 import HomePage from "./pages/home/HomePage";
 import 'boxicons/css/boxicons.min.css';
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import MessagePage from "./pages/message/MessagePage";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
           <Route path="/category/:slug" element={<CateDetails />} />
           <Route path="/post/:slug" element={<PostDetails />} />
         </Route>
+
+        <Route path="/messages/" element={<MessagePage />}></Route>
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
