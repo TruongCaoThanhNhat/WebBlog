@@ -29,7 +29,7 @@ function Dashboard() {
 
   return (
     <section className="dashboard section">
-      <div className="row">
+      <div className="dashboard-container">
         {data.map((card) => (
           <div key={card._id} className="col-lg-3">
             <Card

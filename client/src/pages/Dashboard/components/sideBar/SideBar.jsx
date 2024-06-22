@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import './sidebar.scss';
 
@@ -21,13 +20,13 @@ function SideBar({ onUserManagementClick, onDashboardClick, onArticleManagementC
                 <li className="nav-item">
                     <Link className="nav-link" href="/ArticleManager" onClick={onArticleManagementClick}>
                         <i className="bi bi-stickies"></i>
-                        <span>Quản lý bài viết</span>
+                        <span>Quản lý danh mục</span>
                     </Link>
                 </li>
                 <li className="nav-item">
                     <Link className="nav-link" href="/PostManager" onClick={onPostManagementClick}>
                         <i className="bi bi-layout-text-window-reverse"></i>
-                        <span>Quản lý bài đăng</span>
+                        <span>Quản lý bài viết</span>
                     </Link>
                 </li>
             </ul>
