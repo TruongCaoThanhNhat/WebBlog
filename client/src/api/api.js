@@ -1,5 +1,13 @@
 import axiosInstance from "@/config/axios";
 
+
+// auth 
+export const apiRegister = async (data) => {
+  const url = "/auth/register";
+  const response = await axiosInstance.post(url, data);
+  return response;
+};
+
 // user
 export const apiGetHotAuthor = async (data) => {
   const url = "/user/hot-author";
@@ -113,5 +121,34 @@ export const apiAddUserHistory = async (userId, postId) => {
 export const apiRemoveUserHistory = async (userId, postId) => {
   const url = `/user/${userId}/history/${postId}`;
   const response = await axiosInstance.delete(url);
+  return response.data;
+};
+
+// comment
+export const apiGetCommentByPost = async (postId) => {
+  const url = `/comments/${postId}`;
+  const response = await axiosInstance.get(url);
+  return response.data;
+};
+export const apiCreateComment = async (data) => {
+  const url = "/comments/create";
+  const response = await axiosInstance.post(url, data);
+  return response;
+};
+
+// message
+export const apiSendMessage = async (selectedConversation,data) => {
+  const url = `/messages/send/${selectedConversation}`;
+  const response = await axiosInstance.post(url, data);
+  return response.data;
+};
+export const apiGetMessage = async (selectedConversation,data) => {
+  const url = `/messages/${selectedConversation}`;
+  const response = await axiosInstance.get(url, data);
+  return response.data;
+};
+export const apiGetUserMessage = async (data) => {
+  const url = "/user/all";
+  const response = await axiosInstance.get(url, data);
   return response.data;
 };

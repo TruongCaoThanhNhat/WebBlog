@@ -5,6 +5,7 @@ import List from "@editorjs/list";
 import ImageTool from "@editorjs/image";
 import Paragraph from "@editorjs/paragraph";
 import SimpleImage from "@editorjs/simple-image";
+import axios from "axios";
 
 const initializeEditor = () => {
   const editorConfig = new EditorJS({
@@ -30,6 +31,35 @@ const initializeEditor = () => {
           endpoints: {
             byFile: "http://localhost:8008/uploadFile", // Your backend file uploader endpoint
             byUrl: "http://localhost:8008/fetchUrl", // Your endpoint that provides uploading by Url
+          },
+          uploader: {
+            async uploadByFile(file) {
+              const data = new FormData();
+              data.append("file", file);
+              data.append("name", "file");
+              const uploadResponse = await axios.post(
+                "http://localhost:8000/api/v1/posts/upload",
+                data,
+                {
+                  headers: {
+                    "Content-Type": "multipart/form-data",
+                  },
+                  withCredentials: false,
+                }
+              );
+              return uploadResponse.data;
+            },
+            async uploadByUrl(url) {
+              const res = await axios.post(
+                "http://localhost:8000/api/v1/posts/upload",
+                {
+                  url,
+                }
+              );
+              if (res.data.success) {
+                res.data;
+              }
+            },
           },
         },
       },

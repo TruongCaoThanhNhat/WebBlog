@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Avatar from "../avatar/Avatar";
 
-const Comment = ({ comment, reply }) => {
+const ReplyComment = ({ comment, reply }) => {
   const [replyComment, setReplyComment] = useState(reply);
   const { _id, author, content, voteCount, createdAt } = comment;
 
@@ -88,4 +88,4 @@ const Comment = ({ comment, reply }) => {
   );
 };
 
-export default Comment;
+export default ReplyComment;
