@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt'
 import { UserModel } from '@/models/UserModel'
 import {
+   deleteUserById,
   getUserById,
   getUserByName,
   updateUserById,
@@ -302,4 +303,20 @@ export const removePostUserHistory = async (req, res, next) => {
     next(error)
   }
 }
+// delete user
+export const deleteUser = async(req, res, next) => {
+    const { userId } = req.params;
+
+    try {
+        await deleteUserById(userId);
+        res.status(200).json({
+            status: 'success',
+            message: 'User deleted successfully',
+        });
+    } catch (err) {
+        res.status(500).json({
+            error: err.message,
+        });
+    }
+};
 

@@ -1,4 +1,5 @@
 import {
+
   addPostUserSaved,
   getPostUserSaved,
   removePostUserSaved,
@@ -19,11 +20,13 @@ import {
   updateUser,
   updateUserAdmin,
   updateUserEmail,
+
 } from '@/controllers/userCotroller'
 import { verifyToken } from '@/middleware/verifyToken'
 
 import express from 'express'
 const router = express.Router()
+
 
 router.get('/all', getAllUsers)
 router.get('/info/:userId', getUserInfoById)
@@ -41,8 +44,16 @@ router.post('/:userId/history', verifyToken, addPostUserHistory)
 router.delete('/:userId/history/:postId', verifyToken, removePostUserHistory)
 router.delete('/:userId/history/', verifyToken, clearPostUserHistory)
 // update user
+
 router.put('/update/', verifyToken, updateUser)
 router.put('/update/email', verifyToken, updateUserEmail)
 router.put('/change-password', verifyToken, updatePassword)
 
+
+//admin user
+router.get('/', getAllUsers)
+router.put('/:userId', verifyToken, updateUser)
+router.delete('/:userId', verifyToken, deleteUser)
+
 export default router
+

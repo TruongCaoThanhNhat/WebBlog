@@ -4,6 +4,7 @@ import { UserModel } from "../models/UserModel";
 import { PostModel } from "../models/PostModel";
 import { getUserById } from "@/services/userService";
 
+
 export const getAllPosts = async (req, res) => {
   try {
     const { sort, page = 1, limit = 20 } = req.query;
@@ -182,31 +183,23 @@ export const updatePost = async (req, res, next) => {
       return res.status(404).json({
         error: "Bài viết không tồn tại",
       });
+
     }
-    res.status(200).json({
-      status: "OK",
-      data: updatedPost,
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({
-      error: "Có lỗi khi cập nhật bài viết",
-    });
-  }
 };
 
-export const deletePost = async (req, res, next) => {
-  try {
-    const { postId } = req.params;
-    await PostModel.findByIdAndDelete(postId);
-    res.status(200).json({
-      status: "OK",
-      message: "Bài viết đã được xóa thành công",
-    });
-  } catch (err) {
-    next(err);
-  }
+export const deletePost = async(req, res, next) => {
+    try {
+        const { postId } = req.params;
+        await PostModel.findByIdAndDelete(postId);
+        res.status(200).json({
+            status: "OK",
+            message: "Bài viết đã được xóa thành công",
+        });
+    } catch (err) {
+        next(err);
+    }
 };
+
 export const uploadImage = async (req, res, next) => {
 
   try {
@@ -224,74 +217,46 @@ export const uploadImage = async (req, res, next) => {
     console.error(err);
     res.status(500).json({ err: "Something went wrong" });
   }
+
 };
-export const getPost = async (req, res, next) => {
-  try {
-    const post = await PostModel.findOne({ slug: req.params.slug })
-      .populate("author", "userName displayName avatar intro postSaved")
-      .populate("category", "name slug attachment");
-    res.status(200).json({
-      status: "success",
-      post: post,
-      points: post.vote.length - post.unVote.length,
-    });
-  } catch (error) {
-    res.json(error);
-  }
-};
-export const getPostsByUserName = async (req, res, next) => {
-  const { username } = req.params;
-  const user = await UserModel.find({
-    userName: username,
-  });
-  const userId = user[0]._id.toString();
-  try {
-    const posts = await PostModel.find({
-      author: userId,
-    })
-      .populate("author", "userName avatar postSaved")
-      .populate("category", "name")
-      .select("title description createdAt slug category attachment");
-    res.status(200).json({
-      status: "OK",
-      data: {
-        posts,
-      },
-    });
-  } catch (err) {
-    res.status(500).json({
-      error: err,
-    });
-  }
-};
-export const getAllPostsCategoryUser = async (req, res, next) => {
-  try {
-    const { userId } = req.user;
-    const find = await UserModel.findOne({ _id: userId });
-    if (find.category.length > 0) {
-      const posts = await PostModel.find({
-        category: { $in: find.category },
-      })
-        .sort({ createdAt: -1 })
-        .populate("author", "userName avatar displayName postSaved ")
-        .populate("category", "name slug ");
-      res.status(200).json({
-        status: "success",
-        data: posts,
-      });
-    } else if (find.category.length === 0) {
-      const posts = await PostModel.find()
-        .sort({ createdAt: -1 })
-        .populate("author", "userName avatar displayName postSaved")
-        .populate("category", "name slug");
-      res.status(200).json({
-        status: "success",
-        data: posts,
-      });
+export const getPost = async(req, res, next) => {
+    try {
+        const post = await PostModel.findOne({ slug: req.params.slug })
+            .populate("author", "userName displayName avatar intro postSaved")
+            .populate("category", "name slug attachment");
+        res.status(200).json({
+            status: "success",
+            post: post,
+            points: post.vote.length - post.unVote.length,
+        });
+    } catch (error) {
+        res.json(error);
     }
-  } catch (error) {
-    res.json(error);
-  }
+};
+export const getPostsByUserName = async(req, res, next) => {
+    const { username } = req.params;
+    const user = await UserModel.find({
+        userName: username,
+    });
+    const userId = user[0]._id.toString();
+    try {
+        const posts = await PostModel.find({
+                author: userId,
+            })
+            .populate("author", "userName avatar postSaved")
+            .populate("category", "name")
+            .select("title description createdAt slug category attachment");
+        res.status(200).json({
+            status: "OK",
+            data: {
+                posts,
+            },
+        });
+    } catch (err) {
+        res.status(500).json({
+            error: err,
+        });
+    }
 };
 
 export const getTop10PostOfMonth = async (req, res, next) => {

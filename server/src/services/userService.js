@@ -28,3 +28,4 @@ export const updateUserByName = async (username, data) => {
   })
   return user
 }
+
