@@ -183,8 +183,11 @@ export const updatePost = async (req, res, next) => {
       return res.status(404).json({
         error: "Bài viết không tồn tại",
       });
-
     }
+  } catch (err) {
+    next(err);
+  }
+    
 };
 
 export const deletePost = async(req, res, next) => {
@@ -555,5 +558,34 @@ export const removePostUserSaved = async (req, res, next) => {
     }
   } catch (error) {
     next(error);
+  }
+};
+export const getAllPostsCategoryUser = async (req, res, next) => {
+  try {
+    const { userId } = req.user;
+    const find = await UserModel.findOne({ _id: userId });
+    if (find.category.length > 0) {
+      const posts = await PostModel.find({
+        category: { $in: find.category },
+      })
+        .sort({ createdAt: -1 })
+        .populate("author", "userName avatar displayName postSaved ")
+        .populate("category", "name slug ");
+      res.status(200).json({
+        status: "success",
+        data: posts,
+      });
+    } else if (find.category.length === 0) {
+      const posts = await PostModel.find()
+        .sort({ createdAt: -1 })
+        .populate("author", "userName avatar displayName postSaved")
+        .populate("category", "name slug");
+      res.status(200).json({
+        status: "success",
+        data: posts,
+      });
+    }
+  } catch (error) {
+    res.json(error);
   }
 };

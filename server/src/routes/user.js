@@ -8,6 +8,7 @@ import {
   addPostUserHistory,
   clearPostUserHistory,
   createUser,
+  deleteUser,
   deleteUserAdmin,
   getAllUsers,
   getHotAuthors,
