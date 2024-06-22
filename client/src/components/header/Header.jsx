@@ -110,7 +110,7 @@ const Header = () => {
             )}
                 </div>
                 <div className="none">
-                  <Link to="/">
+                  <Link to={'/messages'}>
                     <div className="header__icon-top-wrapper">
                       <BsMessenger className="header__icon" />
                     </div>

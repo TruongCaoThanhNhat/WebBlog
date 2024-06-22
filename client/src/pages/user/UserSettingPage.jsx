@@ -1,25 +1,149 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./usersettings.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { apiChangePass, apiGetCurentUser, apiUpdateUserInfo } from "@/api/api";
+import { toast } from "react-toastify";
 const UserSettingPage = () => {
-  const [preview, setPreview] = useState();
-  const [selectedFile, setSelectedFile] = useState();
-  useEffect(() => {
-    if (!selectedFile) {
-      setPreview(undefined);
-      return;
-    }
-    const objectUrl = URL.createObjectURL(selectedFile);
-    setPreview(objectUrl);
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [selectedFile]);
+   const [preview, setPreview] = useState();
+   const [selectedFile, setSelectedFile] = useState();
+   const [user, setUser] = useState({});
+   const dispatch = useDispatch();
+   const currentUser = useSelector((state) => state.user.userInfo);
 
-  const onSelectFile = (e) => {
-    if (!e.target.files || e.target.files.length === 0) {
-      setSelectedFile(undefined);
-      return;
-    }
-    setSelectedFile(e.target.files[0]);
-  };
+   useEffect(() => {
+     if (!selectedFile) {
+       setPreview(undefined);
+       return;
+     }
+     const objectUrl = URL.createObjectURL(selectedFile);
+     setPreview(objectUrl);
+     return () => URL.revokeObjectURL(objectUrl);
+   }, [selectedFile]);
+
+   const onSelectFile = (e) => {
+     if (!e.target.files || e.target.files.length === 0) {
+       setSelectedFile(undefined);
+       return;
+     }
+     setSelectedFile(e.target.files[0]);
+   };
+
+   useEffect(() => {
+     const fetchUser = async () => {
+       const data = await apiGetCurentUser(currentUser.userName);
+       // console.log(data.data.user);
+       if (data) {
+         setUser(data.data.user);
+       }
+     };
+
+     fetchUser();
+   }, [currentUser.userName]);
+
+   // handle day
+   const currentDate = new Date();
+   const currentYear = currentDate.getFullYear();
+
+   // State cho ngày, tháng, năm
+   const [day, setDay] = useState("");
+   const [month, setMonth] = useState("");
+   const [year, setYear] = useState("");
+
+   // Cập nhật state nếu `user.day`, `user.month`, hoặc `user.year` thay đổi
+   useEffect(() => {
+     if (user?.dateOfBirth) setDay(user.dateOfBirth);
+     if (user?.monthOfBirth) setMonth(user.monthOfBirth);
+     if (user?.yearOfBirth) setYear(user.yearOfBirth);
+   }, [user?.dateOfBirth, user?.monthOfBirth, user?.yearOfBirth]);
+
+   const handleDayChange = (e) => setDay(e.target.value);
+   const handleMonthChange = (e) => setMonth(e.target.value);
+   const handleYearChange = (e) => setYear(e.target.value);
+
+   // Tạo danh sách các ngày dựa trên tháng và năm
+   const getDaysInMonth = (year, month) => {
+     return new Date(year, month, 0).getDate();
+   };
+
+   const daysInMonth = month && year ? getDaysInMonth(year, month) : 31;
+
+   // gender
+   const [gender, setGender] = useState("");
+
+   // Cập nhật state nếu `user.gender` thay đổi
+   useEffect(() => {
+     if (user?.gender) {
+       setGender(user.gender);
+     }
+   }, [user?.gender]);
+
+   const handleGenderChange = (e) => setGender(e.target.value);
+
+   // display name
+   const [password, setPassword] = useState("");
+   const [newPassword, setNewPassword] = useState("");
+   const [displayName, setDisplayName] = useState("");
+   const [email, setEmail] = useState("");
+   const [address, setAddress] = useState("");
+   const [mobile, setMobile] = useState("");
+
+   // Cập nhật state nếu `user.displayName`, `user.email`, `user.address`, hoặc `user.mobile` thay đổi
+   useEffect(() => {
+     if (user?.displayName) setDisplayName(user.displayName);
+     if (user?.email) setEmail(user.email);
+     if (user?.address) setAddress(user.address);
+     if (user?.mobile) setMobile(user.mobile);
+   }, [user?.displayName, user?.email, user?.address, user?.mobile]);
+
+   const handleChangePassword = (e) => setPassword(e.target.value);
+   const handleChangeNewPassword = (e) => setNewPassword(e.target.value);
+   const handleDisplayNameChange = (e) => setDisplayName(e.target.value);
+   const handleEmailChange = (e) => setEmail(e.target.value);
+   const handleAddressChange = (e) => setAddress(e.target.value);
+   const handleMobileChange = (e) => setMobile(e.target.value);
+
+   const handleUpdate = async (e) => {
+     e.preventDefault();
+     const data = {
+       displayName,
+       dateOfBirth: day,
+       monthOfBirth: month,
+       yearOfBirth: year,
+       gender,
+       address,
+       mobile,
+     };
+     console.log(data);
+     const res = await apiUpdateUserInfo(data);
+     if (res.status === "success") {
+       toast.success("Cập nhật thông tin thành công");
+     }
+     console.log(res);
+   };
+   const handleCancel = (e) => {
+     e.preventDefault();
+     setDisplayName(user.displayName);
+     setAddress(user.address);
+     setMobile(user.mobile);
+     setDay(user.dateOfBirth);
+     setMonth(user.monthOfBirth);
+     setYear(user.yearOfBirth);
+     setGender(user.gender);
+   };
+   const handleUpdatePassword = async (e) => {
+     e.preventDefault();
+     const data = {
+       oldPassword: password,
+       newPassword,
+     };
+     console.log(data);
+     const res = await apiChangePass(data);
+     if (res.status === "success") {
+       toast.success("Đổi mật khẩu thành công");
+     } else {
+       toast.error("Đổi mật khẩu thất bại");
+     }
+   };
   return (
     <div className="container-xl">
       <div className="mt-190">
@@ -110,51 +234,47 @@ const UserSettingPage = () => {
                     </div>
                     <div className="settings__flex row row-cols-md-1">
                       <div className="settings__flex-item col-sm-12">
-                        <label className="settings__name">TÊN HIỂN THỊ</label>
-                        <input type="text" className="settings__input" />
+                        <label
+                          className="settings__name"
+                          onChange={handleDisplayNameChange}
+                        >
+                          TÊN HIỂN THỊ
+                        </label>
+                        <input
+                          type="text"
+                          className="settings__input"
+                          value={displayName}
+                          onChange={handleDisplayNameChange}
+                        />
                       </div>
                       <div className="settings__flex-item col-sm-12">
                         <label className="settings__name">EMAIL</label>
-                        <input type="text" className="settings__input" />
+                        <input
+                          type="text"
+                          className="settings__input"
+                          value={email}
+                          onChange={handleEmailChange}
+                        />
                       </div>
                       <div className="settings__flex-item col-sm-12">
                         <label className="settings__name">NGÀY SINH</label>
                         <div className="settings__date">
+                          {/* Ngày */}
                           <div className="settings__date-container">
-                            <select className="settings__date-select">
-                              <option></option>
-                              <option value="null">Ngày</option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
-                              <option value="5">5</option>
-                              <option value="6">6</option>
-                              <option value="7">7</option>
-                              <option value="8">8</option>
-                              <option value="9">9</option>
-                              <option value="10">10</option>
-                              <option value="11">11</option>
-                              <option value="12">12</option>
-                              <option value="13">13</option>
-                              <option value="14">14</option>
-                              <option value="15">15</option>
-                              <option value="16">16</option>
-                              <option value="17">17</option>
-                              <option value="18">18</option>
-                              <option value="19">19</option>
-                              <option value="20">20</option>
-                              <option value="21">21</option>
-                              <option value="22">22</option>
-                              <option value="23">23</option>
-                              <option value="24">24</option>
-                              <option value="25">25</option>
-                              <option value="26">26</option>
-                              <option value="27">27</option>
-                              <option value="28">28</option>
-                              <option value="29">29</option>
-                              <option value="30">30</option>
-                              <option value="31">31</option>
+                            <select
+                              className="settings__date-select"
+                              value={day}
+                              onChange={handleDayChange}
+                            >
+                              <option value="">Ngày</option>
+                              {Array.from({ length: daysInMonth }, (_, i) => (
+                                <option
+                                  key={i + 1}
+                                  value={String(i + 1).padStart(2, "0")}
+                                >
+                                  {i + 1}
+                                </option>
+                              ))}
                             </select>
                             <div className="settings__date-drop">
                               <svg
@@ -168,41 +288,23 @@ const UserSettingPage = () => {
                               </svg>
                             </div>
                           </div>
+
+                          {/* Tháng */}
                           <div className="settings__date-container">
-                            <select className="settings__date-select">
-                              <option></option>
-                              <option value="null">Ngày</option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
-                              <option value="5">5</option>
-                              <option value="6">6</option>
-                              <option value="7">7</option>
-                              <option value="8">8</option>
-                              <option value="9">9</option>
-                              <option value="10">10</option>
-                              <option value="11">11</option>
-                              <option value="12">12</option>
-                              <option value="13">13</option>
-                              <option value="14">14</option>
-                              <option value="15">15</option>
-                              <option value="16">16</option>
-                              <option value="17">17</option>
-                              <option value="18">18</option>
-                              <option value="19">19</option>
-                              <option value="20">20</option>
-                              <option value="21">21</option>
-                              <option value="22">22</option>
-                              <option value="23">23</option>
-                              <option value="24">24</option>
-                              <option value="25">25</option>
-                              <option value="26">26</option>
-                              <option value="27">27</option>
-                              <option value="28">28</option>
-                              <option value="29">29</option>
-                              <option value="30">30</option>
-                              <option value="31">31</option>
+                            <select
+                              className="settings__date-select"
+                              value={month}
+                              onChange={handleMonthChange}
+                            >
+                              <option value="">Tháng</option>
+                              {Array.from({ length: 12 }, (_, i) => (
+                                <option
+                                  key={i + 1}
+                                  value={String(i + 1).padStart(2, "0")}
+                                >
+                                  {i + 1}
+                                </option>
+                              ))}
                             </select>
                             <div className="settings__date-drop">
                               <svg
@@ -216,52 +318,35 @@ const UserSettingPage = () => {
                               </svg>
                             </div>
                           </div>
+
+                          {/* Năm */}
                           <div className="settings__date-container">
-                            <select class="settings__date-select">
-                              <option></option>
-                              <option value="null">Ngày</option>
-                              <option value="1">1</option>
-                              <option value="2">2</option>
-                              <option value="3">3</option>
-                              <option value="4">4</option>
-                              <option value="5">5</option>
-                              <option value="6">6</option>
-                              <option value="7">7</option>
-                              <option value="8">8</option>
-                              <option value="9">9</option>
-                              <option value="10">10</option>
-                              <option value="11">11</option>
-                              <option value="12">12</option>
-                              <option value="13">13</option>
-                              <option value="14">14</option>
-                              <option value="15">15</option>
-                              <option value="16">16</option>
-                              <option value="17">17</option>
-                              <option value="18">18</option>
-                              <option value="19">19</option>
-                              <option value="20">20</option>
-                              <option value="21">21</option>
-                              <option value="22">22</option>
-                              <option value="23">23</option>
-                              <option value="24">24</option>
-                              <option value="25">25</option>
-                              <option value="26">26</option>
-                              <option value="27">27</option>
-                              <option value="28">28</option>
-                              <option value="29">29</option>
-                              <option value="30">30</option>
-                              <option value="31">31</option>
+                            <select
+                              className="settings__date-select"
+                              value={year}
+                              onChange={handleYearChange}
+                            >
+                              <option value="">Năm</option>
+                              {Array.from(
+                                { length: currentYear - 1990 + 1 },
+                                (_, i) => {
+                                  const yearValue = 1990 + i;
+                                  return (
+                                    <option key={yearValue} value={yearValue}>
+                                      {yearValue}
+                                    </option>
+                                  );
+                                }
+                              )}
                             </select>
-                            <div class="settings__date-drop">
+                            <div className="settings__date-drop">
                               <svg
-                                _ngcontent-serverApp-c79=""
                                 xmlns="http://www.w3.org/2000/svg"
                                 viewBox="0 0 20 20"
                               >
                                 <path
-                                  _ngcontent-serverApp-c79=""
                                   d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"
-                                  class="ng-tns-c79-0"
+                                  className="ng-tns-c79-0"
                                 ></path>
                               </svg>
                             </div>
@@ -272,22 +357,40 @@ const UserSettingPage = () => {
                         <label className="settings__name">GIỚI TÍNH</label>
                         <div className="settings__gender">
                           <div className="settings__gender-item">
-                            <input type="radio" id="male" />
-                            <label
-                              for="female"
-                              className="settings__gender-text"
-                            >
+                            <input
+                              type="radio"
+                              id="male"
+                              value="male"
+                              checked={gender === "male"}
+                              onChange={handleGenderChange}
+                            />
+                            <label for="male" className="settings__gender-text">
                               Nam
                             </label>
                           </div>
                           <div className="settings__gender-item">
-                            <input type="radio" id="diff" />
-                            <label for="diff" className="settings__gender-text">
+                            <input
+                              type="radio"
+                              id="female"
+                              value="female"
+                              checked={gender === "female"}
+                              onChange={handleGenderChange}
+                            />
+                            <label
+                              for="female"
+                              className="settings__gender-text"
+                            >
                               Nữ
                             </label>
                           </div>
                           <div className="settings__gender-item">
-                            <input type="radio" />
+                            <input
+                              type="radio"
+                              value="other"
+                              name="gender"
+                              checked={gender === "other"}
+                              onChange={handleGenderChange}
+                            />
                             <label className="settings__gender-text">
                               Khác
                             </label>
@@ -304,50 +407,84 @@ const UserSettingPage = () => {
                           <label className="settings__name" htmlFor="">
                             Mật khẩu cũ
                           </label>
-                          <input type="password" className="settings__input" />
+                          <input
+                            type="password"
+                            className="settings__input"
+                            value={password}
+                            onChange={handleChangePassword}
+                          />
                         </div>
                         <div className="settings__flex-item-wfull">
                           <label className="settings__name" htmlFor="">
                             Mật khẩu mới
                           </label>
-                          <input type="password" className="settings__input" />
+                          <input
+                            type="password"
+                            className="settings__input"
+                            value={newPassword}
+                            onChange={handleChangeNewPassword}
+                          />
                         </div>
                         <div className="settings__flex-item-wfull">
                           <label className="settings__name" htmlFor="">
                             Nhập lại mật khẩu mới
                           </label>
-                          <input type="password" className="settings__input" />
+                          <input
+                            type="password"
+                            className="settings__input"
+                            value={newPassword}
+                            onChange={handleChangeNewPassword}
+                          />
                         </div>
                       </div>
                       <div className="p-30">
-                        <button className="settings__button">Xác nhận</button>
+                        <button
+                          className="settings__button"
+                          onClick={handleUpdatePassword}
+                        >
+                          Xác nhận
+                        </button>
                       </div>
                     </form>
                     <div className="settings__flex">
                       <div className="settings__flex-item">
                         <label htmlFor="" className="settings__name">
-                          Số chứng minh thư
-                        </label>
-                        <input type="text" className="settings__input" />
-                      </div>
-                      <div className="settings__flex-item">
-                        <label htmlFor="" className="settings__name">
                           Địa chỉ
                         </label>
-                        <input type="text" className="settings__input" />
+                        <input
+                          type="text"
+                          className="settings__input"
+                          value={address}
+                          onChange={handleAddressChange}
+                        />
                       </div>
                       <div className="settings__flex-item">
                         <label htmlFor="" className="settings__name">
                           Số điện thoại
                         </label>
-                        <input type="text" className="settings__input" />
+                        <input
+                          type="text"
+                          className="settings__input"
+                          value={mobile}
+                          onChange={handleMobileChange}
+                        />
                       </div>
                     </div>
                   </div>
                 </div>
                 <div className="settings__actions ">
-                  <button className="settings__actions cancle">Hủy</button>
-                  <button className="settings__actions save">Lưu</button>
+                  <button
+                    className="settings__actions cancle"
+                    onClick={handleCancel}
+                  >
+                    Hủy
+                  </button>
+                  <button
+                    className="settings__actions save"
+                    onClick={handleUpdate}
+                  >
+                    Lưu
+                  </button>
                 </div>
               </form>
             </div>
