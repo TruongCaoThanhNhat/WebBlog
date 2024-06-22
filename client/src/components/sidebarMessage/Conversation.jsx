@@ -3,7 +3,7 @@ import useConversation from "@/zustand/useConversation";
 
 const Conversation = ({ conversation, emoji, lastIdx }) => {
   const { _id, userName } = conversation;
-  // console.log("conversation",conversation);
+  console.log("conversation",conversation);
 
   const { selectedConversation, setSelectedConversation } = useConversation();
 
@@ -20,7 +20,10 @@ const Conversation = ({ conversation, emoji, lastIdx }) => {
         <div className={`avatar ${isOnline ? "online" : ""}`}>
           <div className="w-12 rounded-full">
             <img
-              src="https://cdn0.iconfinder.com/data/icons/communication-line-10/24/account_profile_user_contact_person_avatar_placeholder-512.png"
+              src={
+                conversation.avatar ||
+                "https://cdn0.iconfinder.com/data/icons/communication-line-10/24/account_profile_user_contact_person_avatar_placeholder-512.png"
+              }
               alt="user avatar"
             />
           </div>

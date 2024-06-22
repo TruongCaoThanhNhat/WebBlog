@@ -1,7 +1,8 @@
 import useConversation from "@/zustand/useConversation";
 import MessageInput from "./MessageInput";
-import Messages from "./Messages";
+import "./message.scss"
 import { useEffect } from "react";
+import Messages from "./Messages";
 
 const MessageContainer = () => {
 	const { selectedConversation, setSelectedConversation } = useConversation();
@@ -10,17 +11,17 @@ const MessageContainer = () => {
     return () => setSelectedConversation(null);
   }, [setSelectedConversation]);
 	return (
-    <div className="md:min-w-[450px] flex flex-col">
+    <div className="message__content">
       {!selectedConversation ? (
-        <div className="flex-1 flex items-center justify-center">
-          <h1 className="text-2xl text-gray-500">No chat</h1>
+        <div className="">
+          <h1 className="">No chat</h1>
         </div>
       ) : (
         <>
           {/* Header */}
-          <div className="bg-slate-500 px-4 py-2 mb-2">
-            <span className="label-text">To:</span>{" "}
-            <span className="text-gray-900 font-bold">{selectedConversation.userName}</span>
+          <div className="label-text">
+            <span className="">To:</span>{" "}
+            <span className="">{selectedConversation.userName}</span>
           </div>
 
           <Messages />

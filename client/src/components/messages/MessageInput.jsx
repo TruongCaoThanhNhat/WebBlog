@@ -1,6 +1,6 @@
 import useSendMessage from "@/hooks/useSendMessage";
 import { useState } from "react";
-import { BsSend } from "react-icons/bs";
+import { IoIosSend } from "react-icons/io";
 
 const MessageInput = () => {
   const [message, setMessage] = useState("");
@@ -13,24 +13,17 @@ const MessageInput = () => {
     setMessage("");
   };
   return (
-    <form className="px-4 my-3" onSubmit={handleSubmit}>
-      <div className="w-full">
+    <form className="form__mess" onSubmit={handleSubmit}>
+      <div className="input__send">
         <input
           type="text"
-          className="border bg-dark text-sm rounded-lg block w-full p-2.5  bg-gray-700 border-gray-600 text-white"
+          className=""
           placeholder="Send a message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
         />
-        <button
-          type="submit"
-          className="absolute inset-y-0 end-0 flex items-center pe-3"
-        >
-          {loading ? (
-            <div className="loading loading-spinner"></div>
-          ) : (
-            <BsSend />
-          )}
+        <button type="submit" className="btn-send d-flex align-items-center justify-content-center">
+          {loading ? <div className="loading"></div> : <IoIosSend />}
         </button>
       </div>
     </form>

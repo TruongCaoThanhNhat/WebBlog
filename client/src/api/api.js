@@ -152,3 +152,8 @@ export const apiGetUserMessage = async (data) => {
   const response = await axiosInstance.get(url, data);
   return response.data;
 };
+export const apiGetConversations = async (userId,data) => {
+  const url = `/conversations/${userId}`;
+  const response = await axiosInstance.get(url, data);
+  return response.data;
+};

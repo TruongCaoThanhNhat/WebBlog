@@ -1,34 +1,84 @@
 @use "../../scss/" as *;
 
-/* Base styles */
 .label-text {
-  font-size: 0.875rem;
+  font-size: 1.6rem;
   font-weight: bold;
-  color: #e2e8f0;
+  color: #686d76;
+  margin-left: 2rem;
 }
 
 /* Component styles */
-.message__container {
-  min-width: 450px;
+.message__content {
+  min-width: 650px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin-left: 2rem;
+}
+
+.message__main {
+  font-size: 1.6rem;
+  max-width: 100%;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
 }
-
-.header {
-  background-color: #2d3748;
-  padding: 0.5rem 1rem;
-  margin-bottom: 0.5rem;
+.form__mess {
+  margin: 0 auto;
+  width: 100%;
+}
+.input__send {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  input {
+    width: 100%;
+    border-radius: 16px;
+    padding: 0.5rem 1rem;
+  }
+  .btn-send {
+    width: 40px;
+    height: 40px;
+    margin-left: 2rem;
+    font-size: 1.8rem;
+    background-color: #3398d4;
+    border-color: #e2e8f0;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 50%;
+  }
 }
 
-.header span {
-  color: #e2e8f0;
-  font-weight: bold;
+// message component
+.chat {
+  .chat-box {
+    align-items: center;
+    display: flex;
+    .chat-avatar {
+      width: 4rem;
+      height: 4rem;
+      margin-right: 1rem;
+    }
+    .chat-bubble {
+      background-color: #3398d4;
+      border-radius: 16px;
+      width: fit-content;
+      color: #fff;
+      padding: 0.5rem 2rem;
+      max-height: 200px; /* Đặt chiều cao tối đa cho tin nhắn */
+      overflow-y: auto; /* Hiển thị thanh cuộn dọc nếu nội dung vượt quá chiều cao tối đa */
+      word-wrap: break-word; /* Đảm bảo từ dài bị ngắt */
+    }
+  }
+  .chat-time {
+    margin-left: 6rem;
+  }
 }
-
-.messages {
-  /* Styles for Messages component */
-}
-
-.message-input {
-  /* Styles for MessageInput component */
+.chat.chat-start {
+  // display: flex;
+  // justify-content: end;
+  float: right;
+  .chat-avatar {
+    margin-left: 1rem;
+  }
 }

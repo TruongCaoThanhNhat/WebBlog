@@ -1,60 +1,61 @@
 .sidebar {
-	border-right: 1px solid #64748b; /* border-r border-slate-500 */
-	padding: 1rem; /* p-4 */
-	display: flex;
-	flex-direction: column; /* flex flex-col */
+  border-right: 1px solid #64748b; /* border-r border-slate-500 */
+  padding: 1rem; /* p-4 */
+  display: flex;
+  flex-direction: column; /* flex flex-col */
 }
 
 .divider {
-	padding-left: 0.75rem; /* px-3 */
-	padding-right: 0.75rem; /* px-3 */
+  padding-left: 0.75rem; /* px-3 */
+  padding-right: 0.75rem; /* px-3 */
 }
-.user-card.active{
-	background-color: #2d3748; /* bg-slate-700 */
-
+.user-card.active {
+  background-color: #3398d4;
+  .user-name {
+    color: #ffffff;
+  }
 }
 
-// search input 
+// search input
 .search-input {
-	display: flex;
-	align-items: center;
-	gap: 0.5rem; /* gap-2 */
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* gap-2 */
 
-	&__input {
-		border: 1px solid #cbd5e0; /* input-bordered */
-		border-radius: 9999px; /* rounded-full */
-		padding: 0.5rem 1rem;
-	}
+  &__input {
+    border: 1px solid #cbd5e0; /* input-bordered */
+    border-radius: 9999px; /* rounded-full */
+    padding: 0.5rem 1rem;
+  }
 
-	&__button {
-		background-color: #38b2ac; /* bg-sky-500 */
-		color: #ffffff; /* text-white */
-		border: none;
-		border-radius: 9999px; /* btn-circle */
-		padding: 0.5rem;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		cursor: pointer;
-	}
+  &__button {
+    background-color: #38b2ac; /* bg-sky-500 */
+    color: #ffffff; /* text-white */
+    border: none;
+    border-radius: 9999px; /* btn-circle */
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
 
-	&__icon {
-		width: 1.5rem; /* w-6 */
-		height: 1.5rem; /* h-6 */
-	}
+  &__icon {
+    width: 1.5rem; /* w-6 */
+    height: 1.5rem; /* h-6 */
+  }
 }
 
 // conversation list
 .conversation-list {
-	padding-top: 0.5rem; /* py-2 */
-	display: flex;
-	flex-direction: column; /* flex-col */
-	overflow-y: auto; /* overflow-auto */
-
-	/* Style each Conversation item */
-	> * {
-		margin-bottom: 0.5rem; /* mb-2 */
-	}
+  padding-top: 0.5rem;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  > * {
+    margin-bottom: 0.5rem;
+  }
 }
 
 // conversation item
@@ -65,8 +66,8 @@
   &.online::after {
     content: "";
     display: block;
-    width: 8px;
-    height: 8px;
+    width: 16px;
+    height: 16px;
     background-color: #38a169;
     border-radius: 50%;
     position: absolute;
@@ -77,6 +78,7 @@
 
 /* Component styles */
 .user-card {
+  font-size: 1.4rem;
   display: flex;
   gap: 0.5rem;
   align-items: center;
@@ -100,23 +102,20 @@
   border-radius: 50%;
 }
 
-.user-card .user-details {
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.user-card .user-details .user-info {
-  display: flex;
-  gap: 0.75rem;
-  justify-content: space-between;
-}
-
-.user-card .user-details .user-info .user-name {
-  font-weight: bold;
-  color: #e2e8f0;
-}
-
-.user-card .user-details .user-info .user-emoji {
-  font-size: 1.25rem;
+.user-card {
+  .user-details {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    .user-info {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: space-between;
+      font-weight: bold;
+      color: #686d76;
+    }
+    .user-emoji {
+      font-size: 1.4rem;
+    }
+  }
 }
