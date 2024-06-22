@@ -17,6 +17,7 @@
     "@editorjs/list": "^1.9.0",
     "@editorjs/paragraph": "^2.11.4",
     "@editorjs/simple-image": "^1.6.0",
+    "@google/generative-ai": "^0.13.0",
     "@reduxjs/toolkit": "^2.2.5",
     "axios": "^1.7.2",
     "boxicons": "^2.1.4",
