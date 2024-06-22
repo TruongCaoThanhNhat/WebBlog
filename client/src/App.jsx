@@ -10,9 +10,14 @@ import Register from "./pages/Register/Register";
 import CateDetails from "./pages/CateDetails/CateDetails";
 import HomePage from "./pages/home/HomePage";
 import 'boxicons/css/boxicons.min.css';
+
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import DashboardLayout from "./pages/Dashboard/DashboardLayout";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MessagePage from "./pages/message/MessagePage";
+
 
 function App() {
   return (
@@ -32,7 +37,8 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="create-post" element={<CreatePost />} />
-      </Routes>
+        <Route path="/dashboard" element={<DashboardLayout/>} />
+     </Routes>
     </>
   );
 }
