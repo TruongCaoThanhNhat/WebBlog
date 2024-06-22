@@ -20,6 +20,11 @@ export const apiGetAuthor = async (username) => {
   const response = await axiosInstance.get(url);
   return response.data;
 };
+export const apiGetUserById = async (userId) => {
+  const url = `/user/info/${userId}`;
+  const response = await axiosInstance.get(url);
+  return response.data;
+};
 export const apiGetCurentUser = async () => {
   const url = `/user/profile`;
   const response = await axiosInstance.get(url);

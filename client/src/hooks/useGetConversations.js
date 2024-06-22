@@ -1,8 +1,10 @@
-import {  apiGetUserMessage } from "@/api/api";
+import {  apiGetConversations } from "@/api/api";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 const useGetConversations = () => {
+	const userId = useSelector((state) => state.user.userInfo.id);
 	const [loading, setLoading] = useState(false);
 	const [conversations, setConversations] = useState([]);
 
@@ -11,12 +13,12 @@ const useGetConversations = () => {
 			setLoading(true);
 			try {
 				// const res = await apiGetAuthor("thanhnhat1")
-				const res = await apiGetUserMessage();
-				console.log("res", res);
+				const res = await apiGetConversations(userId);
+				console.log("conversations", res.data);
 				if (res.error) {
 					throw new Error(res.error);
 				}
-				setConversations(res.data.users);
+				setConversations(res.data);
 			} catch (error) {
 				toast.error(error.message);
 			} finally {
