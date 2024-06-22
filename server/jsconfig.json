@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+      "target": "ES6",
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["./src/*"],
+        "@configs/*": ["./src/configs/*"],
+        "@controllers/*": ["./src/controllers/*"],
+        "@models/*": ["./src/models/*"],
+        "@routes/*": ["./src/routes/*"],
+        "@services/*": ["./src/services/*"]
+      }
+    },
+    "exclude": ["node_modules", "dist"],
+    "include": ["./src/**/*", "server.js"]
+  }

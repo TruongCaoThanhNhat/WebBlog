@@ -5,20 +5,19 @@ import configCors from './configs/configCors'
 import { connectDB } from './configs/db'
 import webRoutes from './routes/initWebRoutes'
 import { errorHandler } from './middleware/errorHandler'
-// import { cloudinaryConfig } from './configs/cloudinary'
+import { cloudinaryConfig } from './configs/cloudinary'
+import { app, server } from './socket/socket'
 
 dotenv.config()
-
-const app = express()
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 configCors(app)
-    // cloudinaryConfig()
+    cloudinaryConfig()
 
 const PORT = process.env.PORT || 3000
 
-app.listen(PORT, (err) => {
+server.listen(PORT, (err) => {
     if (err) {
         console.log(err)
     } else {

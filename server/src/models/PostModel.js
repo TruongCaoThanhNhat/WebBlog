@@ -57,7 +57,7 @@ const schema = new mongoose.Schema(
     },
     point: {
       type: Number,
-      default: 1,
+      default: 0,
     },
   },
   {
