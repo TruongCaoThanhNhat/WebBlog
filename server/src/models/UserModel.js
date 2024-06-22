@@ -107,13 +107,13 @@ const schema = new mongoose.Schema(
         default: [],
       },
     ],
-    role: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Role",
-        required: false,
-      },
-    ],
+    // role: [
+    //   {
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: "Role",
+    //     required: false,
+    //   },
+    // ],
   },
   {
     timestamps: true,

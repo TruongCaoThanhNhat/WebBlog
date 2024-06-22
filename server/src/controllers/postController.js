@@ -2,6 +2,7 @@ import { v2 as cloudinary } from "cloudinary";
 
 import { UserModel } from "../models/UserModel";
 import { PostModel } from "../models/PostModel";
+import { getUserById } from "@/services/userService";
 
 export const getAllPosts = async (req, res) => {
   try {
@@ -207,6 +208,7 @@ export const deletePost = async (req, res, next) => {
   }
 };
 export const uploadImage = async (req, res, next) => {
+
   try {
     const fileStr = req.file;
     const uploadResponse = await cloudinary.uploader.upload(fileStr.path, {
