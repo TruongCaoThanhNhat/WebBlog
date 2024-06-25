@@ -1,66 +1,90 @@
-import React, { useState } from 'react'
-import './postManager.scss'
+import React, { useState, useEffect } from 'react';
+import './postManager.scss';
+import { apiGetAllPost, apiCreatePost, apiDeletePost, apiUpdatePost } from '@/api/api';
+import { FaPlus } from 'react-icons/fa';
 
 function PostManager() {
-    const [users, setUsers] = useState([
-        {
-            id: 1,
-            avatar: 'https://via.placeholder.com/50',
-            name: 'John Doe',
-            date: '2023-06-01',
-            postTitle: 'First Post'
-        },
-        {
-            id: 2,
-            avatar: 'https://via.placeholder.com/50',
-            name: 'Jane Smith',
-            date: '2023-06-05',
-            postTitle: 'Second Post'
-        },
-        {
-            id: 3,
-            avatar: 'https://via.placeholder.com/50',
-            name: 'Sam Wilson',
-            date: '2023-06-10',
-            postTitle: 'Third Post'
-        }
-    ]);
-
+    const [posts, setPosts] = useState([]);
     const [isEditing, setIsEditing] = useState(false);
-    const [currentUser, setCurrentUser] = useState(null);
+    const [isCreating, setIsCreating] = useState(false);
+    const [currentPost, setCurrentPost] = useState(null);
     const [avatarFile, setAvatarFile] = useState(null);
 
-    const handleEdit = (user) => {
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const postManager = await apiGetAllPost();
+                setPosts(postManager.data.posts);
+            } catch (error) {
+                console.error("Không thể lấy bài viết:", error);
+            }
+        };
+
+        fetchPosts();
+    }, []);
+
+    const handleEdit = (post) => {
         setIsEditing(true);
-        setCurrentUser(user);
+        setIsCreating(false);
+        setCurrentPost(post);
     };
 
-    const handleDelete = (userId) => {
-        setUsers(users.filter(user => user.id !== userId));
-    };
-
-    const handleSave = (e) => {
-        e.preventDefault();
-        if (avatarFile) {
-            // Upload avatar file logic (e.g., using FormData or uploading to server)
-            // For demonstration, let's assume we're updating the avatar URL directly
-            const reader = new FileReader();
-            reader.onload = function (event) {
-                setCurrentUser({ ...currentUser, avatar: event.target.result });
-                setUsers(users.map(user => (user.id === currentUser.id ? { ...user, avatar: event.target.result } : user)));
-                setIsEditing(false);
-                setAvatarFile(null);
-            };
-            reader.readAsDataURL(avatarFile);
-        } else {
-            setUsers(users.map(user => (user.id === currentUser.id ? currentUser : user)));
-            setIsEditing(false);
+    const handleDelete = async (postId) => {
+        try {
+            await apiDeletePost(postId);
+            setPosts(posts.filter(post => post._id !== postId));
+        } catch (error) {
+            console.error("Không thể xóa bài viết:", error);
         }
+    };
+
+    const handleSave = async (e) => {
+        e.preventDefault();
+        try {
+            let updatedPost = { ...currentPost };
+
+            if (avatarFile) {
+                const reader = new FileReader();
+                reader.onload = async (event) => {
+                    updatedPost.image = event.target.result;
+                    await savePost(updatedPost);
+                };
+                reader.readAsDataURL(avatarFile);
+            } else {
+                await savePost(updatedPost);
+            }
+        } catch (error) {
+            console.error("Không thể cập nhật bài viết:", error);
+        }
+    };
+
+    const savePost = async (post) => {
+        try {
+            if (isCreating) {
+                const response = await apiCreatePost(post);
+                setPosts([...posts, response.data]);
+                setIsCreating(false);
+            } else {
+                const response = await apiUpdatePost(post._id, post);
+                setPosts(posts.map(p => (p._id === post._id ? response.data : p)));
+                setIsEditing(false);
+            }
+            setAvatarFile(null);
+            setCurrentPost(null);
+        } catch (error) {
+            console.error("Không thể lưu bài viết:", error);
+        }
+    };
+
+    const handleCreate = () => {
+        setIsCreating(true);
+        setIsEditing(false);
+        setCurrentPost({ title: '', content: '', description: '', image: '', author: '' });
     };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setCurrentUser({ ...currentUser, [name]: value });
+        setCurrentPost({ ...currentPost, [name]: value });
     };
 
     const handleFileChange = (e) => {
@@ -71,88 +95,96 @@ function PostManager() {
     };
 
     return (
-        <div className="user-management-table">
-            <h2>Quản lý bài đăng</h2>
-            {isEditing ? (
+        <div className="post-management-table">
+            <h2>Quản lý bài viết</h2>
+            {!isEditing && !isCreating && (
+                <button className="create-button" onClick={handleCreate}>
+                    <FaPlus /> Tạo
+                </button>
+            )}
+            {(isEditing || isCreating) && (
                 <div className="edit-form">
-                    <h3>Chỉnh sửa bài đăng</h3>
+                    <h3>{isCreating ? 'Tạo bài viết' : 'Chỉnh sửa bài viết'}</h3>
                     <form onSubmit={handleSave}>
                         <label>
-                            Name:
+                            Tiêu đề:
                             <input
                                 type="text"
-                                name="name"
-                                value={currentUser.name}
+                                name="title"
+                                value={currentPost.title}
                                 onChange={handleChange}
                                 required
                             />
                         </label>
                         <label>
-                            Date:
-                            <input
-                                type="date"
-                                name="date"
-                                value={currentUser.date}
+                            Nội dung:
+                            <textarea
+                                name="content"
+                                value={currentPost.content}
                                 onChange={handleChange}
                                 required
                             />
                         </label>
                         <label>
-                            Post Title:
+                            Mô tả:
+                            <textarea
+                                name="description"
+                                value={currentPost.description}
+                                onChange={handleChange}
+                                required
+                            />
+                        </label>
+                        <label>
+                            Tác giả:
                             <input
                                 type="text"
-                                name="postTitle"
-                                value={currentUser.postTitle}
+                                name="author"
+                                value={currentPost.author}
                                 onChange={handleChange}
                                 required
                             />
                         </label>
                         <label>
-                            Current Avatar:
-                            <img src={currentUser.avatar} alt={currentUser.name} />
-                        </label>
-                        <label>
-                            New Avatar:
-                            <div className="file-input">
-                                <input
-                                    type="file"
-                                    accept="image/*"
-                                    onChange={handleFileChange}
-                                />
-                                <label>Choose File</label>
-                            </div>
+                            Ảnh:
+                            <input
+                                type="file"
+                                onChange={handleFileChange}
+                            />
                         </label>
                         <button type="submit" className="save-button">
-                            Save
+                            Lưu
                         </button>
-                        <button type="button" className="cancel-button" onClick={() => setIsEditing(false)}>
-                            Cancel
+                        <button type="button" className="cancel-button" onClick={() => { setIsEditing(false); setIsCreating(false); }}>
+                            Hủy
                         </button>
                     </form>
                 </div>
-            ) : (
+            )}
+            {!isEditing && !isCreating && (
                 <table className="table">
                     <thead>
                         <tr>
-                            <th>Avatar</th>
-                            <th>Name</th>
-                            <th>Date</th>
-                            <th>Post Title</th>
-                            <th>Actions</th>
+                            <th>Ảnh</th>
+                            <th>Tiêu đề</th>
+                            <th>Nội dung</th>
+                            <th>Mô tả</th>
+                            <th>Tác giả</th>
+                            <th>Hành động</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {users.map(user => (
-                            <tr key={user.id}>
-                                <td><img src={user.avatar} alt={user.name} /></td>
-                                <td>{user.name}</td>
-                                <td>{user.date}</td>
-                                <td>{user.postTitle}</td>
+                        {posts && posts.map((post) => (
+                            <tr key={post._id}>
+                                <td><img src={post.image || ''} alt={post.title || ''} /></td>
+                                <td>{post.title || ''}</td>
+                                <td>{post.content || ''}</td>
+                                <td>{post.description || ''}</td>
+                                <td>{post.author || ''}</td>
                                 <td>
-                                    <button onClick={() => handleEdit(user)} className="btn btn-link">
+                                    <button onClick={() => handleEdit(post)} className="btn btn-link">
                                         <i className="bi bi-pencil-square"></i>
                                     </button>
-                                    <button onClick={() => handleDelete(user.id)} className="btn btn-link">
+                                    <button onClick={() => handleDelete(post._id)} className="btn btn-link btn-delete">
                                         <i className="bi bi-trash"></i>
                                     </button>
                                 </td>
@@ -165,4 +197,4 @@ function PostManager() {
     );
 }
 
-export default PostManager
+export default PostManager;
