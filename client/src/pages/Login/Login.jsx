@@ -28,7 +28,7 @@ const Login = () => {
       const token = res.data.token;
       if (res) {
         dispatch(loginSuccess(res.data));
-        Cookies.set("accessToken", token);
+        Cookies.set("accessToken", token, { expires: 7 });
         navigate("/");
         console.log("Login successfully!"+token);
       } else {

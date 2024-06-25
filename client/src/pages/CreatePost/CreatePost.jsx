@@ -7,6 +7,7 @@ import { apiCreatePost } from "@/api/api";
 import { postCreated } from "@/redux/slice/postSlice";
 import { toast } from "react-toastify";
 import Chatbot from "@/components/chatbot/Chatbot";
+import ChatModal from "@/components/chatbot/ChatModal";
 
 const CreatePost = () => {
   const dispatch = useDispatch();
@@ -106,7 +107,8 @@ const CreatePost = () => {
   }, []);
   return (
     <div className="mt-80">
-      <Chatbot></Chatbot>
+      {/* <Chatbot></Chatbot> */}
+      <ChatModal></ChatModal>
       <div className="post">
         <div className="post__container">
           <input

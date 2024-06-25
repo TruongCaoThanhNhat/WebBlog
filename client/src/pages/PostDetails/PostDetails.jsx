@@ -27,7 +27,7 @@ import { useEffect, useState } from "react";
 import { apiCreateComment, getPostsBySlug } from "@/api/api";
 import usePostActions from "@/hooks/usePostActions";
 import ListComment from "@/components/comment/ListComment";
-// import TextToSpeech from "@/components/speech/TextToSpeech";
+import TextToSpeech from "@/components/speech/TextToSpeech";
 
 const PostDetailPage = () => {
   const [post, setPost] = useState([]);
@@ -96,8 +96,8 @@ const PostDetailPage = () => {
           case "header":
           case "paragraph":
             return item.data.text;
-          //  case "list":
-          //    return item.data.items.join(" ");
+           case "list":
+             return item.data.items.join(" ");
           default:
             return item.data.text;
         }
@@ -160,7 +160,7 @@ const PostDetailPage = () => {
             </div>
           </div>
           <div className="post__details-content">
-            {/* <TextToSpeech text={processContentForTTS(post.content)} /> */}
+            <TextToSpeech text={processContentForTTS(post.content)} />
             <div className="post__details-content-container">
               {post && post.content ? (
                 renderPostContent(post.content)
