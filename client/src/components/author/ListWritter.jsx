@@ -8,7 +8,7 @@ const ListWritter = () => {
   useEffect(() => {
     const fetchWritters = async () => {
       const data = await apiGetHotAuthor();
-      console.log(data.data);
+      console.log("author",data.data);
       if (data) {
         setWritters(data.data);
       }

@@ -90,6 +90,7 @@ const Header = () => {
                       <form
                         className="search_form d-flex align-items-center"
                         onSubmit={handleSearchSubmit}
+                      >
                         <input
                           type="text"
                           name="query"
@@ -172,23 +173,29 @@ const Header = () => {
                             </Link>
                           </li>
                           <li className="header__dropdown-item p-13">
-                            <Link to="/user" className="header__dropdown-link">
+                            <Link
+                              to={`/user/${user.userInfo.userName}?tab=myPost`}
+                              className="header__dropdown-link"
+                            >
                               <i className="header__dropdown-icon bx bx-pencil"></i>
                               <p className="header__dropdown-text">
                                 Bài viết của tôi
                               </p>
                             </Link>
                           </li>
-                          <li className="header__dropdown-item p-13">
+                          {/* <li className="header__dropdown-item p-13">
                             <Link to="/user" className="header__dropdown-link">
                               <i className="header__dropdown-icon bx bx-file-blank"></i>
                               <p className="header__dropdown-text">
                                 Nháp của tôi
                               </p>
                             </Link>
-                          </li>
+                          </li> */}
                           <li className="header__dropdown-item p-13">
-                            <Link to="/user" className="header__dropdown-link">
+                            <Link
+                              to={`/user/${user.userInfo.userName}?tab=saved`}
+                              className="header__dropdown-link"
+                            >
                               <i className="header__dropdown-icon bx bx-bookmark"></i>
                               <p className="header__dropdown-text">Đã lưu</p>
                             </Link>

@@ -8,7 +8,7 @@ import usePostActions from "@/hooks/usePostActions";
 import { handleDate } from "@/utils/handleUtils";
 const Post = ({ post }) => {
   const [newPost, setNewPost] = useState([]);
-  const { updatePost, handleView, isBookmarked , handleBookmark} = usePostActions(newPost);
+  const { updatePost, handleView, isBookmarked , handleBookmark, handleUpvote} = usePostActions(newPost);
   useEffect(() => {
     setNewPost(post);
   }, [post]);
@@ -120,7 +120,7 @@ const Post = ({ post }) => {
                   </div>
                   <div className="post__content-details-post-icon">
                     <div className="d-flex align-items-center">
-                      <div className="upvote">
+                      <div className="upvote" onClick={handleUpvote}>
                         <i>
                           <svg
                             width="17"
