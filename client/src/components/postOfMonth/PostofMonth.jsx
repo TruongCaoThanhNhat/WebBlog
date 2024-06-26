@@ -1,4 +1,6 @@
+import { handleDate } from "@/utils/handleUtils";
 import { Link } from "react-router-dom";
+import "./postofmonth.scss";
 
 const PostofMonth = ({ post }) => {
   const { title, timeRead, createdAt,slug } = post;
@@ -15,9 +17,7 @@ const PostofMonth = ({ post }) => {
       </div>
       <div className="pom__content-item-details">
         <div className="pom__content-item-details-heading">
-          <div>
-            <span className="time-read">4 phút đọc</span>
-          </div>
+          <div>{/* <span className="time-read">4 phút đọc</span> */}</div>
           <div className="suggest__content-details-save">
             <svg
               id="Layer_1"
@@ -43,24 +43,28 @@ const PostofMonth = ({ post }) => {
           </Link>
         </div>
         <div className="pom__content-item-details-post">
-          <div className="suggest__content-details-post-user">
-            <div className="suggest__content-details-post-avt">
-              <Link to="/">
-                <img
-                  src="https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-xs-avatar/c7967c50a8e811ec8f3e8be3eb7f2505.png"
-                  alt=""
-                />
-              </Link>
+          <div className="pom__content-item-details-post-user">
+            <div className="d-flex align-items-center">
+              <div className="pom__content-item-details-post-avt">
+                <Link to="/">
+                  <img
+                    src="https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-xs-avatar/c7967c50a8e811ec8f3e8be3eb7f2505.png"
+                    alt=""
+                  />
+                </Link>
+              </div>
+              <div>
+                <Link to="/">
+                  <p className="post-username ms-4">
+                    {author ? author.userName : "Nguyễn Thanh Tùng"}
+                  </p>
+                </Link>
+              </div>
             </div>
             <div>
-              <Link to="/">
-                <p className="post-username">
-                  {author ? author.userName : "Nguyễn Thanh Tùng"}
-                </p>
-              </Link>
-            </div>
-            <div>
-              <span className="time-read">{post && post.createdAt}</span>
+              <span className="time-read">
+                {post && handleDate(post.createdAt)} ngày trước
+              </span>
             </div>
           </div>
         </div>

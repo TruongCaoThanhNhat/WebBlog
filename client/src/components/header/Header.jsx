@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsSearch, BsMessenger, BsBellFill } from "react-icons/bs";
 import { FaBars } from "react-icons/fa";
 import "./header.scss";
@@ -11,6 +11,7 @@ import Avatar from "../avatar/Avatar";
 const Header = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [visible, setVisible] = useState(true);
   const [showCategory, setShowCategory] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -18,7 +19,6 @@ const Header = () => {
   const [extraCategories, setExtraCategories] = useState([]);
   const [showDropDown, setShowDropDown] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
   const [showSearchBar, setShowSearchBar] = useState(false);
 
   useEffect(() => {
@@ -53,21 +53,14 @@ const Header = () => {
   const handleShowDropDown = () => setShowDropDown(!showDropDown);
   const cls = visible ? "visible" : "hide";
 
-  const handleSearchChange = async (e) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-    if (query.length > 2) {
-      const res = await axios.get(`/api/search?query=${query}`);
-      setSearchResults(res.data.results);
-    } else {
-      setSearchResults([]);
-    }
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    navigate(`/search?q=${searchQuery}`);
   };
 
   const toggleSearchBar = () => {
     setShowSearchBar(!showSearchBar);
   };
-
 
   return (
     <header className={`header ${visible ? "header" : "header-height"}`}>
@@ -86,31 +79,35 @@ const Header = () => {
             {user.isLoggedIn ? (
               <ul className="header__menu-top">
                 <div className="none">
-                  <div className="header__icon-top-wrapper" onClick={toggleSearchBar}>
+                  <div
+                    className="header__icon-top-wrapper"
+                    onClick={toggleSearchBar}
+                  >
                     <BsSearch className="header__icon header__icon-top" />
                   </div>
                   {showSearchBar && (
-              <div className="header__search">
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={handleSearchChange}
-                  placeholder="Tìm kiếm theo tiêu đề..."
-                />
-                {searchResults.length > 0 && (
-                  <div className="search-results">
-                    {searchResults.map((result) => (
-                      <Link key={result.id} to={`/post/${result.slug}`} className="search-result-item">
-                        {result.title}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
+                    <div className="search__bar">
+                      <form
+                        className="search_form d-flex align-items-center"
+                        onSubmit={handleSearchSubmit}
+                      >
+                        <input
+                          type="text"
+                          name="query"
+                          placeholder="Search"
+                          title="Enter search keyword"
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                        <button type="submit" title="Search">
+                          <i className="icon-search bi bi-search"></i>
+                        </button>
+                      </form>
+                    </div>
+                  )}
                 </div>
                 <div className="none">
-                  <Link to="/">
+                  <Link to={"/messages"}>
                     <div className="header__icon-top-wrapper">
                       <BsMessenger className="header__icon" />
                     </div>
@@ -119,15 +116,24 @@ const Header = () => {
                 <div className="none">
                   <BsBellFill className="header__icon" />
                 </div>
-
                 <div className="">
                   <button className="header__button ">
                     <Link to="/create-post">Viết bài</Link>
                   </button>
                 </div>
+                {user.userInfo.role === "ADMIN" ? (
+                  <div className="">
+                    <button className="header__button ">
+                      <Link to="/dashboard">Admin</Link>
+                    </button>
+                  </div>
+                ) : null}
                 <div className="header__avt" onClick={handleShowDropDown}>
                   <img
-                    src="https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-xs-avatar/aec845906a1911ec8130097cb62284e8.png"
+                    src={
+                      user.userInfo.avatar ||
+                      "https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-xs-avatar/aec845906a1911ec8130097cb62284e8.png"
+                    }
                     alt=""
                     className="post-avt"
                   />
@@ -135,17 +141,19 @@ const Header = () => {
                 {showDropDown && (
                   <div className="header__dropdown">
                     <header className="p-10 border-bottom">
-                      <Link to="/" className="header__dropdown-header p-10  ">
+                      <Link
+                        to={`/user/${user.userInfo.userName}`}
+                        className="header__dropdown-header p-10  "
+                      >
                         <div className="header__dropdown-img">
-                          <img
-                            src="https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-xs-avatar/8918f260d01b11eb8ffbcba3c0ad0183.jpg"
-                            alt=""
-                          />
+                          <img src={user.userInfo.avatar} alt="" />
                         </div>
                         <div className="header__dropdown-info">
-                          <p className="header__dropdown-name">HuuPhuoc</p>
+                          <p className="header__dropdown-name">
+                            {user.userInfo.displayName}
+                          </p>
                           <span className="header__dropdown-phone">
-                            @0362821110
+                            @{user.userInfo.displayName}
                           </span>
                         </div>
                       </Link>
@@ -154,33 +162,53 @@ const Header = () => {
                       <div className="p-7 border-bottom">
                         <ul className="header__dropdown-list ">
                           <li className="header__dropdown-item p-13">
-                            <Link to={`/user/${user.userInfo.userName}`} className="header__dropdown-link">
+                            <Link
+                              to={`/user/${user.userInfo.userName}`}
+                              className="header__dropdown-link"
+                            >
                               <i className="header__dropdown-icon bx bx-user"></i>
-                              <p className="header__dropdown-text">Xem trang cá nhân</p>
+                              <p className="header__dropdown-text">
+                                Xem trang cá nhân
+                              </p>
                             </Link>
                           </li>
                           <li className="header__dropdown-item p-13">
-                            <Link to="/user" className="header__dropdown-link">
+                            <Link
+                              to={`/user/${user.userInfo.userName}?tab=myPost`}
+                              className="header__dropdown-link"
+                            >
                               <i className="header__dropdown-icon bx bx-pencil"></i>
-                              <p className="header__dropdown-text">Bài viết của tôi</p>
+                              <p className="header__dropdown-text">
+                                Bài viết của tôi
+                              </p>
                             </Link>
                           </li>
-                          <li className="header__dropdown-item p-13">
+                          {/* <li className="header__dropdown-item p-13">
                             <Link to="/user" className="header__dropdown-link">
                               <i className="header__dropdown-icon bx bx-file-blank"></i>
-                              <p className="header__dropdown-text">Nháp của tôi</p>
+                              <p className="header__dropdown-text">
+                                Nháp của tôi
+                              </p>
                             </Link>
-                          </li>
+                          </li> */}
                           <li className="header__dropdown-item p-13">
-                            <Link to="/user" className="header__dropdown-link">
+                            <Link
+                              to={`/user/${user.userInfo.userName}?tab=saved`}
+                              className="header__dropdown-link"
+                            >
                               <i className="header__dropdown-icon bx bx-bookmark"></i>
                               <p className="header__dropdown-text">Đã lưu</p>
                             </Link>
                           </li>
                           <li className="header__dropdown-item p-13">
-                            <Link to="/user/setting" className="header__dropdown-link">
+                            <Link
+                              to="/user/setting"
+                              className="header__dropdown-link"
+                            >
                               <i className="header__dropdown-icon bx bx-cog"></i>
-                              <p className="header__dropdown-text">Tùy chỉnh tài khoản</p>
+                              <p className="header__dropdown-text">
+                                Tùy chỉnh tài khoản
+                              </p>
                             </Link>
                           </li>
                           <li className="header__dropdown-item p-13">
@@ -216,7 +244,10 @@ const Header = () => {
             <ul className="header__menu-list">
               {mainCategories.map((item) => (
                 <li key={item._id} className="header__menu-item">
-                  <Link to={`/category/${item.slug}`} className="header__menu-link">
+                  <Link
+                    to={`/category/${item.slug}`}
+                    className="header__menu-link"
+                  >
                     {item.name}
                   </Link>
                 </li>

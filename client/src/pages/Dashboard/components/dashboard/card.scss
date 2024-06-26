@@ -1,0 +1,43 @@
+.card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.card-body {
+    display: flex;
+    align-items: center;
+}
+
+.card-body i {
+    font-size: 15px;
+    margin-right: 10px;
+}
+
+.card-body h3 {
+    font-size: 15px;
+    margin: 0;
+}
+
+.card-body p {
+    margin: 5px;
+}
+
+.increase {
+    color: green;
+}
+
+.decrease {
+    color: red;
+}

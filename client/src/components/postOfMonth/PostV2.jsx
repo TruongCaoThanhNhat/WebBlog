@@ -1,3 +1,4 @@
+import { handleDate } from '@/utils/handleUtils';
 import { Link } from 'react-router-dom';
 
 const PostV2 = ({post}) => {
@@ -15,9 +16,7 @@ const PostV2 = ({post}) => {
       </div>
       <div className="pom__content-item-details">
         <div className="pom__content-item-details-heading">
-          <div>
-            <span className="time-read">4 phút đọc</span>
-          </div>
+          <div>{/* <span className="time-read">4 phút đọc</span> */}</div>
           <div className="suggest__content-details-save">
             <svg
               id="Layer_1"
@@ -54,14 +53,15 @@ const PostV2 = ({post}) => {
             </div>
             <div>
               <Link to="/">
-                <p className="post-username">{
-                  author ? author.userName : "Nguyễn Thanh Tùng"
-                
-                }</p>
+                <p className="post-username">
+                  {author ? author.userName : "Nguyễn Thanh Tùng"}
+                </p>
               </Link>
             </div>
             <div>
-              <span className="time-read">{post && post.createdAt}</span>
+              <span className="time-read">
+                {post && handleDate(post.createdAt)} ngày trước
+              </span>
             </div>
           </div>
         </div>

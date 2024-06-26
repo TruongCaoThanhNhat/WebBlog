@@ -1,68 +1,89 @@
-import React from 'react';
-import "./comment.scss";
-const Comment = () => {
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import Avatar from "../avatar/Avatar";
+
+const Comment = ({ comment, reply }) => {
+  const [replyComment, setReplyComment] = useState(reply);
+  const { _id, author, content, voteCount, createdAt } = comment;
+
+  // const [isReply, setIsReply] = useState(false);
   return (
-    <div className="container bootdey">
-      <div className="col-md-12 bootstrap snippets">
-        <div className="panel">
-          <div className="panel-body">
-            <textarea className="form-control" rows="2" placeholder="What are you thinking?"></textarea>
-            <div className="mar-top clearfix">
-              <button className="btn btn-sm btn-primary pull-right" type="submit">
-                <i className="fa fa-pencil fa-fw"></i> Share
-              </button>
+    <div className="comment__item">
+      <div className="comment__item-avatar">
+        <Link>
+          <Avatar />
+        </Link>
+        <div className="creater-info">
+          <Link>
+            <p className="creater-name">{author?.userName}</p>
+          </Link>
+          <span className="time-date">{createdAt && createdAt}</span>
+        </div>
+        <div className="creater-report">
+          <button>Báo cáo</button>
+        </div>
+      </div>
+      <div className="comment__item-body">
+        <div className="comment-content">
+          {content && content ? <p>{content}</p> : <p></p>}
+        </div>
+      </div>
+      <div className="comment__item-actions">
+        <div className="user-actions">
+          <div className="d-flex align-items-center">
+            <div className="upvote">
+              <i>
+                <svg
+                  _ngcontent-serverApp-c37=""
+                  width="17"
+                  height="15"
+                  viewBox="0 0 17 15"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    _ngcontent-serverApp-c37=""
+                    d="M8.32031 3.98438L3.00781 12.5H13.6719L8.32031 3.98438ZM8.32031 0.820312L16.6797 14.1797H0L8.32031 0.820312Z"
+                    class="cls-1"
+                  ></path>
+                </svg>
+              </i>
+            </div>
+            <div className="value">
+              <span>80</span>
+            </div>
+            <div className="downvote">
+              <i>
+                <svg
+                  _ngcontent-serverApp-c37=""
+                  width="17"
+                  height="15"
+                  viewBox="0 0 17 15"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    _ngcontent-serverApp-c37=""
+                    d="M8.67969 11.0156L13.9922 2.5L3.32812 2.5L8.67969 11.0156ZM8.67969 14.1797L0.320311 0.820314L17 0.820312L8.67969 14.1797Z"
+                    class="cls-1"
+                  ></path>
+                </svg>
+              </i>
             </div>
           </div>
-        </div>
-        <div className="panel">
-          <div className="panel-body">
-            {/* Newsfeed Content */}
-            <div className="media-block">
-              <a className="media-left" href="#">
-                <img
-                  className="img-circle img-sm"
-                  alt="Profile"
-                  src="https://bootdey.com/img/Content/avatar/avatar1.png"
-                />
-              </a>
-              <div className="media-body">
-                <div className="mar-btm">
-                  <a href="#" className="btn-link text-semibold media-heading box-inline">
-                    Lisa D.
-                  </a>
-                  <p className="text-muted text-sm">
-                    11 min ago
-                  </p>
-                </div>
-                <p className="text"> 
-                  consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet
-                  dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud
-                  exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo
-                  consequat.
-                </p>
-                <div className="pad-ver">
-                  <div className="btn-group">
-                    <a className="btn btn-sm btn-default btn-hover-success" href="#">
-                      <i className="fa fa-thumbs-up"></i>
-                    </a>
-                    <a className="btn btn-sm btn-default btn-hover-danger" href="#">
-                      <i className="fa fa-thumbs-down"></i>
-                    </a>
-                  </div>
-                  <a className="btn btn-sm btn-default btn-hover-primary" href="#">
-                    Comment
-                  </a>
-                </div>
-                <hr />
-                {/* Comments */}
-                <div>
-                </div>
-              </div>
-            </div>
-            {/* End Newsfeed Content */}
+          <div className="action-reply">
+            <span>Trả lời</span>
           </div>
         </div>
       </div>
+      {replyComment && replyComment ? (
+        <div className="comment__item-replys">
+          {replyComment &&
+            replyComment.map((item) => (
+              <Comment key={item._id} comment={item} reply={reply} />
+            ))}
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

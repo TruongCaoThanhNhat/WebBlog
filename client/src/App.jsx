@@ -11,9 +11,19 @@ import CateDetails from "./pages/CateDetails/CateDetails";
 import HomePage from "./pages/home/HomePage";
 import 'boxicons/css/boxicons.min.css';
 
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import DashboardLayout from "./pages/Dashboard/DashboardLayout";
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import MessagePage from "./pages/message/MessagePage";
+import SearchResults from "./components/searchResult/SearchResults";
+
+
 function App() {
   return (
     <>
+      <ToastContainer />
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
@@ -23,10 +33,14 @@ function App() {
           <Route path="/post/:slug" element={<PostDetails />} />
         </Route>
 
+        <Route path="/messages/" element={<MessagePage />}></Route>
+
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="create-post" element={<CreatePost />} />
-      </Routes>
+        <Route path="/dashboard" element={<DashboardLayout/>} />
+        <Route path="/search" element={<SearchResults/>} />
+     </Routes>
     </>
   );
 }

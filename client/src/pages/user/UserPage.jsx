@@ -1,5 +1,5 @@
 import "./user.scss";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useSearchParams } from "react-router-dom";
 import { BsFeather } from "react-icons/bs";
 import { GoStack } from "react-icons/go";
 import { MdKeyboardArrowDown } from "react-icons/md";
@@ -8,13 +8,22 @@ import PostV2 from "@/components/postOfMonth/PostV2";
 import { useEffect, useState } from "react";
 import ProfileSidebar from "./ProfileSidebar";
 import {
+  apiGetPostUserHistory,
+  apiGetPostUserSaved,
   apiGetPostsByUserName,
+  apiRemoveUserHistory,
 } from "@/api/api";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaHistory } from "react-icons/fa";
+import {
+  fetchUserHistory,
+  removeUserHistory,
+} from "@/redux/slices/historySlice";
 const UserPage = () => {
   const user = useSelector((state) => state.user);
   const { username } = useParams();
+  const [searchParams] = useSearchParams();
+  const tab = searchParams.get("tab") || "myPost";
   const [activeTab, setActiveTab] = useState("myPost");
   const [posts, setPosts] = useState({});
   const [savedPosts, setSavedPosts] = useState({});
@@ -22,6 +31,16 @@ const UserPage = () => {
   const handleTabClick = (tab) => {
     setActiveTab(tab);
   };
+
+  useEffect(() => {
+    if (activeTab === "myPost") {
+      setPosts(posts || []);
+    } else if (activeTab === "savedPost") {
+      setSavedPosts(savedPosts || []);
+    } else if (activeTab === "historyPost") {
+      setHistoryPosts(history || []);
+    }
+  }, [activeTab, posts, savedPosts]);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -33,16 +52,29 @@ const UserPage = () => {
     fetchPost();
   }, [username]);
 
-  // useEffect(() => {
-  //   const fetchPost = async () => {
-  //     const res = await apiGetPostUserSaved(user.userInfo.id);
-  //     setSavedPosts(res.savedPost);
-  //     // console.log("saved", res.savedPost);
-  //   };
+  useEffect(() => {
+    const fetchPost = async () => {
+      const res = await apiGetPostUserSaved(user.userInfo.id);
+      setSavedPosts(res.savedPost);
+      // console.log("saved", res.savedPost);
+    };
 
-  //   fetchPost();
-  // }, [user.userInfo.id]);
+    fetchPost();
+  }, [user.userInfo.id]);
 
+  const dispatch = useDispatch();
+  const historyPostRedux = useSelector((state) => state.history.historyPosts);
+  const status = useSelector((state) => state.history.status);
+  const error = useSelector((state) => state.history.error);
+
+  useEffect(() => {
+    dispatch(fetchUserHistory(user.userInfo.id));
+  }, [dispatch, user.userInfo.id]);
+
+  const handleRemoveHistory =async (postId) => {
+    await dispatch(removeUserHistory({ userId: user.userInfo.id, postId }));
+    dispatch(fetchUserHistory(user.userInfo.id));
+  };
   // useEffect(() => {
   //   const fetchHitory = async () => {
   //     const res = await apiGetPostUserHistory(user.userInfo.id);
@@ -84,29 +116,29 @@ const UserPage = () => {
                   }`}
                   onClick={() => handleTabClick("myPost")}
                 >
-                  <Link>
+                  <Link to={`/user/${user.userInfo.userName}?tab=myPost`}>
                     <BsFeather />
                     <span>Bài viết ({posts?.length})</span>
                   </Link>
                 </div>
-                <div
+                {/* <div
                   className={`profile__tabs-item ${
                     activeTab === "series" ? "active" : ""
                   }`}
                   onClick={() => handleTabClick("series")}
                 >
-                  <Link>
+                  <Link to={`/user/${user.userInfo.userName}?tab=series`}>
                     <GoStack />
                     <span>Series</span>
                   </Link>
-                </div>
+                </div> */}
                 <div
                   className={`profile__tabs-item ${
                     activeTab === "saved" ? "active" : ""
                   }`}
                   onClick={() => handleTabClick("saved")}
                 >
-                  <Link>
+                  <Link to={`/user/${user.userInfo.userName}?tab=saved`}>
                     <GoStack />
                     <span>Saved</span>
                   </Link>
@@ -117,7 +149,7 @@ const UserPage = () => {
                   }`}
                   onClick={() => handleTabClick("history")}
                 >
-                  <Link>
+                  <Link to={`/user/${user.userInfo.userName}?tab=history`}>
                     <FaHistory />
                     <span>History</span>
                   </Link>
@@ -222,9 +254,9 @@ const UserPage = () => {
                   )}
                   {activeTab === "history" && (
                     <div className="profile__posts-list-layout row">
-                      {historyPosts &&
-                        historyPosts.length &&
-                        historyPosts.map((post, index) => (
+                      {historyPostRedux &&
+                        historyPostRedux.length &&
+                        historyPostRedux.map((post, index) => (
                           <div className="" key={index}>
                             <button
                               className="btn btn-danger fs-4"
