@@ -5,6 +5,7 @@ import category from "./category";
 import comments from "./comments";
 import messages from "./message";
 import conversation from "./conversation";
+import search from "./search";
 
 const webRoutes = (app) => {
 
