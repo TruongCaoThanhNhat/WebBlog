@@ -39,9 +39,10 @@ const Header = () => {
   useEffect(() => {
     const fetchCategories = async () => {
       const res = await apiGetAllCategory();
-      const allCategories = res.data.categorys;
+      const allCategories = res.data.categories;
       setCategories(allCategories);
       dispatch(getAll(allCategories));
+      // Chia danh mục
       setMainCategories(allCategories.slice(0, 8));
       setExtraCategories(allCategories.slice(8));
     };
@@ -49,7 +50,6 @@ const Header = () => {
   }, [dispatch]);
 
   const handleShow = () => setShowCategory(!showCategory);
-
   const handleShowDropDown = () => setShowDropDown(!showDropDown);
   const cls = visible ? "visible" : "hide";
 

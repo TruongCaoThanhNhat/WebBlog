@@ -19,7 +19,11 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!userName || !password) {
-      dispatch(loginFailure({ error: "userName or Password is required!" }));
+      dispatch(
+        loginFailure({
+          error: "Vui lòng nhập đầy đủ tên đăng nhập hoặc email!",
+        })
+      );
       return;
     }
 
@@ -30,13 +34,19 @@ const Login = () => {
         dispatch(loginSuccess(res.data));
         Cookies.set("accessToken", token);
         navigate("/");
-        console.log("Login successfully!"+token);
+        console.log("Đăng nhập thành công!" + token);
       } else {
-        dispatch(loginFailure({ error: "Invalid userName or password!" }));
+        dispatch(
+          loginFailure({ error: "Sai username hoặc password!" })
+        );
       }
       console.log(res);
     } catch (error) {
-      dispatch(loginFailure({ error: error.message || "Error logging in" }));
+      dispatch(
+        loginFailure({
+          error: error.message || "Sai username hoặc password!",
+        })
+      );
       console.error("Error logging in:", error);
     }
   };
@@ -77,7 +87,6 @@ const Login = () => {
           <button
             type="submit"
             className="btn btn-primary w-100"
-            // disabled={!userName || !password}
           >
             Đăng nhập
           </button>
