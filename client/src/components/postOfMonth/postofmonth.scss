@@ -6,11 +6,6 @@
   &__content {
     margin-top: 30px;
     padding: 15px;
-    &-list {
-      // display: grid;
-      // grid-template-columns: repeat(4, 1fr);
-      // gap: 10px;
-    }
     &-item {
       max-width: 280px;
       margin-bottom: 30px;
@@ -67,7 +62,7 @@
             }
           }
           &-user {
-            display: flex;
+            // display: flex;
             align-items: center;
             gap: 0 10px;
           }

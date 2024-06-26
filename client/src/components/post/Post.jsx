@@ -5,6 +5,7 @@ import { FiBookmark } from "react-icons/fi";
 import "./post.scss";
 import { useEffect, useState } from "react";
 import usePostActions from "@/hooks/usePostActions";
+import { handleDate } from "@/utils/handleUtils";
 const Post = ({ post }) => {
   const [newPost, setNewPost] = useState([]);
   const { updatePost, handleView, isBookmarked , handleBookmark} = usePostActions(newPost);
@@ -60,8 +61,8 @@ const Post = ({ post }) => {
                           : "Quan điểm - Tranh luận"}
                       </span>
                     </Link>
-                    <BsDot className="icon-dot" />
-                    <span className="time-read"> 4 phút đọc</span>
+                    {/* <BsDot className="icon-dot" /> */}
+                    {/* <span className="time-read"> 4 phút đọc</span> */}
                   </div>
                   <div
                     className={`post__content-details-save ${
@@ -111,7 +112,9 @@ const Post = ({ post }) => {
                         </Link>
                       </div>
                       <div>
-                        <span className="time-date">Hôm qua</span>
+                        <span className="time-date">
+                          {handleDate(post.createdAt)} ngày trước
+                        </span>
                       </div>
                     </div>
                   </div>

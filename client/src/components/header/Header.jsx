@@ -86,31 +86,34 @@ const Header = () => {
             {user.isLoggedIn ? (
               <ul className="header__menu-top">
                 <div className="none">
-                  <div className="header__icon-top-wrapper" onClick={toggleSearchBar}>
+                  <div
+                    className="header__icon-top-wrapper"
+                    onClick={toggleSearchBar}
+                  >
                     <BsSearch className="header__icon header__icon-top" />
                   </div>
                   {showSearchBar && (
-               <div className="search__bar">
-               <form
-               className="search_form d-flex align-items-center"
-               method="POST"
-               action="#"
-               >
-               <input
-                   type="text"
-                   name="query"
-                   placeholder="Search"
-                   title="Enter search keyword"
-               />
-               <button type="submit" title="Search">
-                   <i className="icon-search bi bi-search"></i>
-               </button>
-           </form>
-   </div >
-            )}
+                    <div className="search__bar">
+                      <form
+                        className="search_form d-flex align-items-center"
+                        method="POST"
+                        action="#"
+                      >
+                        <input
+                          type="text"
+                          name="query"
+                          placeholder="Search"
+                          title="Enter search keyword"
+                        />
+                        <button type="submit" title="Search">
+                          <i className="icon-search bi bi-search"></i>
+                        </button>
+                      </form>
+                    </div>
+                  )}
                 </div>
                 <div className="none">
-                  <Link to={'/messages'}>
+                  <Link to={"/messages"}>
                     <div className="header__icon-top-wrapper">
                       <BsMessenger className="header__icon" />
                     </div>
@@ -125,14 +128,19 @@ const Header = () => {
                     <Link to="/create-post">Viết bài</Link>
                   </button>
                 </div>
-                <div className="">
-                  <button className="header__button ">
-                    <Link to="/dashboard">Admin</Link>
-                  </button>
-                </div>
+                {user.userInfo.role === "ADMIN" ? (
+                  <div className="">
+                    <button className="header__button ">
+                      <Link to="/dashboard">Admin</Link>
+                    </button>
+                  </div>
+                ) : null}
                 <div className="header__avt" onClick={handleShowDropDown}>
                   <img
-                    src="https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-xs-avatar/aec845906a1911ec8130097cb62284e8.png"
+                    src={
+                      user.userInfo.avatar ||
+                      "https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-xs-avatar/aec845906a1911ec8130097cb62284e8.png"
+                    }
                     alt=""
                     className="post-avt"
                   />
@@ -140,17 +148,19 @@ const Header = () => {
                 {showDropDown && (
                   <div className="header__dropdown">
                     <header className="p-10 border-bottom">
-                      <Link to="/" className="header__dropdown-header p-10  ">
+                      <Link
+                        to={`/user/${user.userInfo.userName}`}
+                        className="header__dropdown-header p-10  "
+                      >
                         <div className="header__dropdown-img">
-                          <img
-                            src="https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-xs-avatar/8918f260d01b11eb8ffbcba3c0ad0183.jpg"
-                            alt=""
-                          />
+                          <img src={user.userInfo.avatar} alt="" />
                         </div>
                         <div className="header__dropdown-info">
-                          <p className="header__dropdown-name">HuuPhuoc</p>
+                          <p className="header__dropdown-name">
+                            {user.userInfo.displayName}
+                          </p>
                           <span className="header__dropdown-phone">
-                            @0362821110
+                            @{user.userInfo.displayName}
                           </span>
                         </div>
                       </Link>
@@ -159,21 +169,30 @@ const Header = () => {
                       <div className="p-7 border-bottom">
                         <ul className="header__dropdown-list ">
                           <li className="header__dropdown-item p-13">
-                            <Link to={`/user/${user.userInfo.userName}`} className="header__dropdown-link">
+                            <Link
+                              to={`/user/${user.userInfo.userName}`}
+                              className="header__dropdown-link"
+                            >
                               <i className="header__dropdown-icon bx bx-user"></i>
-                              <p className="header__dropdown-text">Xem trang cá nhân</p>
+                              <p className="header__dropdown-text">
+                                Xem trang cá nhân
+                              </p>
                             </Link>
                           </li>
                           <li className="header__dropdown-item p-13">
                             <Link to="/user" className="header__dropdown-link">
                               <i className="header__dropdown-icon bx bx-pencil"></i>
-                              <p className="header__dropdown-text">Bài viết của tôi</p>
+                              <p className="header__dropdown-text">
+                                Bài viết của tôi
+                              </p>
                             </Link>
                           </li>
                           <li className="header__dropdown-item p-13">
                             <Link to="/user" className="header__dropdown-link">
                               <i className="header__dropdown-icon bx bx-file-blank"></i>
-                              <p className="header__dropdown-text">Nháp của tôi</p>
+                              <p className="header__dropdown-text">
+                                Nháp của tôi
+                              </p>
                             </Link>
                           </li>
                           <li className="header__dropdown-item p-13">
@@ -183,9 +202,14 @@ const Header = () => {
                             </Link>
                           </li>
                           <li className="header__dropdown-item p-13">
-                            <Link to="/user/setting" className="header__dropdown-link">
+                            <Link
+                              to="/user/setting"
+                              className="header__dropdown-link"
+                            >
                               <i className="header__dropdown-icon bx bx-cog"></i>
-                              <p className="header__dropdown-text">Tùy chỉnh tài khoản</p>
+                              <p className="header__dropdown-text">
+                                Tùy chỉnh tài khoản
+                              </p>
                             </Link>
                           </li>
                           <li className="header__dropdown-item p-13">
@@ -221,7 +245,10 @@ const Header = () => {
             <ul className="header__menu-list">
               {mainCategories.map((item) => (
                 <li key={item._id} className="header__menu-item">
-                  <Link to={`/category/${item.slug}`} className="header__menu-link">
+                  <Link
+                    to={`/category/${item.slug}`}
+                    className="header__menu-link"
+                  >
                     {item.name}
                   </Link>
                 </li>

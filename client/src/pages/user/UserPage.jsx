@@ -121,7 +121,7 @@ const UserPage = () => {
                     <span>Bài viết ({posts?.length})</span>
                   </Link>
                 </div>
-                <div
+                {/* <div
                   className={`profile__tabs-item ${
                     activeTab === "series" ? "active" : ""
                   }`}
@@ -131,7 +131,7 @@ const UserPage = () => {
                     <GoStack />
                     <span>Series</span>
                   </Link>
-                </div>
+                </div> */}
                 <div
                   className={`profile__tabs-item ${
                     activeTab === "saved" ? "active" : ""
