@@ -23,6 +23,7 @@ import {
   updateUserEmail,
 
 } from '@/controllers/userCotroller'
+import { isAdmin } from '@/middleware/authUser'
 import { verifyToken } from '@/middleware/verifyToken'
 
 import express from 'express'
@@ -53,8 +54,8 @@ router.put('/change-password', verifyToken, updatePassword)
 
 //admin user
 router.get('/', getAllUsers)
-router.put('/:userId', verifyToken, updateUser)
-router.delete('/:userId', verifyToken, deleteUser)
+router.put("/:userId", verifyToken, isAdmin, updateUser);
+router.delete("/:userId", verifyToken, isAdmin, deleteUser);
 
 export default router
 

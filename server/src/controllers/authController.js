@@ -61,6 +61,7 @@ export const login = async (req, res, next) => {
           displayName: user.displayName,
           mobile: user.mobile,
           avatar: user.avatar,
+          role: user.role,
         },
       });
     } else {

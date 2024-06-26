@@ -17,3 +17,14 @@ export const checkCurrentUser = (req, res, next) => {
         }
     }
 }
+
+// checkAdmin.js
+export const isAdmin = async (req, res, next) => {
+  const userId = req.user.userId;
+  const user = await getUserById(userId);
+  if (user && user.role === "ADMIN") {
+    next(); // Cho phép tiếp tục nếu là admin
+  } else {
+    res.status(403).send("Access denied"); // Trả về lỗi nếu không phải admin
+  }
+};
