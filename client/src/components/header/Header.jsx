@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { BsSearch, BsMessenger, BsBellFill } from "react-icons/bs";
 import { FaBars } from "react-icons/fa";
 import "./header.scss";
@@ -11,6 +11,7 @@ import Avatar from "../avatar/Avatar";
 const Header = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [visible, setVisible] = useState(true);
   const [showCategory, setShowCategory] = useState(false);
   const [categories, setCategories] = useState([]);
@@ -18,7 +19,6 @@ const Header = () => {
   const [extraCategories, setExtraCategories] = useState([]);
   const [showDropDown, setShowDropDown] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
   const [showSearchBar, setShowSearchBar] = useState(false);
 
   useEffect(() => {
@@ -53,21 +53,14 @@ const Header = () => {
   const handleShowDropDown = () => setShowDropDown(!showDropDown);
   const cls = visible ? "visible" : "hide";
 
-  const handleSearchChange = async (e) => {
-    const query = e.target.value;
-    setSearchQuery(query);
-    if (query.length > 2) {
-      const res = await axios.get(`/api/search?query=${query}`);
-      setSearchResults(res.data.results);
-    } else {
-      setSearchResults([]);
-    }
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    navigate(`/search?q=${searchQuery}`);
   };
 
   const toggleSearchBar = () => {
     setShowSearchBar(!showSearchBar);
   };
-
 
   return (
     <header className={`header ${visible ? "header" : "header-height"}`}>
@@ -90,24 +83,25 @@ const Header = () => {
                     <BsSearch className="header__icon header__icon-top" />
                   </div>
                   {showSearchBar && (
-               <div className="search__bar">
-               <form
-               className="search_form d-flex align-items-center"
-               method="POST"
-               action="#"
-               >
-               <input
-                   type="text"
-                   name="query"
-                   placeholder="Search"
-                   title="Enter search keyword"
-               />
-               <button type="submit" title="Search">
-                   <i className="icon-search bi bi-search"></i>
-               </button>
-           </form>
-   </div >
-            )}
+                    <div className="search__bar">
+                      <form
+                        className="search_form d-flex align-items-center"
+                        onSubmit={handleSearchSubmit}
+                      >
+                        <input
+                          type="text"
+                          name="query"
+                          placeholder="Search"
+                          title="Enter search keyword"
+                          value={searchQuery}
+                          onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                        <button type="submit" title="Search">
+                          <i className="icon-search bi bi-search"></i>
+                        </button>
+                      </form>
+                    </div>
+                  )}
                 </div>
                 <div className="none">
                   <Link to={'/messages'}>
@@ -119,7 +113,6 @@ const Header = () => {
                 <div className="none">
                   <BsBellFill className="header__icon" />
                 </div>
-
                 <div className="">
                   <button className="header__button ">
                     <Link to="/create-post">Viết bài</Link>
