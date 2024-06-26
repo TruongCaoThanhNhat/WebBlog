@@ -17,6 +17,7 @@ import DashboardLayout from "./pages/Dashboard/DashboardLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MessagePage from "./pages/message/MessagePage";
+import SearchResults from "./components/searchResult/SearchResults";
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="create-post" element={<CreatePost />} />
         <Route path="/dashboard" element={<DashboardLayout/>} />
+        <Route path="/search" element={<SearchResults/>} />
      </Routes>
     </>
   );
