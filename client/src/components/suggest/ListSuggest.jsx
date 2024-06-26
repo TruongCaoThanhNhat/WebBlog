@@ -16,7 +16,7 @@ const ListSuggest = () => {
   const [searchParams] = useSearchParams();
   let sort = searchParams.get("sort");
   let page = searchParams.get("page");
-  console.log(sort, page);
+  // console.log(sort, page);
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -27,7 +27,7 @@ const ListSuggest = () => {
     const fetchAllPost = async () => {
       try {
         const data = await apiGetAllPost(sort || "hot", page);
-        console.log("all", data.data);
+        // console.log("all", data.data);
         if (activeTab === "suggest") {
           setSuggestPosts(data.data);
           setPagination(data.data.pagination);

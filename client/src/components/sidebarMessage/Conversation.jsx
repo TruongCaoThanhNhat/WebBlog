@@ -12,16 +12,16 @@ const Conversation = ({ conversation, emoji, lastIdx }) => {
   const otherMembers = members.filter((member) => member !== userId);
   // Giả sử bạn chỉ muốn lấy ID của thành viên còn lại
   // const otherMemberId = otherMembers.length > 0 ? otherMembers[0].id : null;
-  console.log("otherMembers", otherMembers);
-  console.log("member", members);
-  console.log("conversation", conversation);
-  console.log("newConversation", newConversation);
+  // console.log("otherMembers", otherMembers);
+  // console.log("member", members);
+  // console.log("conversation", conversation);
+  // console.log("newConversation", newConversation);
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const data = await apiGetUserById(otherMembers[0]);
-        console.log("fetch", data.data.user);
+        // console.log("fetch", data.data.user);
         setNewConversation(data.data.user);
       } catch (error) {
         console.error("Error fetching category details:", error);

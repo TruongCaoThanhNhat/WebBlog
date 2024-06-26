@@ -45,7 +45,7 @@ const PostDetailPage = () => {
     fetchPost();
   }, [slug]);
 
-  console.log(post);
+  // console.log(post);
   const author = post.author;
 
   const renderPostContent = (content) => {
@@ -217,7 +217,7 @@ const PostDetailPage = () => {
                 </div>
               </div>
               <div className="view-count">
-                <span>1667 lượt xem</span>
+                <span>{post.views} lượt xem</span>
               </div>
             </div>
             <div className="tool__right">
@@ -231,7 +231,7 @@ const PostDetailPage = () => {
               </span>
             </div>
           </div>
-         
+
           <div className="comment__container">
             <section className="comment__section">
               <div className="comment__form-container">
@@ -337,7 +337,7 @@ const PostDetailPage = () => {
             <button className="btn-comment">
               <BsChatLeft />
             </button>
-            <span className="count-comment d-block"> 2</span>
+            <span className="count-comment d-block"> {post.comment_count}</span>
           </div>
 
           <div>

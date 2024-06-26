@@ -32,7 +32,7 @@ const ListPostOMonth = () => {
     fetchTopPost();
   }, []);
 
-  console.log(posts);
+  // console.log(posts);
   return (
     <section className="postofmonth container-xl">
       <div className="pom__wrapper">

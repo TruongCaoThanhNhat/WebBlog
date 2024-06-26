@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import Avatar from "../avatar/Avatar";
+import { handleDate } from "@/utils/handleUtils";
 
 const Comment = ({ comment, reply }) => {
   const [replyComment, setReplyComment] = useState(reply);
@@ -17,7 +18,9 @@ const Comment = ({ comment, reply }) => {
           <Link>
             <p className="creater-name">{author?.userName}</p>
           </Link>
-          <span className="time-date">{createdAt && createdAt}</span>
+          <span className="time-date">
+            {createdAt && handleDate(createdAt)} ngày trước
+          </span>
         </div>
         <div className="creater-report">
           <button>Báo cáo</button>
@@ -49,7 +52,7 @@ const Comment = ({ comment, reply }) => {
               </i>
             </div>
             <div className="value">
-              <span>80</span>
+              {/* <span>80</span> */}
             </div>
             <div className="downvote">
               <i>

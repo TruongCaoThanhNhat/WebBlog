@@ -34,13 +34,13 @@ const Login = () => {
         dispatch(loginSuccess(res.data));
         Cookies.set("accessToken", token, { expires: 7 });
         navigate("/");
-        console.log("Đăng nhập thành công!" + token);
+        // console.log("Đăng nhập thành công!" + token);
       } else {
         dispatch(
           loginFailure({ error: "Sai username hoặc password!" })
         );
       }
-      console.log(res);
+      // console.log(res);
     } catch (error) {
       dispatch(
         loginFailure({

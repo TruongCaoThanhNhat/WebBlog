@@ -8,7 +8,7 @@ const ListWritter = () => {
   useEffect(() => {
     const fetchWritters = async () => {
       const data = await apiGetHotAuthor();
-      console.log("author",data.data);
+      // console.log("author",data.data);
       if (data) {
         setWritters(data.data);
       }
@@ -29,7 +29,7 @@ const ListWritter = () => {
         <div className="writter__bot">
           <div className="row writter__list">
             {writters &&
-              writters.map((writter, index) => (
+              writters.slice(3).map((writter, index) => (
                 <div className="col" key={index}>
                   <div className="writter__list-item ">
                     <Writter writter={writter} />

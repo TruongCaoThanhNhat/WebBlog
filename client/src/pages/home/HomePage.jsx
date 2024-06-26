@@ -28,7 +28,7 @@ const HomePage = () => {
             </div>
             <div className="row">
               <div className="col">
-                <FormSend />
+                {/* <FormSend /> */}
               </div>
             </div>
           </div>

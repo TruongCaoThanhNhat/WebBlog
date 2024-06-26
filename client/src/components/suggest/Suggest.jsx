@@ -1,8 +1,9 @@
 import { Link, useParams } from "react-router-dom";
 import { BsDot } from "react-icons/bs";
 import { BsChatDots } from "react-icons/bs";
+import { handleDate } from "@/utils/handleUtils";
 const Suggest = ({suggest}) => {
-  const { _id, title, image,description, author, category, createdAt, slug="" } = suggest 
+  const { _id, title, image,description, author, category,views,comment_count, createdAt, slug="" } = suggest 
   return (
     <div className="colc l-12">
       <div className="suggest__content">
@@ -12,7 +13,11 @@ const Suggest = ({suggest}) => {
               <div className="suggest__content-img">
                 <Link to="/">
                   <img
-                    src={image && image ? image : "https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-thumbnails/defaultthumbnail.png"}
+                    src={
+                      image && image
+                        ? image
+                        : "https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-thumbnails/defaultthumbnail.png"
+                    }
                     alt=""
                   />
                 </Link>
@@ -22,13 +27,19 @@ const Suggest = ({suggest}) => {
               <div className="suggest__content-details">
                 <div className="suggest__content-details-heading">
                   <div className="">
-                    <Link to={`/category/${category && category.slug ? category.slug :""}`}>
+                    <Link
+                      to={`/category/${
+                        category && category.slug ? category.slug : ""
+                      }`}
+                    >
                       <span className="title-category">
-                      {category && category.name ? category.name : 'Tên danh mục'}
+                        {category && category.name
+                          ? category.name
+                          : "Tên danh mục"}
                       </span>
                     </Link>
                     <BsDot className="icon-dot" />
-                    <span className="time-read"> 4 phút đọc</span>
+                    {/* <span className="time-read"> 4 phút đọc</span> */}
                   </div>
                   <div className="suggest__content-details-save">
                     <svg
@@ -52,14 +63,14 @@ const Suggest = ({suggest}) => {
                 <div className="suggest__content-details-main">
                   <Link to={`/post/${slug}`}>
                     <h3 className="title-post">
-                    {title
+                      {title
                         ? title
                         : "Atomic Habits: Bạn đã hiểu đúng về tạo lập thói quen?"}
                     </h3>
                   </Link>
                   <div className="suggest__content-details-desc">
                     <p className="suggest__content-details-desc-text">
-                    {description
+                      {description
                         ? description
                         : "Cách đây hai tháng, mình vẫn nghĩ xây dựng thói quen đơn giản chỉ là lặp đi lặp lại một việc nhiều lần đến khi có"}
                     </p>
@@ -78,14 +89,16 @@ const Suggest = ({suggest}) => {
                     <div>
                       <Link to="/">
                         <p className="suggest__content-details-post-name">
-                        {author && author.userName
-                              ? author.userName
-                              : "Nguyễn Thanh Tùng"}
+                          {author && author.userName
+                            ? author.userName
+                            : "Nguyễn Thanh Tùng"}
                         </p>
                       </Link>
                     </div>
                     <div>
-                      <span className="time-read">Hôm qua</span>
+                      <span className="time-read">
+                        {createdAt && handleDate(createdAt)} ngày trước
+                      </span>
                     </div>
                   </div>
                   <div className="suggest__content-details-post-icon">
@@ -104,11 +117,11 @@ const Suggest = ({suggest}) => {
                           className=" cls-1"
                         ></path>
                       </svg>
-                      <span className="post-icon"> 554</span>
+                      <span className="post-icon"> {views && views}</span>
                     </Link>
                     <Link to="/">
-                      <BsChatDots className="iconmes"/>
-                      <span className="post-icon"> 2</span>
+                      <BsChatDots className="iconmes" />
+                      <span className="post-icon"> {comment_count && comment_count}</span>
                     </Link>
                   </div>
                 </div>

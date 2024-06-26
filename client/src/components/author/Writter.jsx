@@ -3,7 +3,7 @@ import "./writter.scss";
 import { Link } from "react-router-dom";
 const Writter = ({ writter }) => {
   const { userName, avatar, intro } = writter;
-  console.log(writter);
+  // console.log(writter);
   return (
     <Fragment>
       <div className="d-flex justify-content-between align-content-center">
