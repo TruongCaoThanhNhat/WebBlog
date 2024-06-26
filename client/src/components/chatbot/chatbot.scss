@@ -6,8 +6,11 @@
   text-align: center;
   display: flex;
   flex-flow: column;
-  width: 100rem;
+  width: 90rem;
   overflow: hidden;
+  position: absolute;
+  right: 3rem;
+  bottom: 7rem;
 }
 
 .chatbot__header {
@@ -90,4 +93,21 @@
   position: absolute;
   right: 0;
   top: 0;
+}
+.chat__modal {
+  width: 60px;
+  height: 6rem;
+  border-radius: 50%;
+  background-color: #00aaa5;
+  color: #eee;
+  padding: 1rem 1.5rem;
+  font-size: 1.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: absolute;
+  z-index: 1;
+  bottom: 20px;
+  right: 20px;
 }

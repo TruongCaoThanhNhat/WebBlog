@@ -13,8 +13,12 @@ import {
   apiGetPostsByUserName,
   apiRemoveUserHistory,
 } from "@/api/api";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FaHistory } from "react-icons/fa";
+import {
+  fetchUserHistory,
+  removeUserHistory,
+} from "@/redux/slices/historySlice";
 const UserPage = () => {
   const user = useSelector((state) => state.user);
   const { username } = useParams();
@@ -58,26 +62,39 @@ const UserPage = () => {
     fetchPost();
   }, [user.userInfo.id]);
 
+  const dispatch = useDispatch();
+  const historyPostRedux = useSelector((state) => state.history.historyPosts);
+  const status = useSelector((state) => state.history.status);
+  const error = useSelector((state) => state.history.error);
+
   useEffect(() => {
-    const fetchHitory = async () => {
-      const res = await apiGetPostUserHistory(user.userInfo.id);
-      setHistoryPosts(res.history);
-      // console.log("saved", res.savedPost);
-    };
+    dispatch(fetchUserHistory(user.userInfo.id));
+  }, [dispatch, user.userInfo.id]);
 
-    fetchHitory();
-  }, [user.userInfo.id]);
-
-  const handleRemoveHistory = async (postId) => {
-    const res = await apiRemoveUserHistory(user.userInfo.id, postId);
-    // console.log(res);
-    if (res.status === "success") {
-      // Xóa thành công, cập nhật lại trạng thái
-      setHistoryPosts((prevHistory) =>
-        prevHistory.filter((item) => item.postId !== postId)
-      );
-    }
+  const handleRemoveHistory =async (postId) => {
+    await dispatch(removeUserHistory({ userId: user.userInfo.id, postId }));
+    dispatch(fetchUserHistory(user.userInfo.id));
   };
+  // useEffect(() => {
+  //   const fetchHitory = async () => {
+  //     const res = await apiGetPostUserHistory(user.userInfo.id);
+  //     setHistoryPosts(res.history);
+  //     // console.log("saved", res.savedPost);
+  //   };
+
+  //   fetchHitory();
+  // }, [user.userInfo.id]);
+
+  // const handleRemoveHistory = async (postId) => {
+  //   const res = await apiRemoveUserHistory(user.userInfo.id, postId);
+  //   // console.log(res);
+  //   if (res.status === "success") {
+  //     // Xóa thành công, cập nhật lại trạng thái
+  //     setHistoryPosts((prevHistory) =>
+  //       prevHistory.filter((item) => item.postId !== postId)
+  //     );
+  //   }
+  // };
 
   return (
     <div className="main">
@@ -104,7 +121,7 @@ const UserPage = () => {
                     <span>Bài viết ({posts?.length})</span>
                   </Link>
                 </div>
-                <div
+                {/* <div
                   className={`profile__tabs-item ${
                     activeTab === "series" ? "active" : ""
                   }`}
@@ -114,7 +131,7 @@ const UserPage = () => {
                     <GoStack />
                     <span>Series</span>
                   </Link>
-                </div>
+                </div> */}
                 <div
                   className={`profile__tabs-item ${
                     activeTab === "saved" ? "active" : ""
@@ -237,9 +254,9 @@ const UserPage = () => {
                   )}
                   {activeTab === "history" && (
                     <div className="profile__posts-list-layout row">
-                      {historyPosts &&
-                        historyPosts.length &&
-                        historyPosts.map((post, index) => (
+                      {historyPostRedux &&
+                        historyPostRedux.length &&
+                        historyPostRedux.map((post, index) => (
                           <div className="" key={index}>
                             <button
                               className="btn btn-danger fs-4"
