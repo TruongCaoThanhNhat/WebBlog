@@ -1,79 +1,76 @@
 import mongoose from 'mongoose'
 import slugify from 'slugify'
 
-const schema = new mongoose.Schema(
-  {
+const schema = new mongoose.Schema({
     hagtagId: {
-      type: 'string',
+        type: 'string',
+    },
+    image: {
+        type: "string",
+        default: "https://t4.ftcdn.net/jpg/05/49/98/39/240_F_549983970_bRCkYfk0P6PP5fKbMhZMIb07mCJ6esXL.jpg",
     },
     title: {
-      type: String,
-      text: true,
-      trim: true,
-      required: [
-        true,
-        'Tiêu đề bài viết không được để trống và phải nhiều hơn 10 kí tự',
-      ],
-      minlength: [
-        10,
-        'Tiêu đề bài viết không được để trống và phải nhiều hơn 10 kí tự',
-      ],
+        type: String,
+        text: true,
+        trim: true,
+        required: [
+            true,
+            'Tiêu đề bài viết không được để trống và phải nhiều hơn 10 kí tự',
+        ],
+        minlength: [
+            10,
+            'Tiêu đề bài viết không được để trống và phải nhiều hơn 10 kí tự',
+        ],
     },
     content: [mongoose.Schema.Types.Mixed],
     description: {
-      type: 'string',
+        type: 'string',
     },
     slug: { type: String, unique: true },
-    vote: [
-      {
+    vote: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         default: [],
-      },
-    ],
-    unVote: [
-      {
+    }, ],
+    unVote: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         default: [],
-      },
-    ],
+    }, ],
     views: {
-      type: Number,
-      default: 0,
+        type: Number,
+        default: 0,
     },
     attachment: String,
     author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
     },
     category: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Category',
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Category',
     },
     comment_count: {
-      type: Number,
-      default: 0,
+        type: Number,
+        default: 0,
     },
     point: {
-      type: Number,
-      default: 1,
+        type: Number,
+        default: 0,
     },
-  },
-  {
+}, {
     timestamps: true,
-  }
-)
-
-schema.pre('validate', function (next) {
-  if (this.isNew && !this.slug) {
-    this.slugify()
-  }
-  next()
 })
 
-schema.methods.slugify = function () {
-  this.slug = slugify(this.title, { lower: true, strict: true })
+schema.pre('validate', function(next) {
+    if (this.isNew && !this.slug) {
+        this.slugify()
+    }
+    next()
+})
+
+schema.methods.slugify = function() {
+    this.slug = slugify(this.title, { lower: true, strict: true })
 }
 
 schema.index({ title: 'text' })
