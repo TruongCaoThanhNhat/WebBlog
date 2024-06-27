@@ -23,12 +23,12 @@ const SearchResults = () => {
                 }
             } catch (error) {
                 console.error('Error fetching search results', error);
-                setResults({ posts: [], users: [] }); // Xử lý lỗi nếu gặp phải khi lấy kết quả từ API
+                setResults({ posts: [], users: [] }); 
             }
         };
     
-        fetchSearchResults(); // Gọi hàm fetchSearchResults mỗi khi query thay đổi
-    }, [query]); // Sử dụng query làm dependency để useEffect gọi lại khi query thay đổi
+        fetchSearchResults(); 
+    }, [query]); 
     
 
     const handleInputChange = async (e) => {
@@ -90,7 +90,7 @@ const SearchResults = () => {
                                     <img src={post.image} className="post-image" />
                                     <div className="post-info">
                                         {/* <h4>{post.title}</h4> */}
-                                        <h4><Link to={`/posts/${post.title}`}>{post.title}</Link></h4>
+                                        <h4><Link to={`/post/${post.slug}`}>{post.title}</Link></h4>
                                         <p>{post.description}</p>
                                     </div>
                                 </div>

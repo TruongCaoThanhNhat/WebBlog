@@ -24,7 +24,7 @@ const Input = forwardRef(
           ref={ref}
         />
         {errors[name] && (
-          <p className="error-message">{errors[name].message}</p>
+          <p className="error-message text-danger">{errors[name].message}</p>
         )}
       </div>
     );

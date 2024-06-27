@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { apiLogin } from "../../api";
 import "./login.scss";
 import Cookies from "js-cookie";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [userName, setUserName] = useState("");
@@ -51,6 +52,25 @@ const Login = () => {
     }
   };
 
+  const handleUserNameChange = (event) => {
+    setUserName(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+     setPassword(event.target.value);
+  };
+
+const handleUserNameBlur = () => {
+  if (!userName) {
+    toast.error("Vui lòng nhập tên đăng nhập hoặc email!");
+  }
+};
+const handlePasswordBlur = () => {
+  if (!password) {
+    toast.error("Vui lòng nhập mật khẩu!");
+  }
+};
+
   return (
     <div className="d-flex justify-content-center align-items-center vh-100">
       <div className="card p-4" style={{ maxWidth: "400px", width: "100%" }}>
@@ -70,7 +90,8 @@ const Login = () => {
               className="form-control"
               id="userName"
               value={userName}
-              onChange={(event) => setUserName(event.target.value)}
+              onChange={handleUserNameChange}
+              onBlur={handleUserNameBlur}
             />
           </div>
           <div className="mb-3">
@@ -80,14 +101,12 @@ const Login = () => {
               className="form-control"
               id="password"
               value={password}
-              onChange={(event) => setPassword(event.target.value)}
+              onChange={handlePasswordChange}
+              onBlur={handlePasswordBlur}
             />
           </div>
           {error && <div className="alert alert-danger">{error}</div>}
-          <button
-            type="submit"
-            className="btn btn-primary w-100"
-          >
+          <button type="submit" className="btn btn-primary w-100">
             Đăng nhập
           </button>
         </form>

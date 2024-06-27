@@ -9,6 +9,7 @@ const TextToSpeech = ({ text }) => {
   const [rate, setRate] = useState(1);
   const [volume, setVolume] = useState(1);
 
+  // lắng nghe sự thay đổi của danh sách giọng nói có sẵn và cập nhật voice khi có thay đổi.
   useEffect(() => {
     const synth = window.speechSynthesis;
 
@@ -27,6 +28,7 @@ const TextToSpeech = ({ text }) => {
 
   useEffect(() => {
     const synth = window.speechSynthesis;
+    // Tạo một đối tượng đại diện cho văn bản cần chuyển thành giọng nói.
     const u = new SpeechSynthesisUtterance(text);
     setUtterance(u);
   }, [text]);

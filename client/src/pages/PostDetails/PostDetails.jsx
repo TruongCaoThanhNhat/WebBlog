@@ -28,6 +28,7 @@ import { apiCreateComment, getPostsBySlug } from "@/api/api";
 import usePostActions from "@/hooks/usePostActions";
 import ListComment from "@/components/comment/ListComment";
 import TextToSpeech from "@/components/speech/TextToSpeech";
+import { handleDate } from "@/utils/handleUtils";
 
 const PostDetailPage = () => {
   const [post, setPost] = useState([]);
@@ -85,7 +86,9 @@ const PostDetailPage = () => {
   const handleSubmitComment = async (e) => {
     e.preventDefault();
     const res = await apiCreateComment({ postId: post._id, content });
+    setContent("")
     console.log(res.data.data.comment);
+    // lấy comment mới nhất
     setNewComments((prevComments) => [...prevComments, res.data.data.comment]);
   };
 
@@ -134,10 +137,7 @@ const PostDetailPage = () => {
             <div className="post__details mt-20 flex-box">
               <div className="flex-align-gap-10">
                 <div className="post-avt-div">
-                  <img
-                    src="https://s3-ap-southeast-1.amazonaws.com/images.spiderum.com/sp-xs-avatar/aec845906a1911ec8130097cb62284e8.png"
-                    alt=""
-                  />
+                  <img src={author?.avatar} alt="" />
                 </div>
                 <div>
                   <Link to="/">
@@ -148,7 +148,10 @@ const PostDetailPage = () => {
                     </p>
                   </Link>
                   <span className="post-date">
-                    {post && post.createdAt ? post.createdAt : "2 tháng 5"}
+                    {post && post.createdAt
+                      ? handleDate(post.createdAt) 
+                      : "2 tháng 5"}
+                       ngày trước
                   </span>
                 </div>
               </div>
@@ -245,6 +248,7 @@ const PostDetailPage = () => {
                       type="text"
                       placeholder="Hãy chia sẻ cảm nghĩ của bạn về bài viết"
                       onChange={handleChangeContent}
+                      value={content}
                     ></input>
                   </div>
                   <div>

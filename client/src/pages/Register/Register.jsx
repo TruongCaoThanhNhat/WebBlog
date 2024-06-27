@@ -10,7 +10,9 @@ const RegisterPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    mode: "onBlur", // Kích hoạt validation khi rời khỏi trường
+  });
 
   const onSubmit = async (data) => {
     const res = await apiRegister(data);
@@ -21,14 +23,23 @@ const RegisterPage = () => {
     toast.success("Đăng ký thành công!");
     navigate("/login");
   };
-  const onError = (errors) => {
-    if (errors.userName) {
-      toast.error(errors.userName.message);
-    }
-    if (errors.password) {
-      toast.error(errors.password.message);
-    }
-  };
+ const onError = (errors) => {
+   // `errors` object contains all validation errors
+   console.log("Errors:", errors);
+   // Toast errors for each field if needed
+   if (errors.userName) {
+     toast.error(errors.userName.message);
+   }
+   if (errors.email) {
+     toast.error(errors.email.message);
+   }
+   if (errors.password) {
+     toast.error(errors.password.message);
+   }
+   if (errors.repassword) {
+     toast.error(errors.repassword.message);
+   }
+ };
   return (
     <div className="register">
       <div className="register__container">
@@ -54,6 +65,7 @@ const RegisterPage = () => {
             })}
             errors={errors}
           />
+
           <Input
             type="email"
             placeholder="Email"
@@ -61,6 +73,10 @@ const RegisterPage = () => {
             className="login__form-input"
             {...register("email", {
               required: "Email không được để trống",
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: "Email không hợp lệ",
+              },
             })}
             errors={errors}
           />

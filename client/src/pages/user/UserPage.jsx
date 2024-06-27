@@ -59,8 +59,11 @@ const UserPage = () => {
       // console.log("saved", res.savedPost);
     };
 
-    fetchPost();
-  }, [user.userInfo.id]);
+    
+    if (user?.userInfo?.id) {
+      fetchPost();
+    }
+  }, [user]);
 
   const dispatch = useDispatch();
   const historyPostRedux = useSelector((state) => state.history.historyPosts);
@@ -68,8 +71,11 @@ const UserPage = () => {
   const error = useSelector((state) => state.history.error);
 
   useEffect(() => {
-    dispatch(fetchUserHistory(user.userInfo.id));
-  }, [dispatch, user.userInfo.id]);
+    if (user?.userInfo?.id) {
+     dispatch(fetchUserHistory(user.userInfo.id));
+    }
+    
+  }, [dispatch, user]);
 
   const handleRemoveHistory =async (postId) => {
     await dispatch(removeUserHistory({ userId: user.userInfo.id, postId }));
@@ -116,7 +122,7 @@ const UserPage = () => {
                   }`}
                   onClick={() => handleTabClick("myPost")}
                 >
-                  <Link to={`/user/${user.userInfo.userName}?tab=myPost`}>
+                  <Link to={`/user/${username}?tab=myPost`}>
                     <BsFeather />
                     <span>Bài viết ({posts?.length})</span>
                   </Link>
@@ -132,28 +138,25 @@ const UserPage = () => {
                     <span>Series</span>
                   </Link>
                 </div> */}
-                <div
-                  className={`profile__tabs-item ${
-                    activeTab === "saved" ? "active" : ""
-                  }`}
-                  onClick={() => handleTabClick("saved")}
-                >
-                  <Link to={`/user/${user.userInfo.userName}?tab=saved`}>
-                    <GoStack />
-                    <span>Saved</span>
-                  </Link>
-                </div>
-                <div
-                  className={`profile__tabs-item ${
-                    activeTab === "history" ? "active" : ""
-                  }`}
-                  onClick={() => handleTabClick("history")}
-                >
-                  <Link to={`/user/${user.userInfo.userName}?tab=history`}>
-                    <FaHistory />
-                    <span>History</span>
-                  </Link>
-                </div>
+                {
+                  user?.userInfo?.id ? (<><div
+                    className={`profile__tabs-item ${activeTab === "saved" ? "active" : ""}`}
+                    onClick={() => handleTabClick("saved")}
+                  >
+                    <Link to={`/user/${user.userInfo.userName}?tab=saved`}>
+                      <GoStack />
+                      <span>Saved</span>
+                    </Link>
+                  </div><div
+                    className={`profile__tabs-item ${activeTab === "history" ? "active" : ""}`}
+                    onClick={() => handleTabClick("history")}
+                  >
+                      <Link to={`/user/${user.userInfo.userName}?tab=history`}>
+                        <FaHistory />
+                        <span>History</span>
+                      </Link>
+                    </div></>):""
+                }
               </div>
               <div className="profile__posts">
                 <div className="profile__posts-opt justify-content-between">
@@ -236,7 +239,7 @@ const UserPage = () => {
                         ))}
                     </div>
                   )}
-                  {activeTab === "series" && (
+                  {/* {activeTab === "series" && (
                     <div className="profile__posts-list-layout row">
                       <div className="">
                         <PostV2 post={""}></PostV2>
@@ -251,7 +254,7 @@ const UserPage = () => {
                         <PostV2 post={""}></PostV2>
                       </div>
                     </div>
-                  )}
+                  )} */}
                   {activeTab === "history" && (
                     <div className="profile__posts-list-layout row">
                       {historyPostRedux &&
